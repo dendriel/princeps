@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "_clear": "rimraf ./dist ../../public/dist",
+    "_clear": "rimraf ../../public/dist",
     "_tsc": "tsc",
-    "_move": "cpx ./dist/* ../../public/dist",
-    "build": "run-s _clear _tsc _move"
+    "build": "run-s _clear _tsc"
   },
   "author": "Vitor Rozsa",
   "license": "MIT"
