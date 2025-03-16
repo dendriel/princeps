@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <title>Princeps</title>
+    <style>
+        .button-margin { margin: 5px; }
+        h1 { font-size: xxx-large; margin-top: 1em; margin-bottom: 3em; }
+    </style>
+    <script>
+        function setPlayerToken(token){
+            localStorage.setItem("princeps_token", token);
+            self.location = "/game.html";
+        }
+    </script>
+</head>
+    <body>
+    <div class="d-flex justify-content-center">
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column">
+                <h1>Princeps</h1>
+                <button type="button" class="btn btn-primary button-margin" onclick="setPlayerToken('c19c8fa240004ce0a3ddd09477b0c307')">Player 1</button>
+                <button type="button" class="btn btn-danger button-margin" onclick="setPlayerToken('1b3e89f97d214b3cb4ab722932c36944')">Player 2</button>
+                <button type="button" class="btn btn-success button-margin" onclick="setPlayerToken('647827e013cb4a728a82e4966681188f')">Player 3</button>
+                <button type="button" class="btn btn-info button-margin" onclick="setPlayerToken('f43ea67ac46c4ad2b06dbe7397331681')">Player 4</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

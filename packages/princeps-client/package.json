@@ -1,0 +1,14 @@
+{
+  "name": "princeps-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "_clear": "rimraf ./dist ../../public/dist",
+    "_tsc": "tsc",
+    "_move": "cpx ./dist/* ../../public/dist",
+    "build": "run-s _clear _tsc _move"
+  },
+  "author": "Vitor Rozsa",
+  "license": "MIT"
+}
