@@ -1,12 +1,52 @@
 {
   "phaser": {
-    "width": 1600,
+    "width": 1200,
     "height": 900,
+    "backgroundColor": "#006400",
     "physics": {
       "default": "arcade",
       "arcade": {
         "gravity": { "y": 0 }
       }
     }
+  },
+  "gameBoard": {
+    "size": { "w": 4, "h": 4 },
+    "card": {
+      "size": { "w": 128, "h": 160 },
+      "betweenOffset": { "w": 32, "h": 32 },
+      "borderOffset": { "w": 128, "h": 64 }
+    },
+    "images": [
+      ["card-front.png", "assets/card-front.png"],
+      ["card-back.png", "assets/card-back.png"],
+
+      ["forest.png", "assets/forest.png"],
+      ["horses.png", "assets/horses.png"],
+
+      ["farm.png", "assets/farm.png"],
+      ["lumbermill.png", "assets/lumbermill.png"],
+
+      ["archery_range.png", "assets/archery_range.png"],
+      ["barracks.png", "assets/barracks.png"],
+      ["castle.png", "assets/castle.png"],
+      ["city.png", "assets/city.png"],
+      ["forester_lodge.png", "assets/forester_lodge.png"],
+      ["mill.png", "assets/mill.png"],
+      ["stables.png", "assets/stables.png"],
+      ["watchtower.png", "assets/watchtower.png"],
+
+      ["archers.png", "assets/archers.png"],
+      ["catapult.png", "assets/catapult.png"],
+      ["explorer.png", "assets/explorer.png"],
+      ["horsemen.png", "assets/horsemen.png"],
+      ["javelineers.png", "assets/javelineers.png"],
+      ["knight.png", "assets/knight.png"],
+      ["manatarms.png", "assets/manatarms.png"],
+      ["militia.png", "assets/militia.png"],
+      ["spearmen.png", "assets/spearmen.png"],
+      ["workers.png", "assets/workers.png"],
+      ["warparty.png", "assets/warparty.png"]
+    ]
   }
 }

@@ -4,14 +4,11 @@ export class Princeps {
 
     gameCtrl: GameController | undefined;
 
-    constructor() {
-    }
-
     async start() {
         console.log("Loading the game...");
 
-        const config = await this.loadConfig();
-        this.gameCtrl = new GameController(config.phaser);
+        const config = await this.loadConfig(); // TODO: create class
+        this.gameCtrl = new GameController(config);
 
         console.log("Game started!");
     }
