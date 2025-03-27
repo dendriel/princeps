@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
 import {Card} from "./game/card.js";
 import {Position} from "./position.js";
-import {GameObject} from "./game-object.js";
+import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
 
 
 export class GameBoard extends Phaser.Scene {
@@ -10,6 +10,10 @@ export class GameBoard extends Phaser.Scene {
 
     private gos: GameObject[];
     private cards: Map<String, GameObject>;
+
+    private cardClickedListener: PointerEventListener[] = [];
+
+    private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
     constructor(config: any, key: string) {
         super({
@@ -40,6 +44,10 @@ export class GameBoard extends Phaser.Scene {
         return this.config.card.size.h;
     }
 
+    addCardClickedListener(listener: PointerEventListener) {
+        this.cardClickedListener.push(listener);
+    }
+
     preload() {
         this.config.images.forEach((elem: [string, string]) => {
             this.load.image(elem[0], elem[1]);
@@ -51,6 +59,8 @@ export class GameBoard extends Phaser.Scene {
     create() {
         // this.createGo(new Position(256, 256), "archers.png");
         this.layCards();
+
+        this.onSceneReady();
     }
 
     private layCards() {
@@ -73,10 +83,24 @@ export class GameBoard extends Phaser.Scene {
         // this._scene.uiCam.ignore(objGo);
 
         const card = new Card(-1, pos, phaserGo);
+        card.addLeftPointerUpListener(this.onCardLeftClicked.bind(this));
         this.cards.set(key, card);
 
         this.gos.push(card);
         return card;
+    }
+
+    private onCardLeftClicked(context: PointerEventContext) {
+        this.cardClickedListener.forEach(listener => listener(context));
+    }
+
+    addOnSceneReadyListener(listener: any) {
+        this.onSceneReadyListeners.push(listener);
+    }
+
+    onSceneReady() {
+        console.log("Game Board is ready!");
+        this.onSceneReadyListeners.forEach(listener => listener());
     }
 
     update() {
