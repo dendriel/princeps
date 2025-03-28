@@ -1,4 +1,5 @@
 import {GameController} from "./game-controller.js";
+import GameConfig from "./game-config.js";
 
 export class Princeps {
 
@@ -13,7 +14,7 @@ export class Princeps {
         console.log("Game started!");
     }
 
-    async loadConfig(): Promise<any> {
+    async loadConfig(): Promise<GameConfig> {
         const response = await fetch('./config.json');
         const config = await response.json();
         console.log(config.someKey);

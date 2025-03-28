@@ -10,43 +10,68 @@
       }
     }
   },
+  "gameController": {
+    "cardsTemplate": {
+      "hidden":         { "key": "hidden", "name": "", "image": "card_back" },
+      "forest":         { "key": "forest", "name": "Forest", "image": "forest" },
+      "horses":         { "key": "horses", "name": "Horses", "image": "horses" },
+      "farm":           { "key": "farm", "name": "Farm", "image": "farm" },
+      "lumbermill":     { "key": "lumbermill", "name": "Lumber mill", "image": "lumbermill" },
+      "archery_range":  { "key": "archery_range", "name": "Archery_range", "image": "archery_range" },
+      "barracks":       { "key": "barracks", "name": "Barracks", "image": "barracks" },
+      "castle":         { "key": "castle", "name": "Castle", "image": "castle" },
+      "city":           { "key": "city", "name": "City", "image": "city" },
+      "forester_lodge": { "key": "forester_lodge", "name": "Forester_lodge", "image": "forester_lodge" },
+      "mill":           { "key": "mill", "name": "Mill", "image": "mill" },
+      "stables":        { "key": "stables", "name": "Stables", "image": "stables" },
+      "watchtower":     { "key": "watchtower", "name": "Watchtower", "image": "watchtower" },
+      "archers":        { "key": "archers", "name": "Archers", "image": "archers" },
+      "catapult":       { "key": "catapult", "name": "Catapult", "image": "catapult" },
+      "explorer":       { "key": "explorer", "name": "Explorer", "image": "explorer" },
+      "horsemen":       { "key": "horsemen", "name": "Horsemen", "image": "horsemen" },
+      "javelineers":    { "key": "javelineers", "name": "Javelineers", "image": "javelineers" },
+      "knight":         { "key": "knight", "name": "Knight", "image": "knight" },
+      "manatarms":      { "key": "manatarms", "name": "Man-a-tarms", "image": "manatarms" },
+      "militia":        { "key": "militia", "name": "Militia", "image": "militia" },
+      "spearmen":       { "key": "spearmen", "name": "Spearmen", "image": "spearmen" },
+      "workers":        { "key": "workers", "name": "Workers", "image": "workers" },
+      "warparty":       { "key": "warparty", "name": "War-party", "image": "warparty" }
+    }
+  },
   "gameBoard": {
     "size": { "w": 4, "h": 4 },
+    "hiddenCardKey": "hidden",
     "card": {
       "size": { "w": 128, "h": 160 },
       "betweenOffset": { "w": 32, "h": 32 },
       "borderOffset": { "w": 128, "h": 64 }
     },
     "images": [
-      ["card-front.png", "assets/card-front.png"],
-      ["card-back.png", "assets/card-back.png"],
-
-      ["forest.png", "assets/forest.png"],
-      ["horses.png", "assets/horses.png"],
-
-      ["farm.png", "assets/farm.png"],
-      ["lumbermill.png", "assets/lumbermill.png"],
-
-      ["archery_range.png", "assets/archery_range.png"],
-      ["barracks.png", "assets/barracks.png"],
-      ["castle.png", "assets/castle.png"],
-      ["city.png", "assets/city.png"],
-      ["forester_lodge.png", "assets/forester_lodge.png"],
-      ["mill.png", "assets/mill.png"],
-      ["stables.png", "assets/stables.png"],
-      ["watchtower.png", "assets/watchtower.png"],
-
-      ["archers.png", "assets/archers.png"],
-      ["catapult.png", "assets/catapult.png"],
-      ["explorer.png", "assets/explorer.png"],
-      ["horsemen.png", "assets/horsemen.png"],
-      ["javelineers.png", "assets/javelineers.png"],
-      ["knight.png", "assets/knight.png"],
-      ["manatarms.png", "assets/manatarms.png"],
-      ["militia.png", "assets/militia.png"],
-      ["spearmen.png", "assets/spearmen.png"],
-      ["workers.png", "assets/workers.png"],
-      ["warparty.png", "assets/warparty.png"]
+      ["card-front", "assets/card-front.png"],
+      ["card_back", "assets/card-back.png"],
+      ["forest", "assets/forest.png"],
+      ["horses", "assets/horses.png"],
+      ["farm", "assets/farm.png"],
+      ["lumbermill", "assets/lumbermill.png"],
+      ["archery_range", "assets/archery_range.png"],
+      ["barracks", "assets/barracks.png"],
+      ["castle", "assets/castle.png"],
+      ["city", "assets/city.png"],
+      ["forester_lodge", "assets/forester_lodge.png"],
+      ["mill", "assets/mill.png"],
+      ["stables", "assets/stables.png"],
+      ["watchtower", "assets/watchtower.png"],
+      ["archers", "assets/archers.png"],
+      ["catapult", "assets/catapult.png"],
+      ["explorer", "assets/explorer.png"],
+      ["horsemen", "assets/horsemen.png"],
+      ["javelineers", "assets/javelineers.png"],
+      ["knight", "assets/knight.png"],
+      ["manatarms", "assets/manatarms.png"],
+      ["militia", "assets/militia.png"],
+      ["spearmen", "assets/spearmen.png"],
+      ["workers", "assets/workers.png"],
+      ["warparty", "assets/warparty.png"]
     ]
   }
 }

@@ -2,46 +2,53 @@ import * as Phaser from "phaser";
 import {Card} from "./game/card.js";
 import {Position} from "./position.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
+import {CardConfig, GameBoardConfig} from "./game-config.js";
 
 
 export class GameBoard extends Phaser.Scene {
 
-    private config: any;
+    private configBoard: GameBoardConfig;
 
     private gos: GameObject[];
     private cards: Map<String, GameObject>;
+    private cardsTemplates: Map<String, CardConfig>
 
     private cardClickedListener: PointerEventListener[] = [];
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
-    constructor(config: any, key: string) {
+    constructor(config: any, key: string, cardsTemplates: any) {
         super({
             key: key,
             // active: false, // Scene starts inactive
             // visible: true   // Scene is initially visible
         });
 
+        this.cardsTemplates = cardsTemplates;
         this.gos = [];
         this.cards = new Map<String, GameObject>();
 
-        this.config = config;
+        this.configBoard = config;
     }
 
     private width() {
-        return this.config.size.w;
+        return this.configBoard.size.w;
     }
 
     private height() {
-        return this.config.size.h;
+        return this.configBoard.size.h;
     }
 
     private cardWidth() {
-        return this.config.card.size.w;
+        return this.configBoard.card.size.w;
     }
 
     private cardHeight() {
-        return this.config.card.size.h;
+        return this.configBoard.card.size.h;
+    }
+
+    private hiddenCardTemplate() : CardConfig {
+        return this.cardsTemplates[this.configBoard.hiddenCardKey]!;
     }
 
     addCardClickedListener(listener: PointerEventListener) {
@@ -49,7 +56,7 @@ export class GameBoard extends Phaser.Scene {
     }
 
     preload() {
-        this.config.images.forEach((elem: [string, string]) => {
+        this.configBoard.images.forEach((elem: [string, string]) => {
             this.load.image(elem[0], elem[1]);
         })
 
@@ -63,14 +70,21 @@ export class GameBoard extends Phaser.Scene {
         this.onSceneReady();
     }
 
+    update() {}
+
+    updateCard(key: string, ) {
+
+    }
+
     private layCards() {
         for (let row = 0; row < this.height(); row++) {
             for (let col = 0; col < this.width(); col++) {
-                const posY = row * this.cardWidth() + row * this.config.card.betweenOffset.w + this.config.card.borderOffset.w;
-                const posX = col * this.cardHeight() + col * this.config.card.betweenOffset.h + this.config.card.borderOffset.h;
+                const posY = row * this.cardWidth() + row * this.configBoard.card.betweenOffset.w + this.configBoard.card.borderOffset.w;
+                const posX = col * this.cardHeight() + col * this.configBoard.card.betweenOffset.h + this.configBoard.card.borderOffset.h;
 
                 const key = `${row},${col}`
-                this.createCard(key, new Position(posY, posX), "card-back.png");
+
+                this.createCard(key, new Position(posY, posX), this.hiddenCardTemplate().image);
             }
         }
     }
@@ -101,9 +115,5 @@ export class GameBoard extends Phaser.Scene {
     onSceneReady() {
         console.log("Game Board is ready!");
         this.onSceneReadyListeners.forEach(listener => listener());
-    }
-
-    update() {
-
     }
 }
