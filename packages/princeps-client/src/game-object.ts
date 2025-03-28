@@ -12,7 +12,7 @@ export class GameObject {
     leftPointerDownListeners: PointerEventListener[] = [];
     leftPointerUpListeners: PointerEventListener[] = [];
 
-    constructor(private pos: Position, private phaserGo: Phaser.GameObjects.Image) {
+    constructor(private pos: Position, protected phaserGo: Phaser.GameObjects.Image) {
         this.wrapUp();
     }
 

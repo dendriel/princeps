@@ -2,12 +2,22 @@ import * as Phaser from "phaser";
 import {GameBoard} from "./game-board.js";
 import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
+import {Position} from "./position.js";
+import {Card} from "./game/card.js";
 
 export class GameController extends Phaser.Game {
     private static mainSceneKey: string = 'Main';
 
     private readonly gameBoard: GameBoard;
     private readonly configCtrl: GameControllerConfig;
+
+    // TODO: testing purpose only
+    private readonly cardsPositions: string[][] = [
+        ["archers",      "horses",        "militia",      "knight"],
+        ["javelineers", "castle",         "javelineers", "archery_range"],
+        ["horses",      "knight",         "manatarms",   "manatarms"],
+        ["militia",      "archery_range", "archers",      "castle"]
+    ]
 
     constructor(config: GameConfig) {
         super(config.phaser);
@@ -31,6 +41,14 @@ export class GameController extends Phaser.Game {
     }
 
     private cardClickedListener(context: PointerEventContext) {
-        console.log(`Card clicked! ${JSON.stringify(context.target.pos)}`);
+        const card = context.target as Card;
+        const cardInPos = this.getCardAtBoardPos(card.boardPos)
+        console.log(`Card clicked! ${JSON.stringify(cardInPos)}`);
+
+        this.gameBoard.showCard(card.boardPos, cardInPos);
+    }
+
+    private getCardAtBoardPos(pos: Position) : string {
+        return this.cardsPositions[pos.x][pos.y];
     }
 }

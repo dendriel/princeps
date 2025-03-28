@@ -10,8 +10,8 @@ export class GameBoard extends Phaser.Scene {
     private configBoard: GameBoardConfig;
 
     private gos: GameObject[];
-    private cards: Map<String, GameObject>;
-    private cardsTemplates: Map<String, CardConfig>
+    private cards: Map<String, Card>;
+    private readonly cardsTemplates: Map<String, CardConfig>
 
     private cardClickedListener: PointerEventListener[] = [];
 
@@ -26,7 +26,7 @@ export class GameBoard extends Phaser.Scene {
 
         this.cardsTemplates = cardsTemplates;
         this.gos = [];
-        this.cards = new Map<String, GameObject>();
+        this.cards = new Map<String, Card>();
 
         this.configBoard = config;
     }
@@ -48,7 +48,11 @@ export class GameBoard extends Phaser.Scene {
     }
 
     private hiddenCardTemplate() : CardConfig {
-        return this.cardsTemplates[this.configBoard.hiddenCardKey]!;
+        return this.cardsTemplatesGet(this.configBoard.hiddenCardKey);
+    }
+
+    private cardsTemplatesGet(key: string): CardConfig {
+        return this.cardsTemplates[key]!;
     }
 
     addCardClickedListener(listener: PointerEventListener) {
@@ -72,8 +76,13 @@ export class GameBoard extends Phaser.Scene {
 
     update() {}
 
-    updateCard(key: string, ) {
+    showCard(pos: Position, key: string) {
+        const cardGoKey = `${pos.y},${pos.x}`
 
+        const targetTemplate = this.cardsTemplatesGet(key);
+
+        const targetCard = this.cards.get(cardGoKey)!;
+        targetCard.setImage(targetTemplate.image);
     }
 
     private layCards() {
@@ -84,19 +93,22 @@ export class GameBoard extends Phaser.Scene {
 
                 const key = `${row},${col}`
 
-                this.createCard(key, new Position(posY, posX), this.hiddenCardTemplate().image);
+                const boardPos = new Position(col, row);
+                const windowPos = new Position(posY, posX);
+
+                this.createCard(key, boardPos, windowPos, this.hiddenCardTemplate().image);
             }
         }
     }
 
-    createCard(key: string, pos: Position, image: string): GameObject {
-        let phaserGo = this.add.image(pos.x, pos.y, image)
+    createCard(key: string, boardPos: Position, windowPos: Position, image: string): GameObject {
+        let phaserGo = this.add.image(windowPos.x, windowPos.y, image)
             .setDisplaySize(this.cardWidth(), this.cardHeight()) // change absolute size
             //.setScale(2, 2) // changes scale
             .setOrigin(0, 0); // make the corner be the top-left instead of the center (0.5, 0.5)
         // this._scene.uiCam.ignore(objGo);
 
-        const card = new Card(-1, pos, phaserGo);
+        const card = new Card(boardPos, windowPos, phaserGo);
         card.addLeftPointerUpListener(this.onCardLeftClicked.bind(this));
         this.cards.set(key, card);
 
