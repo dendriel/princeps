@@ -51,6 +51,10 @@ export class GameBoard extends Phaser.Scene {
         return this.cardsTemplatesGet(this.configBoard.hiddenCardKey);
     }
 
+    private openCardTemplate() : CardConfig {
+        return this.cardsTemplatesGet(this.configBoard.openCardKey);
+    }
+
     private cardsTemplatesGet(key: string): CardConfig {
         return this.cardsTemplates[key]!;
     }
@@ -77,12 +81,42 @@ export class GameBoard extends Phaser.Scene {
     update() {}
 
     showCard(pos: Position, key: string) {
-        const cardGoKey = `${pos.y},${pos.x}`
-
+        const targetCard = this.getCardByPos(pos);
         const targetTemplate = this.cardsTemplatesGet(key);
 
-        const targetCard = this.cards.get(cardGoKey)!;
-        targetCard.setImage(targetTemplate.image);
+        targetCard.show(targetTemplate);
+    }
+
+    hideCard(pos: Position) {
+        const targetCard = this.getCardByPos(pos);
+        targetCard.hide(this.hiddenCardTemplate());
+    }
+
+    disableCard(pos: Position) {
+        const targetCard = this.getCardByPos(pos);
+        targetCard.disable();
+    }
+
+    hideAllCards(hideMatches: boolean = false) {
+        this.cards.values().forEach(card => {
+            if (!hideMatches && card.isMatch) {
+                return;
+            }
+            card.hide(this.hiddenCardTemplate())
+        })
+    }
+
+    private getCardByPos(pos: Position): Card {
+        const cardGoKey = GameBoard.getCardKeyByPos(pos);
+        return this.cards.get(cardGoKey)!;
+    }
+
+    private static getCardKey(x: number, y: number): string {
+        return GameBoard.getCardKeyByPos(Position.of(y, x));
+    }
+
+    private static getCardKeyByPos(pos: Position): string {
+        return `${pos.y},${pos.x}`;
     }
 
     private layCards() {
@@ -91,7 +125,7 @@ export class GameBoard extends Phaser.Scene {
                 const posY = row * this.cardWidth() + row * this.configBoard.card.betweenOffset.w + this.configBoard.card.borderOffset.w;
                 const posX = col * this.cardHeight() + col * this.configBoard.card.betweenOffset.h + this.configBoard.card.borderOffset.h;
 
-                const key = `${row},${col}`
+                const key = GameBoard.getCardKey(row, col);
 
                 const boardPos = new Position(col, row);
                 const windowPos = new Position(posY, posX);
@@ -101,16 +135,30 @@ export class GameBoard extends Phaser.Scene {
         }
     }
 
-    createCard(key: string, boardPos: Position, windowPos: Position, image: string): GameObject {
+    private createCard(key: string, boardPos: Position, windowPos: Position, image: string): GameObject {
+        const backgroundCard = this.createBackgroundCard(windowPos);
+
         let phaserGo = this.add.image(windowPos.x, windowPos.y, image)
             .setDisplaySize(this.cardWidth(), this.cardHeight()) // change absolute size
             //.setScale(2, 2) // changes scale
             .setOrigin(0, 0); // make the corner be the top-left instead of the center (0.5, 0.5)
         // this._scene.uiCam.ignore(objGo);
 
-        const card = new Card(boardPos, windowPos, phaserGo);
+        const card = new Card(boardPos, false, backgroundCard, windowPos, phaserGo);
         card.addLeftPointerUpListener(this.onCardLeftClicked.bind(this));
         this.cards.set(key, card);
+
+        this.gos.push(card);
+        return card;
+    }
+
+    private createBackgroundCard(windowPos: Position) : GameObject {
+        let phaserGo = this.add.image(windowPos.x, windowPos.y, this.openCardTemplate().image)
+            .setDisplaySize(this.cardWidth(), this.cardHeight())
+            .setOrigin(0, 0);
+
+        const card = new GameObject(windowPos, false, phaserGo);
+        card.setVisible(false);
 
         this.gos.push(card);
         return card;

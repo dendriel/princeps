@@ -43,9 +43,14 @@ export class GameController extends Phaser.Game {
     private cardClickedListener(context: PointerEventContext) {
         const card = context.target as Card;
         const cardInPos = this.getCardAtBoardPos(card.boardPos)
-        console.log(`Card clicked! ${JSON.stringify(cardInPos)}`);
+        console.log(`Card clicked! ${JSON.stringify(card)}, ${JSON.stringify(cardInPos)}`);
 
-        this.gameBoard.showCard(card.boardPos, cardInPos);
+        if (card.isVisible) {
+            this.gameBoard.hideCard(card.boardPos);
+            this.gameBoard.hideAllCards();
+        } else {
+            this.gameBoard.showCard(card.boardPos, cardInPos);
+        }
     }
 
     private getCardAtBoardPos(pos: Position) : string {

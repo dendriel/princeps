@@ -6,6 +6,10 @@ export class Position {
         this._z = this._z ?? 0;
     }
 
+    static of(x: number, y: number): Position {
+        return new Position(x, y);
+    }
+
     get x(): number {
         return this._x;
     }

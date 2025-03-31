@@ -13,6 +13,7 @@
   "gameController": {
     "cardsTemplate": {
       "hidden":         { "key": "hidden", "name": "", "image": "card_back" },
+      "open":           { "key": "open", "name": "", "image": "card_front" },
       "forest":         { "key": "forest", "name": "Forest", "image": "forest" },
       "horses":         { "key": "horses", "name": "Horses", "image": "horses" },
       "farm":           { "key": "farm", "name": "Farm", "image": "farm" },
@@ -41,13 +42,14 @@
   "gameBoard": {
     "size": { "w": 4, "h": 4 },
     "hiddenCardKey": "hidden",
+    "openCardKey": "open",
     "card": {
       "size": { "w": 128, "h": 160 },
       "betweenOffset": { "w": 32, "h": 32 },
       "borderOffset": { "w": 128, "h": 64 }
     },
     "images": [
-      ["card-front", "assets/card-front.png"],
+      ["card_front", "assets/card-front.png"],
       ["card_back", "assets/card-back.png"],
       ["forest", "assets/forest.png"],
       ["horses", "assets/horses.png"],

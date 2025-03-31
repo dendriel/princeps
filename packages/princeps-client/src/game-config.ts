@@ -27,6 +27,7 @@ export class GameBoardConfig {
         public size: Size,
         public card: CardDimensions,
         public hiddenCardKey: string,
+        public openCardKey: string,
         public images: [string, string][]
     ) {
     }
