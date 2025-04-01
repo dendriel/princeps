@@ -3,9 +3,13 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc"
   },
   "author": "Vitor Rozsa",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "rozsa-mogs": "^0.0.9"
+  }
 }

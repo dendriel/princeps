@@ -56,6 +56,7 @@ export class GameBoard extends Phaser.Scene {
     }
 
     private cardsTemplatesGet(key: string): CardConfig {
+        // @ts-ignore
         return this.cardsTemplates[key]!;
     }
 

@@ -2,12 +2,12 @@
   "name": "princeps",
   "private": true,
   "workspaces": [
-    "packages/princeps-server",
+    "packages/server",
     "packages/princeps-client"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "build:server": "npm run build --workspace=princeps-server",
+    "build:server": "npm run build --workspace=server",
     "build:client": "npm run build --workspace=princeps-client"
   },
   "dependencies": {
