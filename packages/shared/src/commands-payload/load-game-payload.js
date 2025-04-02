@@ -1,3 +1,6 @@
 export class LoadGamePayload {
+    boardSize;
+    constructor(boardSize) {
+        this.boardSize = boardSize;
+    }
 }
-//# sourceMappingURL=load-game-payload.js.map

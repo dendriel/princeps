@@ -1,5 +1,5 @@
 import {GameObject} from "./game-object.js";
-import {Position} from "./position.js";
+import {Position} from "../../../shared/dist/princeps-shared.js"
 import {CardConfig} from "./game-config.js";
 
 

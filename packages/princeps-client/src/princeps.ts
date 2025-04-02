@@ -2,6 +2,7 @@ import {GameController} from "./game/game-controller.js";
 import GameConfig from "./game/game-config.js";
 import mogs, { NetworkClient } from "rozsa-mogs-client";
 import {PrincepsGameClient} from "./game-client/princeps-game-client.js";
+import {CommandDispatcher} from "./game-client/commands/command-dispatcher.js";
 
 export class Princeps {
 
@@ -19,10 +20,20 @@ export class Princeps {
 
         this.gameClient = new PrincepsGameClient(this.gameCtrl);
 
+        const token = this.getToken();
+
         this.networkClient = new mogs.NetworkClient(this.gameClient, '//localhost:8090/');
-        this.networkClient.connect("ABCD");
+
+        const commandsDispatcher = new CommandDispatcher(this.networkClient);
+        this.gameClient.setDispatcher(commandsDispatcher);
+
+        this.networkClient.connect(token);
 
         console.log("Game started!");
+    }
+
+    private getToken(): string | undefined {
+        return localStorage.getItem('princeps_token') ?? undefined;
     }
 
     async loadConfig(): Promise<GameConfig> {

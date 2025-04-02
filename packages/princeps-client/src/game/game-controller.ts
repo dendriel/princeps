@@ -2,9 +2,12 @@ import * as Phaser from "phaser";
 import {GameBoard} from "./game-board.js";
 import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
-import {Position} from "./position.js";
 import {Card} from "./card.js";
-import {Size} from "../../../shared/dist/princeps-shared.js"
+import {Size, Position} from "../../../shared/dist/princeps-shared.js"
+
+export interface CardClickedListener {
+    (card: Card): void;
+}
 
 export class GameController extends Phaser.Game {
     private static mainSceneKey: string = 'Main';
@@ -15,6 +18,8 @@ export class GameController extends Phaser.Game {
 
     private readonly configCtrl: GameControllerConfig;
 
+    private cardClickedListeners: CardClickedListener[] = [];
+
     // TODO: testing purpose only
     private readonly cardsPositions: string[][] = [
         ["archers",      "horses",        "militia",      "knight"],
@@ -23,10 +28,13 @@ export class GameController extends Phaser.Game {
         ["militia",      "archery_range", "archers",      "castle"]
     ]
 
+    private isPlayerTurn: boolean;
+
     constructor(config: GameConfig) {
         super(config.phaser);
         this.gameConfig = config;
         this.configCtrl = config.gameController;
+        this.isPlayerTurn = false;
     }
 
     private get gameBoard() {
@@ -46,21 +54,40 @@ export class GameController extends Phaser.Game {
         this.scene.start(GameController.mainSceneKey);
     }
 
-    private onGameBoardReady() {
-        this.gameBoard.addCardClickedListener(this.cardClickedListener.bind(this));
+    activateController() {
+        this.isPlayerTurn = true;
     }
 
-    private cardClickedListener(context: PointerEventContext) {
-        const card = context.target as Card;
-        const cardInPos = this.getCardAtBoardPos(card.boardPos)
-        console.log(`Card clicked! ${JSON.stringify(card)}, ${JSON.stringify(cardInPos)}`);
+    deactivateController() {
+        this.isPlayerTurn = false;
+    }
 
-        if (card.isVisible) {
-            this.gameBoard.hideCard(card.boardPos);
-            this.gameBoard.hideAllCards();
-        } else {
-            this.gameBoard.showCard(card.boardPos, cardInPos);
+    private onGameBoardReady() {
+        this.gameBoard.addCardClickedListener(this.onCardClicked.bind(this));
+    }
+
+    addCardClickedListener(listener: CardClickedListener) {
+        this.cardClickedListeners.push(listener);
+    }
+
+    private onCardClicked(context: PointerEventContext) {
+        if (!this.isPlayerTurn) {
+            console.log("Can't select a card. It is not the player's turn.");
+            return;
         }
+
+        const card = context.target as Card;
+        this.cardClickedListeners.forEach(listener => listener(card));
+
+        // const cardInPos = this.getCardAtBoardPos(card.boardPos)
+        // console.log(`Card clicked! ${JSON.stringify(card)}, ${JSON.stringify(cardInPos)}`);
+
+        // if (card.isVisible) {
+        //     this.gameBoard.hideCard(card.boardPos);
+        //     this.gameBoard.hideAllCards();
+        // } else {
+        //     this.gameBoard.showCard(card.boardPos, cardInPos);
+        // }
     }
 
     private getCardAtBoardPos(pos: Position) : string {

@@ -1,9 +1,8 @@
 import * as Phaser from "phaser";
 import {Card} from "./card.js";
-import {Position} from "./position.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
 import {CardConfig, GameBoardConfig} from "./game-config.js";
-import {Size} from "../../../shared/dist/princeps-shared.js"
+import {Size, Position} from "../../../shared/dist/princeps-shared.js"
 
 export class GameBoard extends Phaser.Scene {
 

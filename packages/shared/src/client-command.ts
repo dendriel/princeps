@@ -1,0 +1,6 @@
+
+export enum ClientCommand {
+    LOAD_GAME = "LOAD_GAME",
+    ACTIVATE_TURN = "ACTIVATE_TURN",
+    DEACTIVATE_TURN = "DEACTIVATE_TURN"
+}

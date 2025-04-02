@@ -1,4 +1,4 @@
-import {Position} from "./position.js";
+import {Position} from "../../../shared/dist/princeps-shared.js"
 
 export type PointerEventContext = {
     target: GameObject
