@@ -34,7 +34,7 @@ export class PrincepsGameClient implements GameClient {
             return;
         }
 
-        handler.execute();
+        handler.execute(payload);
     }
 
     onDisconnection(reason: string) {

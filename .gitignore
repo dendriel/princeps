@@ -69,3 +69,4 @@ package-lock.json
 /lib/
 
 tsconfig.tsbuildinfo
+public/shared

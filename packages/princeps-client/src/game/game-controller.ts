@@ -4,7 +4,7 @@ import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
 import {Position} from "./position.js";
 import {Card} from "./card.js";
-import {Size} from "./size.js";
+import {Size} from "../../../shared/dist/princeps-shared.js"
 
 export class GameController extends Phaser.Game {
     private static mainSceneKey: string = 'Main';

@@ -1,6 +1,6 @@
 import {CommandHandler} from "./command-handler.js";
 import {GameController} from "../../game/game-controller.js";
-import {Size} from "../../game/size.js";
+import {Size, LoadGamePayload} from "../../../../shared/dist/princeps-shared.js"
 
 
 export class LoadMap implements CommandHandler {
@@ -9,8 +9,12 @@ export class LoadMap implements CommandHandler {
 
 
     execute(payload: unknown) {
+        const loadMapPayload = payload as LoadGamePayload;
         console.log(`Handling LOAD_MAP command`);
 
-        this.gameCtrl.startGame(payload as Size);
+        const xpto = Size.of(4, 4);
+        console.log(`SIZE: ${JSON.stringify(xpto)}`);
+
+        this.gameCtrl.startGame(loadMapPayload.boardSize);
     }
 }

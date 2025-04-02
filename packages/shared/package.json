@@ -1,14 +1,18 @@
 {
-  "name": "shared",
+  "name": "@rozsa/shared",
   "version": "0.0.1",
   "description": "",
   "type": "module",
+  "main": "./dist/princeps-shared.js",
+  "types": "./dist/princeps-shared.d.ts",
   "scripts": {
-    "clear": "run-s _clear_dist _clear_incremental",
+    "clear": "run-s _clear_dist _clear_public _clear_incremental",
     "_clear_dist": "rimraf ./dist",
     "_clear_incremental": "rimraf ./tsconfig.tsbuildinfo",
+    "_clear_public": "rimraf ../../public/shared",
     "_tsc": "tsc",
-    "build": "run-s clear _tsc"
+    "_copy": "cpx ./dist/** ../../public/shared/dist",
+    "build": "run-s clear _tsc _copy"
   },
   "author": "Vitor Rozsa",
   "license": "MIT"

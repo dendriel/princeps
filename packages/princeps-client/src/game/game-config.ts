@@ -1,6 +1,4 @@
-import {Size} from "./size.js";
-import {GameBoard} from "./game-board.js";
-
+import {Size} from "../../../shared/dist/princeps-shared.js"
 
 export class CardConfig {
     constructor(public key: string, public name: string, public image: string) {}

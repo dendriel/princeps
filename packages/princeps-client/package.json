@@ -2,7 +2,6 @@
   "name": "princeps-client",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "clear": "run-s _clear",
@@ -14,6 +13,6 @@
   "author": "Vitor Rozsa",
   "license": "MIT",
   "dependencies": {
-    "rozsa-mogs-client": "^0.0.11"
+    "rozsa-mogs-client": "^0.0.12"
   }
 }
