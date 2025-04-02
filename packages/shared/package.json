@@ -1,0 +1,15 @@
+{
+  "name": "shared",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "clear": "run-s _clear_dist _clear_incremental",
+    "_clear_dist": "rimraf ./dist",
+    "_clear_incremental": "rimraf ./tsconfig.tsbuildinfo",
+    "_tsc": "tsc",
+    "build": "run-s clear _tsc"
+  },
+  "author": "Vitor Rozsa",
+  "license": "MIT"
+}

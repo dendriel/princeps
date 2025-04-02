@@ -2,14 +2,16 @@
   "name": "princeps-server",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "clear": "run-s _clear",
+    "_clear": "rimraf ./dist",
+    "_tsc": "tsc",
+    "build": "run-s _clear _tsc"
   },
   "author": "Vitor Rozsa",
   "license": "MIT",
   "dependencies": {
-  "rozsa-mogs": "^0.0.11"
+    "rozsa-mogs": "^0.0.11"
   }
 }
