@@ -9,6 +9,7 @@ export class GameController extends Phaser.Game {
     private static mainSceneKey: string = 'Main';
 
     private readonly gameBoard: GameBoard;
+
     private readonly configCtrl: GameControllerConfig;
 
     // TODO: testing purpose only

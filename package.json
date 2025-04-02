@@ -8,7 +8,8 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "build:server": "npm run build --workspace=server",
-    "build:client": "npm run build --workspace=princeps-client"
+    "build:client": "npm run build --workspace=princeps-client",
+    "server": "node server.js"
   },
   "dependencies": {
     "express": "^4.21.2",

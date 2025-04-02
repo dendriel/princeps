@@ -29,19 +29,27 @@ export class PrincepsServer implements GameServer {
         const newPlayer = new Player(conn);
         this.connectedPlayers.set(conn.socket.id, newPlayer);
 
-        console.log(`Player connected: ${JSON.stringify(newPlayer)}`);
+        console.log(`Player connected: ${JSON.stringify(newPlayer.info)}`);
     }
 
     onDisconnection(conn: ActiveConnection) {
         const player = this.connectedPlayers.get(conn.socket.id);
+        if (!player) {
+            console.log(`Unknown player has disconnected. SocketId: ${conn.socket.id}`);
+            return;
+        }
 
-        console.log(`Player disconnected: ${JSON.stringify(player)}`);
+        console.log(`Player disconnected: ${JSON.stringify(player.info)}`);
     }
 
     onCommand(conn: ActiveConnection, cmd: string, payload: any) {
         const player = this.connectedPlayers.get(conn.socket.id);
+        if (!player) {
+            console.log(`Command received from unknown player. Ignoring... SocketId: ${conn.socket.id}`);
+            return;
+        }
 
-        console.log(`Received command ${cmd} from player: ${JSON.stringify(player)}`);
+        console.log(`Received command ${cmd} from player: ${JSON.stringify(player.info)}`);
     }
 
     onGameFinished() {
