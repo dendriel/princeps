@@ -1,5 +1,6 @@
 import mogs, {ActiveConnection, GameServer, NetworkServer, ConnectionInfo} from "rozsa-mogs";
 import {Player} from "./player.js";
+import {PrincepsConnectionInfo} from "./princeps-connection-info.js";
 
 /**
  * Server provider for Princeps Game.
@@ -29,7 +30,12 @@ export class PrincepsServer implements GameServer {
         const newPlayer = new Player(conn);
         this.connectedPlayers.set(conn.socket.id, newPlayer);
 
+        // TODO: testing purpose-only.
+        this.networkServer.addExpectedConnection(new PrincepsConnectionInfo(conn.info.token()));
+
         console.log(`Player connected: ${JSON.stringify(newPlayer.info)}`);
+
+        this.networkServer.send(newPlayer.token, "LOAD_MAP", { boardSize: { w: 4, h: 4 }});
     }
 
     onDisconnection(conn: ActiveConnection) {

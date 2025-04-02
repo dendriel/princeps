@@ -3,12 +3,15 @@ import {GameBoard} from "./game-board.js";
 import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
 import {Position} from "./position.js";
-import {Card} from "./game/card.js";
+import {Card} from "./card.js";
+import {Size} from "./size.js";
 
 export class GameController extends Phaser.Game {
     private static mainSceneKey: string = 'Main';
 
-    private readonly gameBoard: GameBoard;
+    private gameConfig: GameConfig;
+
+    private _gameBoard: GameBoard | undefined;
 
     private readonly configCtrl: GameControllerConfig;
 
@@ -22,20 +25,26 @@ export class GameController extends Phaser.Game {
 
     constructor(config: GameConfig) {
         super(config.phaser);
-
+        this.gameConfig = config;
         this.configCtrl = config.gameController;
-        this.gameBoard = new GameBoard(config.gameBoard, GameController.mainSceneKey, this.configCtrl.cardsTemplate);
-
-        this.setup();
     }
 
-    private setup() {
+    private get gameBoard() {
+        return this._gameBoard!;
+    }
+
+    startGame(boardSize: Size) {
+        this._gameBoard = new GameBoard(
+            this.gameConfig.gameBoard,
+            boardSize,
+            GameController.mainSceneKey,
+            this.configCtrl.cardsTemplate
+        );
         this.gameBoard.addOnSceneReadyListener(this.onGameBoardReady.bind(this));
 
         this.scene.add(GameController.mainSceneKey, this.gameBoard);
         this.scene.start(GameController.mainSceneKey);
     }
-
 
     private onGameBoardReady() {
         this.gameBoard.addCardClickedListener(this.cardClickedListener.bind(this));

@@ -1,6 +1,6 @@
-import {GameObject} from "../game-object.js";
-import {Position} from "../position.js";
-import {CardConfig} from "../game-config.js";
+import {GameObject} from "./game-object.js";
+import {Position} from "./position.js";
+import {CardConfig} from "./game-config.js";
 
 
 export class Card extends GameObject {

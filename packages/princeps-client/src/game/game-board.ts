@@ -1,34 +1,30 @@
 import * as Phaser from "phaser";
-import {Card} from "./game/card.js";
+import {Card} from "./card.js";
 import {Position} from "./position.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
 import {CardConfig, GameBoardConfig} from "./game-config.js";
+import {Size} from "./size.js";
 
 
 export class GameBoard extends Phaser.Scene {
 
-    private configBoard: GameBoardConfig;
-
     private gos: GameObject[];
     private cards: Map<String, Card>;
-    private readonly cardsTemplates: Map<String, CardConfig>
 
     private cardClickedListener: PointerEventListener[] = [];
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
-    constructor(config: any, key: string, cardsTemplates: any) {
-        super({
-            key: key,
-            // active: false, // Scene starts inactive
-            // visible: true   // Scene is initially visible
-        });
+    constructor(
+        private configBoard: GameBoardConfig,
+        private boardSize: Size,
+        private key: string,
+        private cardsTemplates: Map<String, CardConfig>
+    ) {
+        super({ key: key, active: false, visible: true });
 
-        this.cardsTemplates = cardsTemplates;
         this.gos = [];
         this.cards = new Map<String, Card>();
-
-        this.configBoard = config;
     }
 
     private width() {

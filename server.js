@@ -1,8 +1,9 @@
-import {PrincepsServer} from './packages/server/dist/princeps-server.js'
+import {PrincepsServer} from 'princeps-server/dist/princeps-server.js'
+import {PrincepsConnectionInfo} from "princeps-server/dist/princeps-connection-info.js";
 
 const server = new PrincepsServer();
 
 // TODO: create connection/player info
-server.addExpectedPlayer( new (class { token() { return "ABCD" } }));
-server.addExpectedPlayer( new (class { token() { return "1234" } }));
+server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));
+server.addExpectedPlayer( new PrincepsConnectionInfo("1234"));
 server.start();

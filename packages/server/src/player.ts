@@ -8,4 +8,8 @@ export class Player {
     get info() {
         return this.conn.info;
     }
+
+    get token() {
+        return this.conn.info.token();
+    }
 }

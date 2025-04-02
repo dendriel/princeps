@@ -38,7 +38,7 @@ export default class GameConfig {
     constructor(
         public phaser:  Phaser.Types.Core.GameConfig,
         public gameController: GameControllerConfig,
-        public gameBoard: GameBoard
+        public gameBoard: GameBoardConfig
         ) {
     }
 }
