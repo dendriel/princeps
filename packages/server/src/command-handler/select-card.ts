@@ -10,7 +10,19 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
     }
 
     async handleCommand(player: Player, payload: SelectCardPayload): Promise<void> {
+        if (!this.matchHandler.lockPlayerGuessing()) {
+            console.log(`Multiple player commands while already guessing. Discarding guess.`);
+            return;
+        }
 
+        try {
+            await this.selectCard(player, payload);
+        } finally {
+            this.matchHandler.unlockPlayerGuessing();
+        }
+    }
+
+    private async selectCard(player: Player, payload: SelectCardPayload): Promise<void> {
         const oppenedCard = this.matchHandler.openCard(payload.boardPos);
         if (!oppenedCard) {
             // If the card couldn't be open, keep the turn running.
@@ -51,7 +63,7 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         // TODO: show the winner player.
     }
 
-    sleep(ms: number): Promise<void> {
+    private sleep(ms: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

@@ -2,6 +2,8 @@
   "phaser": {
     "width": 1200,
     "height": 900,
+    "mode": "FIT",
+    "autoCenter": "CENTER_BOTH",
     "backgroundColor": "#006400",
     "physics": {
       "default": "arcade",
@@ -45,8 +47,8 @@
     "openCardKey": "open",
     "card": {
       "size": { "w": 128, "h": 160 },
-      "betweenOffset": { "w": 32, "h": 32 },
-      "borderOffset": { "w": 128, "h": 64 }
+      "betweenOffset": { "w": 96, "h": 64 },
+      "borderOffset": { "w": 190, "h": 32 }
     },
     "images": [
       ["card_front", "assets/card-front.png"],

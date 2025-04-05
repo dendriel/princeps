@@ -32,9 +32,12 @@ export class MatchHandler {
     private readonly matchCards: Card[];
     private readonly guessedCards: Card[];
 
+    private isPlayerGuessing: boolean;
+
     constructor() {
         this.matchCards = [];
         this.guessedCards = [];
+        this.isPlayerGuessing = false;
     }
 
     get boardSize(): number {
@@ -46,6 +49,19 @@ export class MatchHandler {
             const name = matchCards.at(i)!;
             this.matchCards.push(new Card(name, i));
         }
+    }
+
+    lockPlayerGuessing(): boolean {
+        if (this.isPlayerGuessing) {
+            return false;
+        }
+
+        this.isPlayerGuessing = true;
+        return true;
+    }
+
+    unlockPlayerGuessing() {
+        this.isPlayerGuessing = false;
     }
 
     /**
