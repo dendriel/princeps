@@ -62,6 +62,14 @@ export class GameController extends Phaser.Game {
         this.isPlayerTurn = false;
     }
 
+    showCard(cardPos: number, cardName: string) {
+        this._gameBoard?.showCard(cardPos, cardName);
+    }
+
+    hideCard(cardPos: number) {
+        this._gameBoard?.hideCard(cardPos);
+    }
+
     private onGameBoardReady() {
         this.gameBoard.addCardClickedListener(this.onCardClicked.bind(this));
     }

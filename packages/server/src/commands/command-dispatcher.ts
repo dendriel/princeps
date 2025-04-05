@@ -1,7 +1,7 @@
-import {LoadGamePayload} from "../../../shared/dist/commands-payload/load-game-payload.js";
 import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../game-server/player.js";
-import {ClientCommand} from "../../../shared/dist/princeps-shared.js";
+import {ClientCommand, LoadGamePayload, CardInfoPayload} from "../../../shared/dist/princeps-shared.js";
+import {CardsInfoPayload} from "@rozsa/shared";
 
 
 export class CommandDispatcher {
@@ -20,5 +20,19 @@ export class CommandDispatcher {
 
     activatePlayerTurn(player: Player) {
         this.networkServer.send(player.token, ClientCommand.ACTIVATE_TURN, {});
+    }
+
+    broadcastShowCard(cardPos: number, cardName: string) {
+        const cardInfoPayload = new CardInfoPayload(cardPos, cardName);
+        this.networkServer.broadcast(ClientCommand.SHOW_CARD, cardInfoPayload);
+    }
+
+    broadcastHideCards(cardsIndex: number[]) {
+        const cardsInfoPayload = new CardsInfoPayload();
+        cardsIndex.forEach((index: number) => {
+            cardsInfoPayload.addCardInfo(new CardInfoPayload(index));
+        });
+
+        this.networkServer.broadcast(ClientCommand.HIDE_CARDS, cardsInfoPayload);
     }
 }

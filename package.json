@@ -7,7 +7,7 @@
     "packages/princeps-client"
   ],
   "scripts": {
-    "clean": "npm run clear --workspaces",
+    "clear": "npm run clear --workspaces",
     "build": "npm run build --workspaces",
     "build:shared": "npm run build --workspace=shared",
     "build:server": "npm run build --workspace=server",

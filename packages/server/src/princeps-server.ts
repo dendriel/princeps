@@ -41,7 +41,7 @@ export class PrincepsServer implements GameServer {
     }
 
     private setupCommandHandlers() {
-        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.matchHandler));
+        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler));
     }
 
     start(matchSize: number) {
@@ -89,7 +89,7 @@ export class PrincepsServer implements GameServer {
         console.log(`Player disconnected: ${JSON.stringify(player.connInfo)}`);
     }
 
-    onCommand(conn: ActiveConnection, cmd: string, payload: any) {
+    async onCommand(conn: ActiveConnection, cmd: string, payload: any) {
         const player = this.playersHolder.get(conn);
         if (!player) {
             console.log(`Command received from unknown player. Ignoring... SocketId: ${conn.socket.id}`);
@@ -108,7 +108,7 @@ export class PrincepsServer implements GameServer {
             return;
         }
 
-        handler.execute(player, payload);
+        await handler.execute(player, payload);
     }
 
     onGameFinished() {

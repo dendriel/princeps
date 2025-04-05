@@ -1,10 +1,17 @@
 
 class Card {
-    constructor(private _name: string, private _isOpen: boolean = false) {}
-
+    constructor(
+        private _name: string,
+        private _pos: number,
+        private _isOpen: boolean = false
+    ) {}
 
     get name(): string {
         return this._name;
+    }
+
+    get pos(): number {
+        return this._pos;
     }
 
     get isOpen(): boolean {
@@ -35,9 +42,10 @@ export class MatchHandler {
     }
 
     setup(matchCards: string[]) {
-        matchCards.forEach(name => {
-            this.matchCards.push(new Card(name));
-        });
+        for (let i = 0; i < matchCards.length; i++) {
+            const name = matchCards.at(i)!;
+            this.matchCards.push(new Card(name, i));
+        }
     }
 
     /**
@@ -62,6 +70,17 @@ export class MatchHandler {
         return true;
     }
 
+    getCardName(index: number): string {
+        return this.matchCards.at(index)!.name;
+    }
+
+    /**
+     * All cards matched if there is no card still closed.
+     */
+    allCardsMatched(): boolean {
+        return this.matchCards.find((card: Card) => !card.isOpen) !== undefined;
+    }
+
     pairIsOpen(): boolean {
         return this.guessedCards.length === 2;
     }
@@ -73,6 +92,10 @@ export class MatchHandler {
         }
 
         return this.guessedCards[0].equalsTo(this.guessedCards[1]);
+    }
+
+    getGuessedCardsIndexes(): number[] {
+        return this.guessedCards.map(card => card.pos);
     }
 
     clearGuessedCards(closeCards: boolean = false) {

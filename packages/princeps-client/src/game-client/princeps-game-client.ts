@@ -6,6 +6,8 @@ import {ActivateTurn} from "./command-handlers/activate-turn.js";
 import {DeactivateTurn} from "./command-handlers/deactivate-turn.js";
 import {CommandDispatcher} from "./commands/command-dispatcher.js";
 import {Card} from "../game/card.js";
+import {ShowCard} from "./command-handlers/show-card.js";
+import {HideCards} from "./command-handlers/hide-cards.js";
 
 /**
  * Responsible for handling commands received from the server.
@@ -34,6 +36,10 @@ export class PrincepsGameClient implements GameClient {
         this.commandsHandler[ClientCommand.ACTIVATE_TURN] = new ActivateTurn(this.gameCtrl);
         // @ts-ignore
         this.commandsHandler[ClientCommand.DEACTIVATE_TURN] = new DeactivateTurn(this.gameCtrl);
+        // @ts-ignore
+        this.commandsHandler[ClientCommand.SHOW_CARD] = new ShowCard(this.gameCtrl);
+        // @ts-ignore
+        this.commandsHandler[ClientCommand.HIDE_CARDS] = new HideCards(this.gameCtrl);
     }
 
     private setupControllerListeners() {

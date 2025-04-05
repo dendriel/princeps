@@ -79,15 +79,15 @@ export class GameBoard extends Phaser.Scene {
 
     update() {}
 
-    showCard(pos: Position, key: string) {
-        const targetCard = this.getCardByPos(pos);
+    showCard(pos: number, key: string) {
+        const targetCard = this.getCardByIndexPos(pos);
         const targetTemplate = this.cardsTemplatesGet(key);
 
         targetCard.show(targetTemplate);
     }
 
-    hideCard(pos: Position) {
-        const targetCard = this.getCardByPos(pos);
+    hideCard(pos: number) {
+        const targetCard = this.getCardByIndexPos(pos);
         targetCard.hide(this.hiddenCardTemplate());
     }
 
@@ -103,6 +103,13 @@ export class GameBoard extends Phaser.Scene {
             }
             card.hide(this.hiddenCardTemplate())
         })
+    }
+
+    private getCardByIndexPos(pos: number): Card {
+        const y = Math.floor(pos / this.width());
+        const x = pos - (y * this.width());
+
+        return this.getCardByPos(Position.of(x, y));
     }
 
     private getCardByPos(pos: Position): Card {
