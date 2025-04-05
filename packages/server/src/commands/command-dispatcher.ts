@@ -1,8 +1,7 @@
 import {LoadGamePayload} from "../../../shared/dist/commands-payload/load-game-payload.js";
-import {Size} from "../../../shared/dist/properties/size.js";
-import {ClientCommand} from "../../../shared/dist/client-command.js";
 import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../game-server/player.js";
+import {ClientCommand} from "../../../shared/dist/princeps-shared.js";
 
 
 export class CommandDispatcher {
@@ -10,7 +9,7 @@ export class CommandDispatcher {
     constructor(private networkServer: NetworkServer) {}
 
 
-    broadcastloadMap(boardSize: Size) {
+    broadcastloadMap(boardSize: number) {
         const loadGamePayload = new LoadGamePayload(boardSize);
         this.networkServer.broadcast(ClientCommand.LOAD_GAME, loadGamePayload);
     }

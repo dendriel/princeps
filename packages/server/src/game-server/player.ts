@@ -31,4 +31,12 @@ export class Player {
     get token() {
         return this._connInfo.token();
     }
+
+    sameAs(player: Player): boolean {
+        return player.token == this.token;
+    }
+
+    get debug(): string {
+        return JSON.stringify(this._connInfo);
+    }
 }

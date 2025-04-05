@@ -1,6 +1,5 @@
 import {GameClient} from "rozsa-mogs-client";
-import {CommandHandler} from "./command-handlers/command-handler.js";
-import {ClientCommand} from "../../../shared/dist/princeps-shared.js"
+import {ClientCommand, CommandHandler} from "../../../shared/dist/princeps-shared.js"
 import {LoadGame} from "./command-handlers/load-game.js";
 import {GameController} from "../game/game-controller.js";
 import {ActivateTurn} from "./command-handlers/activate-turn.js";

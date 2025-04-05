@@ -6,4 +6,4 @@ const server = new PrincepsServer();
 // TODO: create connection/player info
 server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));
 server.addExpectedPlayer( new PrincepsConnectionInfo("1234"));
-server.start();
+server.start(16);

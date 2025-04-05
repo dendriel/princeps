@@ -1,27 +1,55 @@
 import mogs, {ActiveConnection, GameServer, NetworkServer, ConnectionInfo} from "rozsa-mogs";
 import {Player} from "./game-server/player.js";
 import {PrincepsConnectionInfo} from "./princeps-connection-info.js";
-import {Size, LoadGamePayload, ClientCommand} from "../../shared/dist/princeps-shared.js";
+import {ServerCommand} from "../../shared/dist/princeps-shared.js";
 import {PlayersHolder} from "./game-server/player-holder.js";
 import {CommandDispatcher} from "./commands/command-dispatcher.js";
+import {SelectCard} from "./command-handler/select-card.js";
+import {ServerCommandHandler} from "./commands/server-command-handler.js";
+import {MatchGenerator} from "./game-server/match-generator.js";
+import {ConfigLoader, ServerConfig} from "./config-loader.js";
+import {MatchHandler} from "./game-server/match-handler.js";
 
 /**
  * Server provider for Princeps Game.
  */
 export class PrincepsServer implements GameServer {
+    private readonly config: ServerConfig;
     private readonly networkServer: NetworkServer;
     private readonly playersHolder: PlayersHolder;
     private readonly commandDispatcher: CommandDispatcher;
+    private readonly matchGenerator: MatchGenerator;
+
+    private readonly matchHandler: MatchHandler;
+
+    private readonly commandsHandler: Map<ServerCommand, ServerCommandHandler>;
 
     private gameStarted: boolean = false;
 
     constructor() {
+
+        this.config = ConfigLoader.load('./resources/server-config.json');
+
         this.networkServer = new mogs.NetworkServer(this);
         this.playersHolder = new PlayersHolder();
         this.commandDispatcher = new CommandDispatcher(this.networkServer);
+        this.matchGenerator = new MatchGenerator(this.config.cards);
+        this.matchHandler = new MatchHandler();
+        this.commandsHandler = new Map<ServerCommand, ServerCommandHandler>();
+
+        this.setupCommandHandlers();
     }
 
-    start() {
+    private setupCommandHandlers() {
+        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.matchHandler));
+    }
+
+    start(matchSize: number) {
+        const matchCards = this.matchGenerator.generate(matchSize);
+        this.matchHandler.setup(matchCards);
+
+        console.log(`Match cards: ${matchCards}`);
+
         this.networkServer.listen();
     }
 
@@ -68,9 +96,19 @@ export class PrincepsServer implements GameServer {
             return;
         }
 
-        // TODO: add a command handler.
+        if (!this.playersHolder.isPlayerTurn(player)) {
+            console.log(`Received command '${cmd}' but it is not the player's turn.  ${JSON.stringify(player.connInfo)}`)
+            return;
+        }
 
-        console.log(`Received command ${cmd} from player: ${JSON.stringify(player.connInfo)}`);
+        const serverCmd = cmd as ServerCommand.SELECT_CARD;
+        const handler = this.commandsHandler.get(serverCmd);
+        if (!handler) {
+            console.log(`Unhandled command ${serverCmd} received from client ${JSON.stringify(player.connInfo)}`)
+            return;
+        }
+
+        handler.execute(player, payload);
     }
 
     onGameFinished() {
@@ -85,7 +123,7 @@ export class PrincepsServer implements GameServer {
 
         this.gameStarted = true;
 
-        this.commandDispatcher.broadcastloadMap(Size.of(4, 4));
+        this.commandDispatcher.broadcastloadMap(this.matchHandler.boardSize);
 
         const currPlayerTurn = this.playersHolder.getCurrentPlayerToPlay();
         this.commandDispatcher.activatePlayerTurn(currPlayerTurn);

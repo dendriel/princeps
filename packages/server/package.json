@@ -6,8 +6,9 @@
   "scripts": {
     "clear": "run-s _clear",
     "_clear": "rimraf ./dist",
+    "_copy_res": "cpx ./src/resources/** ./dist/resources",
     "_tsc": "tsc",
-    "build": "run-s _clear _tsc"
+    "build": "run-s _clear _tsc _copy_res"
   },
   "author": "Vitor Rozsa",
   "license": "MIT",

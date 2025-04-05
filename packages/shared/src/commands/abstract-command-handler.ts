@@ -1,17 +1,16 @@
 import {CommandHandler} from "./command-handler.js";
-import {ClientCommand} from "../../../../shared/dist/princeps-shared.js"
 
-export abstract class AbstractCommandHandler<T> implements CommandHandler {
+export abstract class AbstractCommandHandler<P, T> implements CommandHandler {
 
-    protected constructor(private _type: ClientCommand) {}
+    protected constructor(private _type: T) {}
 
-    get type(): ClientCommand {
+    get type(): T {
         return this._type;
     }
 
     execute(payload: unknown): void {
         try {
-            const typedPayload = payload as T;
+            const typedPayload = payload as P;
 
             console.log(`Handling ${this._type} command with payload: ${JSON.stringify(typedPayload)}`);
 
@@ -21,5 +20,5 @@ export abstract class AbstractCommandHandler<T> implements CommandHandler {
         }
     }
 
-    abstract handleCommand(payload: T): void;
+    abstract handleCommand(payload: P): void;
 }

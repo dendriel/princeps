@@ -41,7 +41,7 @@ export class GameController extends Phaser.Game {
         return this._gameBoard!;
     }
 
-    startGame(boardSize: Size) {
+    startGame(boardSize: number) {
         this._gameBoard = new GameBoard(
             this.gameConfig.gameBoard,
             boardSize,

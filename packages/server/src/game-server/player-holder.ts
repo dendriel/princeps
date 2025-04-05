@@ -41,6 +41,11 @@ export class PlayersHolder {
         this.currPlayersTurn = (this.currPlayersTurn + 1) % this.totalPlayers;
     }
 
+    isPlayerTurn(player: Player): boolean {
+        const currPlayer = this.getCurrentPlayerToPlay();
+        return player.sameAs(currPlayer);
+    }
+
     addConnectionInfo(activeConnection: ActiveConnection): Player | undefined {
         const player = this.playersByToken.get(activeConnection.info.token());
         if (!player) {

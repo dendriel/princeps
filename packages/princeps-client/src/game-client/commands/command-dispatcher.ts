@@ -6,7 +6,7 @@ export class CommandDispatcher {
     constructor(private networkClient: NetworkClient) {}
 
     selectCard(card: Card) {
-        const payload = new SelectCardPayload(card.boardPos);
+        const payload = new SelectCardPayload(card.boardIndex);
         this.networkClient.send(ServerCommand.SELECT_CARD, payload);
     }
 }

@@ -1,5 +1,5 @@
 import {GameObject} from "./game-object.js";
-import {Position} from "../../../shared/dist/princeps-shared.js"
+import {Position, Size} from "../../../shared/dist/princeps-shared.js"
 import {CardConfig} from "./game-config.js";
 
 
@@ -9,6 +9,7 @@ export class Card extends GameObject {
 
     constructor(
         private _boardPos: Position,
+        private boardSize: Size,
         private _isVisible: boolean,
         private backgroundGo: GameObject,
         pos: Position,
@@ -25,6 +26,10 @@ export class Card extends GameObject {
 
     get boardPos(): Position {
         return this._boardPos;
+    }
+
+    get boardIndex(): number {
+        return (this._boardPos.y * this.boardSize.w) + this._boardPos.x;
     }
 
     get isMatch(): boolean {

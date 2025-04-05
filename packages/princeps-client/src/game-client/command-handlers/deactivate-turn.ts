@@ -1,8 +1,7 @@
-import {AbstractCommandHandler} from "./abstract-command-handler.js";
 import {GameController} from "../../game/game-controller.js";
-import {ClientCommand} from "../../../../shared/dist/client-command.js";
+import {AbstractCommandHandler, ClientCommand} from "../../../../shared/dist/princeps-shared.js";
 
-export class DeactivateTurn extends AbstractCommandHandler<void> {
+export class DeactivateTurn extends AbstractCommandHandler<void, ClientCommand> {
 
     constructor(private gameCtrl: GameController) {
         super(ClientCommand.DEACTIVATE_TURN);

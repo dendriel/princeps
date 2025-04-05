@@ -2,7 +2,7 @@ import * as Phaser from "phaser";
 import {Card} from "./card.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
 import {CardConfig, GameBoardConfig} from "./game-config.js";
-import {Size, Position} from "../../../shared/dist/princeps-shared.js"
+import {Position, Size} from "../../../shared/dist/princeps-shared.js"
 
 export class GameBoard extends Phaser.Scene {
 
@@ -15,7 +15,7 @@ export class GameBoard extends Phaser.Scene {
 
     constructor(
         private configBoard: GameBoardConfig,
-        private boardSize: Size,
+        private boardSize: number,
         private key: string,
         private cardsTemplates: Map<String, CardConfig>
     ) {
@@ -26,11 +26,15 @@ export class GameBoard extends Phaser.Scene {
     }
 
     private width() {
-        return this.configBoard.size.w;
+        return this.boardSize / 4;
     }
 
     private height() {
-        return this.configBoard.size.h;
+        return this.boardSize / 4;
+    }
+
+    private size(): Size {
+        return Size.of(this.width(), this.height());
     }
 
     private cardWidth() {
@@ -117,13 +121,13 @@ export class GameBoard extends Phaser.Scene {
     private layCards() {
         for (let row = 0; row < this.height(); row++) {
             for (let col = 0; col < this.width(); col++) {
-                const posY = row * this.cardWidth() + row * this.configBoard.card.betweenOffset.w + this.configBoard.card.borderOffset.w;
-                const posX = col * this.cardHeight() + col * this.configBoard.card.betweenOffset.h + this.configBoard.card.borderOffset.h;
+                const posY = row * this.cardHeight() + row * this.configBoard.card.betweenOffset.h + this.configBoard.card.borderOffset.h;
+                const posX = col * this.cardWidth() + col * this.configBoard.card.betweenOffset.w + this.configBoard.card.borderOffset.w;
 
                 const key = GameBoard.getCardKey(row, col);
 
                 const boardPos = new Position(col, row);
-                const windowPos = new Position(posY, posX);
+                const windowPos = new Position(posX, posY);
 
                 this.createCard(key, boardPos, windowPos, this.hiddenCardTemplate().image);
             }
@@ -139,7 +143,7 @@ export class GameBoard extends Phaser.Scene {
             .setOrigin(0, 0); // make the corner be the top-left instead of the center (0.5, 0.5)
         // this._scene.uiCam.ignore(objGo);
 
-        const card = new Card(boardPos, false, backgroundCard, windowPos, phaserGo);
+        const card = new Card(boardPos, this.size(),false, backgroundCard, windowPos, phaserGo);
         card.addLeftPointerUpListener(this.onCardLeftClicked.bind(this));
         this.cards.set(key, card);
 
