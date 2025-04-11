@@ -41,7 +41,7 @@ export class PrincepsServer implements GameServer {
     }
 
     private setupCommandHandlers() {
-        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler));
+        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
     start(matchSize: number) {

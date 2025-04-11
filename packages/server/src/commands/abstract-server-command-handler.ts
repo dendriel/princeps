@@ -2,13 +2,15 @@ import {ServerCommandHandler} from "./server-command-handler.js";
 import {Player} from "../game-server/player.js";
 import {MatchHandler} from "../game-server/match-handler.js";
 import {CommandDispatcher} from "./command-dispatcher.js";
+import {PlayersHolder} from "../game-server/player-holder.js";
 
 export abstract class AbstractServerCommandHandler<P, T> implements ServerCommandHandler {
 
     protected constructor(
         private _type: T,
         protected commandDispatcher: CommandDispatcher,
-        protected matchHandler: MatchHandler
+        protected matchHandler: MatchHandler,
+        protected playersHolder: PlayersHolder
     ) {}
 
     get type(): T {

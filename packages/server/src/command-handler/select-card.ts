@@ -3,10 +3,11 @@ import {AbstractServerCommandHandler} from "../commands/abstract-server-command-
 import {Player} from "../game-server/player.js";
 import {MatchHandler} from "../game-server/match-handler.js";
 import {CommandDispatcher} from "../commands/command-dispatcher.js";
+import {PlayersHolder} from "../game-server/player-holder.js";
 
 export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, ServerCommand> {
-    constructor(commandDispatcher: CommandDispatcher, matchHandler: MatchHandler) {
-        super(ServerCommand.SELECT_CARD, commandDispatcher, matchHandler);
+    constructor(commandDispatcher: CommandDispatcher, matchHandler: MatchHandler, playersHolder: PlayersHolder) {
+        super(ServerCommand.SELECT_CARD, commandDispatcher, matchHandler, playersHolder);
     }
 
     async handleCommand(player: Player, payload: SelectCardPayload): Promise<void> {
@@ -39,14 +40,20 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         await this.sleep(2000);
 
-        // TODO: two cards was open. Check if the player guessed the pair right.
+        // TODO: two cards were open. Check if the player guessed the pair right.
         if (!this.matchHandler.pairIsMatch()) {
             // Not a match. Close cards and skip player turn.
 
             this.commandDispatcher.broadcastHideCards(this.matchHandler.getGuessedCardsIndexes());
             this.matchHandler.clearGuessedCards(true);
 
-            // TODO: update player who will play.
+            this.commandDispatcher.deactivatePlayerTurn(player);
+
+            this.playersHolder.updateNextPlayerToPlay();
+
+            const nextPlayer = this.playersHolder.getCurrentPlayerToPlay();
+            this.commandDispatcher.activatePlayerTurn(nextPlayer);
+
             return;
         }
 
