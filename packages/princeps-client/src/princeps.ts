@@ -15,7 +15,9 @@ export class Princeps {
     async start() {
         console.log("Loading the game...");
 
-        const config = await this.loadConfig(); // TODO: create class
+        // This kind of loading isn't very helpful because the type is not available in runtime.
+        const config: GameConfig = await this.loadConfig();
+
         this.gameCtrl = new GameController(config);
 
         this.gameClient = new PrincepsGameClient(this.gameCtrl);

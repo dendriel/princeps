@@ -1,5 +1,4 @@
-import {Size} from "../../../shared/dist/princeps-shared.js"
-import {Position} from "@rozsa/shared";
+import {Size, Position} from "../../../shared/dist/princeps-shared.js"
 
 export class CardConfig {
     constructor(public key: string, public name: string, public image: string) {}
@@ -35,6 +34,8 @@ export class GameBoardConfig {
 
 export class GameBoardUi {
     constructor(
+        public scoreboards: number,
+        public offsetBetweenScores: Position,
         public playerScoreText: GameText
     ) {}
 }
@@ -45,6 +46,22 @@ export class GameText {
         public offset: Position,
         public style: GameTextStyle
     ) {}
+
+    copy(): GameText {
+        return new GameText(
+            this.text,
+            this.offset.copy(),
+            this.style.copy()
+        )
+    }
+
+    static cast(value: GameText): GameText {
+        return new GameText(
+            value.text,
+            Position.ofPosition(value.offset),
+            GameTextStyle.of(value.style)
+        );
+    }
 }
 
 export class GameTextStyle {
@@ -55,6 +72,26 @@ export class GameTextStyle {
         public strokeThickness: number,
         public align: string
     ) {}
+
+    copy(): GameTextStyle {
+        return new GameTextStyle(
+            this.font,
+            this.fill,
+            this.stroke,
+            this.strokeThickness,
+            this.align
+        )
+    }
+
+    static of(style: GameTextStyle): GameTextStyle {
+        return new GameTextStyle(
+            style.font,
+            style.fill,
+            style.stroke,
+            style.strokeThickness,
+            style.align
+        );
+    }
 }
 
 export default class GameConfig {
@@ -63,6 +100,5 @@ export default class GameConfig {
         public phaser:  Phaser.Types.Core.GameConfig,
         public gameController: GameControllerConfig,
         public gameBoard: GameBoardConfig
-        ) {
-    }
+        ) {}
 }

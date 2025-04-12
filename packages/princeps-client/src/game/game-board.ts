@@ -1,10 +1,11 @@
 import * as Phaser from "phaser";
 import {Card} from "./card.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
-import {CardConfig, GameBoardConfig, GameText} from "./game-config.js";
+import {CardConfig, GameBoardConfig, GameTextStyle} from "./game-config.js";
 import {Position, Size} from "../../../shared/dist/princeps-shared.js"
-import Layer = Phaser.GameObjects.Layer;
 import Text = Phaser.GameObjects.Text;
+import {UiBoard} from "./ui-board.js";
+import Layer = Phaser.GameObjects.Layer;
 
 export class GameBoard extends Phaser.Scene {
 
@@ -15,7 +16,7 @@ export class GameBoard extends Phaser.Scene {
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
-    private uiAboveLayer: Layer | undefined;
+    private uiBoard : UiBoard | undefined;
 
     constructor(
         private configBoard: GameBoardConfig,
@@ -75,10 +76,10 @@ export class GameBoard extends Phaser.Scene {
     }
 
     create() {
-        // this.createGo(new Position(256, 256), "archers.png");
         this.layCards();
 
-        this.addUi();
+        this.uiBoard = new UiBoard(this, this.configBoard.ui);
+        this.uiBoard.setup();
 
         this.onSceneReady();
     }
@@ -189,21 +190,15 @@ export class GameBoard extends Phaser.Scene {
         this.onSceneReadyListeners.forEach(listener => listener());
     }
 
-    addUi() {
-        this.uiAboveLayer = this.add.layer();
-        this.uiAboveLayer.setDepth(950);
+    //
+    // UI relay methods bellow:
+    //
 
-        // TODO: also create static text with player's nickname
-        // TODO: store the players texts
-        this.createScreenText(this.configBoard.ui.playerScoreText)
-
-        // TODO: calculate offset between texts:
+    newLayer() : Layer {
+        return this.add.layer();
     }
 
-    createScreenText(data: GameText) : Text {
-        let text = this.add.text(data.offset.x, data.offset.y, data.text, data.style);
-        text.setScrollFactor(0);
-        this.uiAboveLayer!.add(text);
-        return text;
+    addText(x : number, y : number, text: string, style: GameTextStyle) : Text {
+        return this.add.text(x, y, text, style);
     }
 }

@@ -51,10 +51,12 @@
       "borderOffset": { "w": 190, "h": 32 }
     },
     "ui": {
+      "scoreboards": 4,
+      "offsetBetweenScores": {"x": 0, "y": 96},
       "playerScoreText": {
-        "text": "0",
+        "text": "Player\n0 Pts",
         "offset": {"x": 16, "y": 16},
-        "style": {"font": "16px Courier", "fill": "#FFF", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "left"}
+        "style": {"font": "32px Courier", "fill": "#FFF", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "center"}
       }
     },
     "images": [
