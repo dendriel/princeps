@@ -1,8 +1,10 @@
 import * as Phaser from "phaser";
 import {Card} from "./card.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
-import {CardConfig, GameBoardConfig} from "./game-config.js";
+import {CardConfig, GameBoardConfig, GameText} from "./game-config.js";
 import {Position, Size} from "../../../shared/dist/princeps-shared.js"
+import Layer = Phaser.GameObjects.Layer;
+import Text = Phaser.GameObjects.Text;
 
 export class GameBoard extends Phaser.Scene {
 
@@ -12,6 +14,8 @@ export class GameBoard extends Phaser.Scene {
     private cardClickedListener: PointerEventListener[] = [];
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
+
+    private uiAboveLayer: Layer | undefined;
 
     constructor(
         private configBoard: GameBoardConfig,
@@ -73,6 +77,8 @@ export class GameBoard extends Phaser.Scene {
     create() {
         // this.createGo(new Position(256, 256), "archers.png");
         this.layCards();
+
+        this.addUi();
 
         this.onSceneReady();
     }
@@ -181,5 +187,23 @@ export class GameBoard extends Phaser.Scene {
     onSceneReady() {
         console.log("Game Board is ready!");
         this.onSceneReadyListeners.forEach(listener => listener());
+    }
+
+    addUi() {
+        this.uiAboveLayer = this.add.layer();
+        this.uiAboveLayer.setDepth(950);
+
+        // TODO: also create static text with player's nickname
+        // TODO: store the players texts
+        this.createScreenText(this.configBoard.ui.playerScoreText)
+
+        // TODO: calculate offset between texts:
+    }
+
+    createScreenText(data: GameText) : Text {
+        let text = this.add.text(data.offset.x, data.offset.y, data.text, data.style);
+        text.setScrollFactor(0);
+        this.uiAboveLayer!.add(text);
+        return text;
     }
 }

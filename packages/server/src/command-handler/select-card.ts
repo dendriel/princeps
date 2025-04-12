@@ -44,6 +44,8 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         if (!this.matchHandler.pairIsMatch()) {
             // Not a match. Close cards and skip player turn.
 
+            player.resetCombo();
+
             this.commandDispatcher.broadcastHideCards(this.matchHandler.getGuessedCardsIndexes());
             this.matchHandler.clearGuessedCards(true);
 
@@ -57,12 +59,16 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             return;
         }
 
-        // TODO: player guessed right. He keeps his turn.
         // TODO: add score to the player.
         this.matchHandler.clearGuessedCards();
 
+        player.addScore(2);
+
+        // TODO: update player's score.
+
         // TODO: check if all cards were guessed (condition victory)
         if (!this.matchHandler.allCardsMatched()) {
+            player.setInCombo();
             return;
         }
 

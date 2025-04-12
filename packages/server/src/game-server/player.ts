@@ -5,8 +5,13 @@ export class Player {
 
     private _activeConn: ActiveConnection | undefined;
 
-    constructor(private _connInfo: ConnectionInfo) {
-    }
+    private _score: number = 0;
+
+    private _nickname: string = "Anom";
+
+    private _isCombo: boolean = false;
+
+    constructor(private _connInfo: ConnectionInfo) {}
 
     get isConnected(): boolean {
         return this._activeConn !== undefined;
@@ -14,6 +19,37 @@ export class Player {
 
     get socket() {
         return this._activeConn?.socket;
+    }
+
+    get nickname(): string {
+        return this._nickname;
+    }
+
+    get isCombo(): boolean {
+        return this._isCombo;
+    }
+
+    setInCombo() {
+        this._isCombo = true;
+    }
+
+    resetCombo() {
+        this._isCombo = false;
+    }
+
+    get score(): number {
+        return this._score;
+    }
+
+    addScore(value: number): number {
+        if (value < 0) {
+            return this._score;
+        }
+
+        value *= this.isCombo ? 2 : 1;
+
+        this._score += value;
+        return this._score;
     }
 
     get connInfo(): ConnectionInfo {

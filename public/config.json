@@ -50,6 +50,13 @@
       "betweenOffset": { "w": 96, "h": 64 },
       "borderOffset": { "w": 190, "h": 32 }
     },
+    "ui": {
+      "playerScoreText": {
+        "text": "0",
+        "offset": {"x": 16, "y": 16},
+        "style": {"font": "16px Courier", "fill": "#FFF", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "left"}
+      }
+    },
     "images": [
       ["card_front", "assets/card-front.png"],
       ["card_back", "assets/card-back.png"],
