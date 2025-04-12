@@ -3,7 +3,7 @@ import {GameBoard} from "./game-board.js";
 import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
 import {Card} from "./card.js";
-import {Size, Position} from "../../../shared/dist/princeps-shared.js"
+import {Position, CardsInfoPayload} from "../../../shared/dist/princeps-shared.js"
 
 export interface CardClickedListener {
     (card: Card): void;
@@ -19,6 +19,8 @@ export class GameController extends Phaser.Game {
     private readonly configCtrl: GameControllerConfig;
 
     private cardClickedListeners: CardClickedListener[] = [];
+
+    private openCards: CardsInfoPayload = new CardsInfoPayload();
 
     // TODO: testing purpose only
     private readonly cardsPositions: string[][] = [
@@ -41,7 +43,14 @@ export class GameController extends Phaser.Game {
         return this._gameBoard!;
     }
 
-    startGame(boardSize: number) {
+    /**
+     * Draw the game-board and start the game.
+     * @param boardSize Game board size to use.
+     * @param openCards Already open-cards (when loading an in-progress match).
+     */
+    startGame(boardSize: number, openCards: CardsInfoPayload) {
+        this.openCards = openCards;
+
         this._gameBoard = new GameBoard(
             this.gameConfig.gameBoard,
             boardSize,
@@ -71,6 +80,8 @@ export class GameController extends Phaser.Game {
     }
 
     private onGameBoardReady() {
+        this.openCards.cardsInfo.forEach(card => this.gameBoard.showCard(card.pos, card.name));
+
         this.gameBoard.addCardClickedListener(this.onCardClicked.bind(this));
     }
 

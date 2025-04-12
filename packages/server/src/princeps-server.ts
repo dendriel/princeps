@@ -66,7 +66,8 @@ export class PrincepsServer implements GameServer {
 
         console.log(`Player connected: ${JSON.stringify(player.connInfo)}`);
 
-        // TODO: testing purpose-only.
+        // Read the player to expected connections, so he can reload the match.
+        // In the other hand, it allows multiple connections with the same token.
         this.networkServer.addExpectedConnection(new PrincepsConnectionInfo(conn.info.token()));
 
         if (!this.gameStarted) {
@@ -75,7 +76,7 @@ export class PrincepsServer implements GameServer {
             }
         }
         else {
-            // TODO: load current game state
+            this.loadGameState(player);
         }
     }
 
@@ -123,9 +124,20 @@ export class PrincepsServer implements GameServer {
 
         this.gameStarted = true;
 
-        this.commandDispatcher.broadcastloadMap(this.matchHandler.boardSize);
+        this.commandDispatcher.broadcastLoadGame(this.matchHandler.boardSize);
 
         const currPlayerTurn = this.playersHolder.getCurrentPlayerToPlay();
         this.commandDispatcher.activatePlayerTurn(currPlayerTurn);
+    }
+
+    private loadGameState(player: Player) {
+        const openCards = this.matchHandler.getOpenCards();
+        this.commandDispatcher.loadGameState(player, this.matchHandler.boardSize, openCards);
+
+        const currentPlayerToPlay = this.playersHolder.getCurrentPlayerToPlay();
+
+        if (currentPlayerToPlay.sameAs(player)) {
+            this.commandDispatcher.activatePlayerTurn(player);
+        }
     }
 }

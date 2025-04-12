@@ -1,4 +1,3 @@
-
 class Card {
     constructor(
         private _name: string,
@@ -25,6 +24,10 @@ class Card {
     equalsTo(card: Card) {
         return this.name === card.name;
     }
+}
+
+export class OpenCard {
+    constructor(public pos: number, public name: string) {}
 }
 
 export class MatchHandler {
@@ -112,6 +115,18 @@ export class MatchHandler {
 
     getGuessedCardsIndexes(): number[] {
         return this.guessedCards.map(card => card.pos);
+    }
+
+    getOpenCards(): OpenCard[] {
+        let openCards = this.matchCards
+            .filter(c => c.isOpen)
+            .map(c => new OpenCard(c.pos, c.name))
+
+        for (const guessed of this.guessedCards) {
+            openCards.push(new OpenCard(guessed.pos, guessed.name));
+        }
+
+        return openCards;
     }
 
     clearGuessedCards(closeCards: boolean = false) {

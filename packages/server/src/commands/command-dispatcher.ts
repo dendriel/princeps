@@ -2,16 +2,25 @@ import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../game-server/player.js";
 import {ClientCommand, LoadGamePayload, CardInfoPayload} from "../../../shared/dist/princeps-shared.js";
 import {CardsInfoPayload} from "@rozsa/shared";
+import {OpenCard} from "../game-server/match-handler.js";
 
 
 export class CommandDispatcher {
-
     constructor(private networkServer: NetworkServer) {}
 
 
-    broadcastloadMap(boardSize: number) {
+    broadcastLoadGame(boardSize: number) {
         const loadGamePayload = new LoadGamePayload(boardSize);
         this.networkServer.broadcast(ClientCommand.LOAD_GAME, loadGamePayload);
+    }
+
+    loadGameState(player: Player, boardSize: number, openCards: OpenCard[] = []) {
+
+        const cardsInfoPayload = new CardsInfoPayload();
+        openCards.forEach(c => cardsInfoPayload.addCardInfo(new CardInfoPayload(c.pos, c.name)));
+
+        const loadGameStatePayload = new LoadGamePayload(boardSize, cardsInfoPayload);
+        this.networkServer.send(player.token, ClientCommand.LOAD_GAME, loadGameStatePayload);
     }
 
     deactivatePlayerTurn(player: Player) {
