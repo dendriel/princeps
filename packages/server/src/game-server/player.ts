@@ -7,7 +7,7 @@ export class Player {
 
     private _score: number = 0;
 
-    private _nickname: string = "Anom";
+    private _nickname: string = "";
 
     private _isCombo: boolean = false;
 
@@ -51,6 +51,7 @@ export class Player {
         }
 
         value *= this.isCombo ? 2 : 1;
+        console.log(`In combo: ${this.isCombo}; score: ${value}`);
 
         this._score += value;
         return this._score;

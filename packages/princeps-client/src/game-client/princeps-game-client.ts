@@ -55,7 +55,7 @@ export class PrincepsGameClient implements GameClient {
     }
 
     onCommand(cmd: string, payload: any) {
-        console.log(`Command received! cmd: ${cmd} payload: ${JSON.stringify(payload)}`)
+        // console.log(`Command received! cmd: ${cmd} payload: ${JSON.stringify(payload)}`)
 
         const cmdKey = cmd as ClientCommand; //ClientCommands[cmd as keyof typeof ClientCommands];
         // @ts-ignore

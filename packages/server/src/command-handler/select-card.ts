@@ -67,9 +67,12 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         // TODO: check if all cards were guessed (condition victory)
         if (!this.matchHandler.allCardsMatched()) {
             player.setInCombo();
+            console.log('Set player in combo');
             return;
         }
 
+        console.log('Reset player in combo');
+        player.resetCombo();
         // TODO: handle game end.
         // TODO: show the winner player.
     }

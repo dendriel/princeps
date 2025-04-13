@@ -48,7 +48,9 @@ export class CommandDispatcher {
     broadcastUpdateScore() {
         const payload = new UpdateScorePayload();
 
-        this.playersHolder.players.map(p => payload.add([p.nickname, p.score]));
+        this.playersHolder.players
+            .filter(p => p.nickname)
+            .map(p => payload.add([p.nickname, p.score]));
 
         this.networkServer.broadcast(ClientCommand.UPDATE_SCORE, payload);
     }

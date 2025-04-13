@@ -50,7 +50,13 @@ export class PrincepsServer implements GameServer {
         const matchCards = this.matchGenerator.generate(matchSize);
         this.matchHandler.setup(matchCards);
 
-        console.log(`Match cards: ${matchCards}`);
+        console.log(`Match cards:`);
+        for (let i = 0; i < matchCards.length; i++) {
+            process.stdout.write(`${matchCards[i]}, `);
+            if (i % 4 === 0) {
+                console.log('\n')
+            }
+        }
 
         this.networkServer.listen();
     }
