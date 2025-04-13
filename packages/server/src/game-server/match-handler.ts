@@ -97,7 +97,7 @@ export class MatchHandler {
      * All cards matched if there is no card still closed.
      */
     allCardsMatched(): boolean {
-        return this.matchCards.find((card: Card) => !card.isOpen) !== undefined;
+        return !(this.matchCards.find(c => c.isOpen));
     }
 
     pairIsOpen(): boolean {
