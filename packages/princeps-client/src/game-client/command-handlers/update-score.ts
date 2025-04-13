@@ -4,7 +4,7 @@ import {UpdateScorePayload, ClientCommand, AbstractCommandHandler} from "../../.
 export class UpdateScore extends AbstractCommandHandler<UpdateScorePayload, ClientCommand> {
 
     constructor(private gameCtrl: GameController) {
-        super(ClientCommand.LOAD_GAME);
+        super(ClientCommand.UPDATE_SCORE);
     }
 
     handleCommand(payload: UpdateScorePayload): void {

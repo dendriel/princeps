@@ -4,7 +4,7 @@ import {GameObject, PointerEventContext, PointerEventListener} from "./game-obje
 import {CardConfig, GameBoardConfig, GameTextStyle} from "./game-config.js";
 import {Position, Size} from "../../../shared/dist/princeps-shared.js"
 import Text = Phaser.GameObjects.Text;
-import {UiBoard} from "./ui-board.js";
+import {GameUi} from "./game-ui.js";
 import Layer = Phaser.GameObjects.Layer;
 
 export class GameBoard extends Phaser.Scene {
@@ -16,7 +16,7 @@ export class GameBoard extends Phaser.Scene {
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
-    private uiBoard : UiBoard | undefined;
+    private _ui : GameUi | undefined;
 
     constructor(
         private configBoard: GameBoardConfig,
@@ -28,6 +28,10 @@ export class GameBoard extends Phaser.Scene {
 
         this.gos = [];
         this.cards = new Map<String, Card>();
+    }
+
+    get ui(): GameUi {
+        return this._ui!;
     }
 
     private width() {
@@ -78,8 +82,8 @@ export class GameBoard extends Phaser.Scene {
     create() {
         this.layCards();
 
-        this.uiBoard = new UiBoard(this, this.configBoard.ui);
-        this.uiBoard.setup();
+        this._ui = new GameUi(this, this.configBoard.ui);
+        this._ui.setup();
 
         this.onSceneReady();
     }

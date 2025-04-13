@@ -1,7 +1,6 @@
 import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../game-server/player.js";
-import {ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload} from "../../../shared/dist/princeps-shared.js";
-import {CardsInfoPayload} from "@rozsa/shared";
+import {ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload, CardsInfoPayload} from "../../../shared/dist/princeps-shared.js";
 import {OpenCard} from "../game-server/match-handler.js";
 import {PlayersHolder} from "../game-server/player-holder.js";
 

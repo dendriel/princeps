@@ -8,6 +8,7 @@ export abstract class AbstractServerCommandHandler<P, T> implements ServerComman
 
     protected constructor(
         private _type: T,
+        private _requirePlayerTurn: boolean,
         protected commandDispatcher: CommandDispatcher,
         protected matchHandler: MatchHandler,
         protected playersHolder: PlayersHolder
@@ -15,6 +16,10 @@ export abstract class AbstractServerCommandHandler<P, T> implements ServerComman
 
     get type(): T {
         return this._type;
+    }
+
+    requirePlayerTurn(): boolean {
+        return this._requirePlayerTurn;
     }
 
     async execute(player: Player, payload: unknown): Promise<void> {

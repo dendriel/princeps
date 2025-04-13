@@ -7,21 +7,48 @@ import {Position} from "../../../shared/dist/princeps-shared.js"
 class PlayerScore {
     constructor(private nickname: string, private score: number, private text: Phaser.GameObjects.Text) {}
 
-    updateScore(value: number) {
-        this.score = value;
+    updateScore(nickname: string, score: number) {
+        this.nickname = nickname;
+        this.score = score;
         this.text.text = `${this.nickname}\n${this.score} Pts`
+
+        this.text.visible = true;
     }
 }
 
 // TODO: change players score colors!
 
-export class UiBoard {
+export class GameUi {
 
     private uiAboveLayer: Layer | undefined;
 
     private scoreTexts: PlayerScore[] = [];
 
     constructor(private board: GameBoard, private uiConfig: GameBoardUi) {}
+
+    updateScoreTexts(playerNickname: string, scores: [string, number][]) {
+        const playerScore = scores.find(s => s[0] === playerNickname);
+        const otherScores = scores.filter(s => s[0] !== playerNickname);
+
+        if (playerScore) {
+            this.updateScoreText(playerScore[0], playerScore[1], 0);
+        }
+
+        for (let i = 0; i < otherScores.length && i < this.scoreTexts.length; i++) {
+            const score = otherScores[i];
+            // start at the next position because index 0 is always the local player.
+            this.updateScoreText(score[0], score[1], (i+1));
+        }
+    }
+
+    updateScoreText(nickname: string, score: number, index: number) {
+        if (index >= this.scoreTexts.length) {
+            console.log(`Invalid score UI index: '%d'`, index);
+            return;
+        }
+
+        this.scoreTexts[index].updateScore(nickname, score);
+    }
 
     setup() {
         this.uiAboveLayer = this.board.newLayer();
@@ -46,6 +73,7 @@ export class UiBoard {
     createScreenText(data: GameText) : Phaser.GameObjects.Text {
         let text = this.board.addText(data.offset.x, data.offset.y, data.text, data.style);
         text.setScrollFactor(0);
+        text.visible = false;
         this.uiAboveLayer!.add(text);
         return text;
     }

@@ -8,7 +8,7 @@ import {Player} from "../game-server/player.js";
 
 export class UpdateNickname extends AbstractServerCommandHandler<UpdateNicknamePayload, ServerCommand> {
     constructor(commandDispatcher: CommandDispatcher, matchHandler: MatchHandler, playersHolder: PlayersHolder) {
-        super(ServerCommand.UPDATE_NICKNAME, commandDispatcher, matchHandler, playersHolder);
+        super(ServerCommand.UPDATE_NICKNAME, false, commandDispatcher, matchHandler, playersHolder);
     }
 
     async handleCommand(player: Player, payload: UpdateNicknamePayload): Promise<void> {

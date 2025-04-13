@@ -5,8 +5,12 @@ import GameConfig, {GameControllerConfig} from "./game-config.js";
 import {Card} from "./card.js";
 import {CardsInfoPayload} from "../../../shared/dist/princeps-shared.js"
 
-export interface CardClickedListener {
+interface CardClickedListener {
     (card: Card): void;
+}
+
+interface BoardReadListener {
+    (): void;
 }
 
 export class GameController extends Phaser.Game {
@@ -19,19 +23,20 @@ export class GameController extends Phaser.Game {
     private readonly configCtrl: GameControllerConfig;
 
     private cardClickedListeners: CardClickedListener[] = [];
+    private boardReadyListeners: BoardReadListener[] = [];
 
     private openCards: CardsInfoPayload = new CardsInfoPayload();
 
     private isPlayerTurn: boolean;
 
-    constructor(config: GameConfig) {
+    constructor(config: GameConfig, private readonly nickname: string) {
         super(config.phaser);
         this.gameConfig = config;
         this.configCtrl = config.gameController;
         this.isPlayerTurn = false;
     }
 
-    private get gameBoard() {
+    private get gameBoard(): GameBoard {
         return this._gameBoard!;
     }
 
@@ -75,10 +80,16 @@ export class GameController extends Phaser.Game {
         this.openCards.cardsInfo.forEach(card => this.gameBoard.showCard(card.pos, card.name));
 
         this.gameBoard.addCardClickedListener(this.onCardClicked.bind(this));
+
+        this.boardReadyListeners.forEach(l => l());
     }
 
     addCardClickedListener(listener: CardClickedListener) {
         this.cardClickedListeners.push(listener);
+    }
+
+    addBoardReadyListener(listener: BoardReadListener) {
+        this.boardReadyListeners.push(listener);
     }
 
     private onCardClicked(context: PointerEventContext) {
@@ -92,8 +103,7 @@ export class GameController extends Phaser.Game {
     }
 
     updateScore(scores: [string, number][]) {
-
-        // TODO: update scores
+        this.gameBoard.ui.updateScoreTexts(this.nickname, scores);
         console.log(`Received update scores command: ${scores}`);
     }
 }

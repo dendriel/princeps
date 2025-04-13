@@ -19,7 +19,7 @@ export class PrincepsGameClient implements GameClient {
 
     private commandsDispatcher: CommandDispatcher | undefined;
 
-    constructor(private readonly gameCtrl: GameController, private readonly nickname: string) {
+    constructor(private readonly gameCtrl: GameController) {
         this.commandsHandler = new Map<ClientCommand, CommandHandler>();
         this.setupControllerListeners();
     }
@@ -31,7 +31,7 @@ export class PrincepsGameClient implements GameClient {
 
     private setupCommandHandlers() {
         // @ts-ignore
-        this.commandsHandler[ClientCommand.LOAD_GAME] = new LoadGame(this.gameCtrl, this.commandsDispatcher, this.nickname);
+        this.commandsHandler[ClientCommand.LOAD_GAME] = new LoadGame(this.gameCtrl, this.commandsDispatcher);
         // @ts-ignore
         this.commandsHandler[ClientCommand.ACTIVATE_TURN] = new ActivateTurn(this.gameCtrl);
         // @ts-ignore

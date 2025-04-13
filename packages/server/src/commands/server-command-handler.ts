@@ -5,4 +5,6 @@ import {Player} from "../game-server/player.js";
  */
 export interface ServerCommandHandler {
     execute(player: Player, payload: unknown): Promise<void>
+
+    requirePlayerTurn(): boolean
 }

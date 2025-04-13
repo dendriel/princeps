@@ -7,11 +7,16 @@ export class CommandDispatcher {
 
     selectCard(card: Card) {
         const payload = new SelectCardPayload(card.boardIndex);
-        this.networkClient.send(ServerCommand.SELECT_CARD, payload);
+        this.send(ServerCommand.SELECT_CARD, payload);
     }
 
     updateNickname(nickname: string) {
         const payload = new UpdateNicknamePayload(nickname);
-        this.networkClient.send(ServerCommand.UPDATE_NICKNAME, payload);
+        this.send(ServerCommand.UPDATE_NICKNAME, payload);
+    }
+
+    send(command: string, payload: any) {
+        console.log(`Dispatching command '${command}' with payload: ${JSON.stringify(payload)}`);
+        this.networkClient.send(command, payload);
     }
 }

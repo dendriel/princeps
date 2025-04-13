@@ -99,15 +99,15 @@ export class PrincepsServer implements GameServer {
             return;
         }
 
-        if (!this.playersHolder.isPlayerTurn(player)) {
-            console.log(`Received command '${cmd}' but it is not the player's turn.  ${JSON.stringify(player.connInfo)}`)
+        const serverCmd = cmd as ServerCommand;
+        const handler = this.commandsHandler.get(serverCmd);
+        if (!handler) {
+            console.log(`Unhandled command ${cmd} received from client ${JSON.stringify(player.connInfo)}`)
             return;
         }
 
-        const serverCmd = cmd as ServerCommand.SELECT_CARD;
-        const handler = this.commandsHandler.get(serverCmd);
-        if (!handler) {
-            console.log(`Unhandled command ${serverCmd} received from client ${JSON.stringify(player.connInfo)}`)
+        if (handler.requirePlayerTurn() && !this.playersHolder.isPlayerTurn(player)) {
+            console.log(`Received command '${cmd}' but it is not the player's turn.  ${JSON.stringify(player.connInfo)}`)
             return;
         }
 
@@ -137,7 +137,6 @@ export class PrincepsServer implements GameServer {
         this.commandDispatcher.loadGameState(player, this.matchHandler.boardSize, openCards);
 
         const currentPlayerToPlay = this.playersHolder.getCurrentPlayerToPlay();
-
         if (currentPlayerToPlay.sameAs(player)) {
             this.commandDispatcher.activatePlayerTurn(player);
         }

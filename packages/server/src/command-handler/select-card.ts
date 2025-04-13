@@ -7,7 +7,7 @@ import {PlayersHolder} from "../game-server/player-holder.js";
 
 export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, ServerCommand> {
     constructor(commandDispatcher: CommandDispatcher, matchHandler: MatchHandler, playersHolder: PlayersHolder) {
-        super(ServerCommand.SELECT_CARD, commandDispatcher, matchHandler, playersHolder);
+        super(ServerCommand.SELECT_CARD, true, commandDispatcher, matchHandler, playersHolder);
     }
 
     async handleCommand(player: Player, payload: SelectCardPayload): Promise<void> {
@@ -59,12 +59,10 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             return;
         }
 
-        // TODO: add score to the player.
         this.matchHandler.clearGuessedCards();
 
         player.addScore(2);
-
-        // TODO: update player's score.
+        this.commandDispatcher.broadcastUpdateScore();
 
         // TODO: check if all cards were guessed (condition victory)
         if (!this.matchHandler.allCardsMatched()) {

@@ -12,20 +12,23 @@ export class Princeps {
 
     private gameClient: PrincepsGameClient | undefined;
 
+    private commandsDispatcher: CommandDispatcher | undefined;
+
     async start() {
         console.log("Loading the game...");
 
         // This kind of loading isn't very helpful because the type is not available in runtime.
         const config: GameConfig = await this.loadConfig();
 
-        this.gameCtrl = new GameController(config);
-
         const nickname = this.getNickname();
-        this.gameClient = new PrincepsGameClient(this.gameCtrl, nickname);
+        this.gameCtrl = new GameController(config, nickname);
+        this.gameCtrl.addBoardReadyListener(this.onGameBoardReady.bind(this));
+
+        this.gameClient = new PrincepsGameClient(this.gameCtrl);
         this.networkClient = new mogs.NetworkClient(this.gameClient, '//localhost:8090/');
 
-        const commandsDispatcher = new CommandDispatcher(this.networkClient);
-        this.gameClient.setDispatcher(commandsDispatcher);
+        this.commandsDispatcher = new CommandDispatcher(this.networkClient);
+        this.gameClient.setDispatcher(this.commandsDispatcher);
 
         const token = this.getToken();
         this.networkClient.connect(token);
@@ -46,5 +49,9 @@ export class Princeps {
         const config = await response.json();
         console.log(config.someKey);
         return config;
+    }
+
+    private onGameBoardReady() {
+        this.commandsDispatcher!.updateNickname(this.getNickname());
     }
 }
