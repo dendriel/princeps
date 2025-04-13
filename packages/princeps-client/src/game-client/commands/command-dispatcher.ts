@@ -1,5 +1,5 @@
 import {NetworkClient} from "rozsa-mogs-client";
-import {SelectCardPayload, ServerCommand} from "../../../../shared/dist/princeps-shared.js";
+import {SelectCardPayload, UpdateNicknamePayload, ServerCommand} from "../../../../shared/dist/princeps-shared.js";
 import {Card} from "../../game/card.js";
 
 export class CommandDispatcher {
@@ -8,5 +8,10 @@ export class CommandDispatcher {
     selectCard(card: Card) {
         const payload = new SelectCardPayload(card.boardIndex);
         this.networkClient.send(ServerCommand.SELECT_CARD, payload);
+    }
+
+    updateNickname(nickname: string) {
+        const payload = new UpdateNicknamePayload(nickname);
+        this.networkClient.send(ServerCommand.UPDATE_NICKNAME, payload);
     }
 }

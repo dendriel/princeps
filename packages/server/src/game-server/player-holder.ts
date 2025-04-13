@@ -23,6 +23,10 @@ export class PlayersHolder {
         return this.playersByToken.get(activeConnection.info.token());
     }
 
+    get players(): Player[] {
+        return [...this.playersByToken.values()];
+    }
+
     get totalPlayers(): number {
         return this.playersByToken.size;
     }

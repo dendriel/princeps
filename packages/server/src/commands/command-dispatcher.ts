@@ -1,12 +1,13 @@
 import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../game-server/player.js";
-import {ClientCommand, LoadGamePayload, CardInfoPayload} from "../../../shared/dist/princeps-shared.js";
+import {ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload} from "../../../shared/dist/princeps-shared.js";
 import {CardsInfoPayload} from "@rozsa/shared";
 import {OpenCard} from "../game-server/match-handler.js";
+import {PlayersHolder} from "../game-server/player-holder.js";
 
 
 export class CommandDispatcher {
-    constructor(private networkServer: NetworkServer) {}
+    constructor(private networkServer: NetworkServer, private playersHolder: PlayersHolder) {}
 
 
     broadcastLoadGame(boardSize: number) {
@@ -43,5 +44,13 @@ export class CommandDispatcher {
         });
 
         this.networkServer.broadcast(ClientCommand.HIDE_CARDS, cardsInfoPayload);
+    }
+
+    broadcastUpdateScore() {
+        const payload = new UpdateScorePayload();
+
+        this.playersHolder.players.map(p => payload.add([p.nickname, p.score]));
+
+        this.networkServer.broadcast(ClientCommand.UPDATE_SCORE, payload);
     }
 }

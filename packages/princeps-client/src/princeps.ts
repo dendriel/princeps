@@ -20,15 +20,14 @@ export class Princeps {
 
         this.gameCtrl = new GameController(config);
 
-        this.gameClient = new PrincepsGameClient(this.gameCtrl);
-
-        const token = this.getToken();
-
+        const nickname = this.getNickname();
+        this.gameClient = new PrincepsGameClient(this.gameCtrl, nickname);
         this.networkClient = new mogs.NetworkClient(this.gameClient, '//localhost:8090/');
 
         const commandsDispatcher = new CommandDispatcher(this.networkClient);
         this.gameClient.setDispatcher(commandsDispatcher);
 
+        const token = this.getToken();
         this.networkClient.connect(token);
 
         console.log("Game started!");
@@ -36,6 +35,10 @@ export class Princeps {
 
     private getToken(): string | undefined {
         return localStorage.getItem('princeps_token') ?? undefined;
+    }
+
+    private getNickname(): string {
+        return localStorage.getItem('princeps_nickname') ?? 'Anom';
     }
 
     async loadConfig(): Promise<GameConfig> {

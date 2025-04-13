@@ -25,6 +25,10 @@ export class Player {
         return this._nickname;
     }
 
+    set nickname(value: string) {
+        this._nickname = value;
+    }
+
     get isCombo(): boolean {
         return this._isCombo;
     }

@@ -8,6 +8,7 @@ import {CommandDispatcher} from "./commands/command-dispatcher.js";
 import {Card} from "../game/card.js";
 import {ShowCard} from "./command-handlers/show-card.js";
 import {HideCards} from "./command-handlers/hide-cards.js";
+import {UpdateScore} from "./command-handlers/update-score.js";
 
 /**
  * Responsible for handling commands received from the server.
@@ -18,20 +19,19 @@ export class PrincepsGameClient implements GameClient {
 
     private commandsDispatcher: CommandDispatcher | undefined;
 
-    constructor(private readonly gameCtrl: GameController) {
+    constructor(private readonly gameCtrl: GameController, private readonly nickname: string) {
         this.commandsHandler = new Map<ClientCommand, CommandHandler>();
-
-        this.setupCommandHandlers();
         this.setupControllerListeners();
     }
 
     setDispatcher(commandsDispatcher: CommandDispatcher) {
         this.commandsDispatcher = commandsDispatcher;
+        this.setupCommandHandlers();
     }
 
     private setupCommandHandlers() {
         // @ts-ignore
-        this.commandsHandler[ClientCommand.LOAD_GAME] = new LoadGame(this.gameCtrl);
+        this.commandsHandler[ClientCommand.LOAD_GAME] = new LoadGame(this.gameCtrl, this.commandsDispatcher, this.nickname);
         // @ts-ignore
         this.commandsHandler[ClientCommand.ACTIVATE_TURN] = new ActivateTurn(this.gameCtrl);
         // @ts-ignore
@@ -40,6 +40,8 @@ export class PrincepsGameClient implements GameClient {
         this.commandsHandler[ClientCommand.SHOW_CARD] = new ShowCard(this.gameCtrl);
         // @ts-ignore
         this.commandsHandler[ClientCommand.HIDE_CARDS] = new HideCards(this.gameCtrl);
+        // @ts-ignore
+        this.commandsHandler[ClientCommand.UPDATE_SCORE] = new UpdateScore(this.gameCtrl);
     }
 
     private setupControllerListeners() {

@@ -9,6 +9,7 @@ import {ServerCommandHandler} from "./commands/server-command-handler.js";
 import {MatchGenerator} from "./game-server/match-generator.js";
 import {ConfigLoader, ServerConfig} from "./config-loader.js";
 import {MatchHandler} from "./game-server/match-handler.js";
+import {UpdateNickname} from "./command-handler/update-nickname.js";
 
 /**
  * Server provider for Princeps Game.
@@ -32,7 +33,7 @@ export class PrincepsServer implements GameServer {
 
         this.networkServer = new mogs.NetworkServer(this);
         this.playersHolder = new PlayersHolder();
-        this.commandDispatcher = new CommandDispatcher(this.networkServer);
+        this.commandDispatcher = new CommandDispatcher(this.networkServer, this.playersHolder);
         this.matchGenerator = new MatchGenerator(this.config.cards);
         this.matchHandler = new MatchHandler();
         this.commandsHandler = new Map<ServerCommand, ServerCommandHandler>();
@@ -42,6 +43,7 @@ export class PrincepsServer implements GameServer {
 
     private setupCommandHandlers() {
         this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler, this.playersHolder));
+        this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
     start(matchSize: number) {

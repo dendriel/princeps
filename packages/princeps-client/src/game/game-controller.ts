@@ -3,7 +3,7 @@ import {GameBoard} from "./game-board.js";
 import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
 import {Card} from "./card.js";
-import {Position, CardsInfoPayload} from "../../../shared/dist/princeps-shared.js"
+import {CardsInfoPayload} from "../../../shared/dist/princeps-shared.js"
 
 export interface CardClickedListener {
     (card: Card): void;
@@ -21,14 +21,6 @@ export class GameController extends Phaser.Game {
     private cardClickedListeners: CardClickedListener[] = [];
 
     private openCards: CardsInfoPayload = new CardsInfoPayload();
-
-    // TODO: testing purpose only
-    private readonly cardsPositions: string[][] = [
-        ["archers",      "horses",        "militia",      "knight"],
-        ["javelineers", "castle",         "javelineers", "archery_range"],
-        ["horses",      "knight",         "manatarms",   "manatarms"],
-        ["militia",      "archery_range", "archers",      "castle"]
-    ]
 
     private isPlayerTurn: boolean;
 
@@ -97,19 +89,11 @@ export class GameController extends Phaser.Game {
 
         const card = context.target as Card;
         this.cardClickedListeners.forEach(listener => listener(card));
-
-        // const cardInPos = this.getCardAtBoardPos(card.boardPos)
-        // console.log(`Card clicked! ${JSON.stringify(card)}, ${JSON.stringify(cardInPos)}`);
-
-        // if (card.isVisible) {
-        //     this.gameBoard.hideCard(card.boardPos);
-        //     this.gameBoard.hideAllCards();
-        // } else {
-        //     this.gameBoard.showCard(card.boardPos, cardInPos);
-        // }
     }
 
-    private getCardAtBoardPos(pos: Position) : string {
-        return this.cardsPositions[pos.x][pos.y];
+    updateScore(scores: [string, number][]) {
+
+        // TODO: update scores
+        console.log(`Received update scores command: ${scores}`);
     }
 }
