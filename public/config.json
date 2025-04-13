@@ -4,7 +4,7 @@
     "height": 900,
     "mode": "FIT",
     "autoCenter": "CENTER_BOTH",
-    "backgroundColor": "#006400",
+    "transparent": true,
     "physics": {
       "default": "arcade",
       "arcade": {
@@ -38,7 +38,17 @@
       "militia":        { "key": "militia", "name": "Militia", "image": "militia" },
       "spearmen":       { "key": "spearmen", "name": "Spearmen", "image": "spearmen" },
       "workers":        { "key": "workers", "name": "Workers", "image": "workers" },
-      "warparty":       { "key": "warparty", "name": "War-party", "image": "warparty" }
+      "warparty":       { "key": "warparty", "name": "War-party", "image": "warparty" },
+
+      "bag":            { "key": "bag", "name":  "Bag", "image": "bag"},
+      "chalice":        { "key": "chalice", "name":  "Chalice", "image": "chalice"},
+      "flag_crown":     { "key": "flag_crown", "name":  "Flag Crown", "image": "flag_crown"},
+      "glove":          { "key": "glove", "name":  "Glove", "image": "glove"},
+      "kite_shield":    { "key": "kite_shield", "name":  "Kite Shield", "image": "kite_shield"},
+      "knight_mace":    { "key": "knight_mace", "name":  "Knight Mace", "image": "knight_mace"},
+      "landscape_1":    { "key": "landscape_1", "name":  "Landscape 1", "image": "landscape_1"},
+      "sword":          { "key": "sword", "name": "Sword", "image": "sword"},
+      "tower":          { "key": "tower", "name": "Tower", "image": "tower"}
     }
   },
   "gameBoard": {
@@ -60,7 +70,7 @@
       }
     },
     "images": [
-      ["card_front", "assets/card-front.png"],
+      ["card_front", "assets/card_background.png"],
       ["card_back", "assets/card-back.png"],
       ["forest", "assets/forest.png"],
       ["horses", "assets/horses.png"],
@@ -84,7 +94,17 @@
       ["militia", "assets/militia.png"],
       ["spearmen", "assets/spearmen.png"],
       ["workers", "assets/workers.png"],
-      ["warparty", "assets/warparty.png"]
+      ["warparty", "assets/warparty.png"],
+
+      ["bag", "assets/spritesheet_1@bag.png"],
+      ["chalice", "assets/spritesheet_1@chalice.png"],
+      ["flag_crown", "assets/spritesheet_1@flag_crown.png"],
+      ["glove", "assets/spritesheet_1@glove.png"],
+      ["kite_shield", "assets/spritesheet_1@kite_shield.png"],
+      ["knight_mace", "assets/spritesheet_1@knight_mace.png"],
+      ["landscape_1", "assets/spritesheet_1@landscape_1.png"],
+      ["sword", "assets/spritesheet_1@sword.png"],
+      ["tower", "assets/spritesheet_1@tower.png"]
     ]
   }
 }

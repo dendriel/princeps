@@ -12,6 +12,7 @@ export class Card extends GameObject {
         private boardSize: Size,
         private _isVisible: boolean,
         private backgroundGo: GameObject,
+        private displaySize: Size,
         pos: Position,
         phaserGo: Phaser.GameObjects.Image
     ) {
@@ -43,12 +44,14 @@ export class Card extends GameObject {
     show(cardConfig: CardConfig) {
         this.backgroundGo.setVisible(true);
         this.phaserGo.setTexture(cardConfig.image);
+        this.phaserGo.setDisplaySize(this.displaySize.w, this.displaySize.w);
         this._isVisible = true;
     }
 
     hide(cardConfig: CardConfig) {
         this.backgroundGo.setVisible(false);
         this.phaserGo.setTexture(cardConfig.image);
+        this.phaserGo.setDisplaySize(this.displaySize.w, this.displaySize.h);
         this._isVisible = false;
     }
 }

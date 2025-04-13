@@ -161,7 +161,8 @@ export class GameBoard extends Phaser.Scene {
             .setOrigin(0, 0); // make the corner be the top-left instead of the center (0.5, 0.5)
         // this._scene.uiCam.ignore(objGo);
 
-        const card = new Card(boardPos, this.size(),false, backgroundCard, windowPos, phaserGo);
+        const openDisplaySize = Size.of(this.cardWidth(), this.cardHeight());
+        const card = new Card(boardPos, this.size(),false, backgroundCard, openDisplaySize, windowPos, phaserGo);
         card.addLeftPointerUpListener(this.onCardLeftClicked.bind(this));
         this.cards.set(key, card);
 
