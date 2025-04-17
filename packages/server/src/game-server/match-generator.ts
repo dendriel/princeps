@@ -19,12 +19,18 @@ export class MatchGenerator {
             selectedCards.add(randomCard);
         } while (selectedCards.size < targetUniqueCards);
 
-        const match = [...selectedCards];
+        let match = [...selectedCards];
         match.push(...match);
 
-        // TODO: randomize the cards.
+        match = this.shuffle(match);
 
         return match;
+    }
+
+    shuffle(cards: string[]): string[] {
+        const result = [...cards];
+        result.sort(() => Math.random() - 0.5);
+        return result;
     }
 
     private pickRandomCard(): string {
