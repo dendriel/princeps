@@ -45,6 +45,27 @@ export class PlayersHolder {
         this.currPlayersTurn = (this.currPlayersTurn + 1) % this.totalPlayers;
     }
 
+    /**
+     * Find the players with most points. If more than one player is returned, it is draw.
+     */
+    getPlayerWithMostPoints(): Player[] {
+        const sorted = this.players.sort(p => p.score);
+
+        const winners : Player[] = [];
+        const first = sorted[0];
+        winners.push(first);
+
+        // Check if anyone else has the same points as the player with most points.
+        for (let i = 1; i < sorted.length; i++) {
+            const nextPlayer = sorted[i];
+            if (nextPlayer.score === first.score) {
+                winners.push(nextPlayer);
+            }
+        }
+
+        return winners;
+    }
+
     isPlayerTurn(player: Player): boolean {
         const currPlayer = this.getCurrentPlayerToPlay();
         return player.sameAs(currPlayer);

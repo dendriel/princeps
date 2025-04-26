@@ -10,6 +10,7 @@ import {ShowCard} from "./command-handlers/show-card.js";
 import {HideCards} from "./command-handlers/hide-cards.js";
 import {UpdateScore} from "./command-handlers/update-score.js";
 import {ShowMessage} from "./command-handlers/show-message.js";
+import {FinishGame} from "./command-handlers/finish-game.js";
 
 /**
  * Responsible for handling commands received from the server.
@@ -45,6 +46,8 @@ export class PrincepsGameClient implements GameClient {
         this.commandsHandler[ClientCommand.UPDATE_SCORE] = new UpdateScore(this.gameCtrl);
         // @ts-ignore
         this.commandsHandler[ClientCommand.SHOW_MESSAGE] = new ShowMessage(this.gameCtrl);
+        // @ts-ignore
+        this.commandsHandler[ClientCommand.FINISH_GAME] = new FinishGame(this.gameCtrl);
     }
 
     private setupControllerListeners() {

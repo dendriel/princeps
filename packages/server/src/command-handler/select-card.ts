@@ -23,6 +23,7 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         }
     }
 
+    // TODO: move game-logic to match-handler
     private async selectCard(player: Player, payload: SelectCardPayload): Promise<void> {
         const oppenedCard = this.matchHandler.openCard(payload.boardPos);
         if (!oppenedCard) {
@@ -46,7 +47,7 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         }
 
         // TODO: reactivate sleep
-        await this.sleep(2000);
+        // await this.sleep(2000);
 
         // Two cards were open. Check if the player guessed the pair right.
         if (!this.matchHandler.pairIsMatch()) {
@@ -104,7 +105,13 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         // game over.
         console.log("game over");
-        // this.commandDispatcher.broadcastGameOver()
+
+        const winners = this.playersHolder.getPlayerWithMostPoints();
+        const gameOverMsg = this.buildGameOverMsg(winners);
+
+        this.commandDispatcher.broadcastFinishGame(gameOverMsg);
+
+        // TODO: halt server.
         await this.sleep(2000);
     }
 
@@ -118,6 +125,16 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         this.commandDispatcher.broadcastPlayerTurnMsg(nextPlayer);
 
+    }
+
+    private buildGameOverMsg(winners: Player[]): string {
+        if (winners.length > 1) {
+            return "The Match\nended in\na Draw =|";
+        }
+
+        const winner = winners[0];
+
+        return `${winner.nickname}\nWon the Match\nWith ${winner.score} Pts`;
     }
 
     private sleep(ms: number): Promise<void> {

@@ -118,4 +118,17 @@ export class GameController extends Phaser.Game {
         }
         this.gameBoard.ui.updateInfoText(text);
     }
+
+    async finishGame(gameOverMsg: string) {
+        this.gameBoard.ui.updateInfoText(gameOverMsg);
+
+        await this.sleep(10000);
+
+        //@ts-ignore
+        self.location = "/index.html";
+    }
+
+    private sleep(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 }
