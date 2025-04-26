@@ -24,6 +24,8 @@ export class GameUi {
 
     private scoreTexts: PlayerScore[] = [];
 
+    private infoText: Phaser.GameObjects.Text | undefined;
+
     constructor(private board: GameBoard, private uiConfig: GameBoardUi) {}
 
     updateScoreTexts(playerNickname: string, scores: [string, number][]) {
@@ -50,13 +52,32 @@ export class GameUi {
         this.scoreTexts[index].updateScore(nickname, score);
     }
 
+    updateInfoText(text: string) {
+        this.infoText?.setVisible(true);
+        this.infoText?.setText(text);
+    }
+
+    clearInfoText() {
+        this.infoText?.setVisible(false);
+        this.infoText?.setText("");
+    }
+
     setup() {
         this.uiAboveLayer = this.board.newLayer();
         this.uiAboveLayer.setDepth(950);
 
+        this.createInfoText();
+
+        this.createPlayerScores();
+    }
+
+    createInfoText() {
+        this.infoText = this.createScreenText(this.uiConfig.infoText);
+    }
+
+    createPlayerScores() {
         const offsetBetweenScores = this.uiConfig.offsetBetweenScores;
         const scoreTextTemplate = GameText.cast(this.uiConfig.playerScoreText);
-
 
         for (let i = 0; i < this.uiConfig.scoreboards; i++) {
             const nickTextConfig = scoreTextTemplate.copy();

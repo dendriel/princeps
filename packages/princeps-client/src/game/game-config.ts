@@ -36,7 +36,8 @@ export class GameBoardUi {
     constructor(
         public scoreboards: number,
         public offsetBetweenScores: Position,
-        public playerScoreText: GameText
+        public playerScoreText: GameText,
+        public infoText: GameText
     ) {}
 }
 

@@ -67,6 +67,11 @@
         "text": "Player\n0 Pts",
         "offset": {"x": 16, "y": 16},
         "style": {"font": "32px Courier", "fill": "#FFF", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "left"}
+      },
+      "infoText": {
+        "text": "Player X\nTurn",
+        "offset": {"x": 16, "y": 500},
+        "style": {"font": "32px Courier", "fill": "#FFFFCC", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "center"}
       }
     },
     "images": [
