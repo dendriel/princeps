@@ -16,6 +16,11 @@ export class UpdateNickname extends AbstractServerCommandHandler<UpdateNicknameP
 
         this.commandDispatcher.broadcastUpdateScore();
 
+        if (this.matchHandler.isMatchStarted()) {
+            const currPlayer = this.playersHolder.getCurrentPlayerToPlay()
+            this.commandDispatcher.broadcastPlayerTurnMsg(currPlayer)
+        }
+
         return Promise.resolve(undefined);
     }
 

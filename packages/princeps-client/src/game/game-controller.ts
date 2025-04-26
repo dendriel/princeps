@@ -60,26 +60,6 @@ export class GameController extends Phaser.Game {
         this.scene.start(GameController.mainSceneKey);
     }
 
-    activateController() {
-        this.isPlayerTurn = true;
-    }
-
-    deactivateController() {
-        this.isPlayerTurn = false;
-    }
-
-    showCard(cardPos: number, cardName: string) {
-        this.gameBoard.showCard(cardPos, cardName);
-    }
-
-    hideAllCards() {
-        this.gameBoard.hideAllCards(true);
-    }
-
-    hideCard(cardPos: number) {
-        this.gameBoard.hideCard(cardPos);
-    }
-
     private onGameBoardReady() {
         this.openCards.cardsInfo.forEach(card => this.gameBoard.showCard(card.pos, card.name));
 
@@ -106,8 +86,36 @@ export class GameController extends Phaser.Game {
         this.cardClickedListeners.forEach(listener => listener(card));
     }
 
+    activateController() {
+        this.isPlayerTurn = true;
+    }
+
+    deactivateController() {
+        this.isPlayerTurn = false;
+    }
+
+    showCard(cardPos: number, cardName: string) {
+        this.gameBoard.showCard(cardPos, cardName);
+    }
+
+    hideAllCards() {
+        this.gameBoard.hideAllCards(true);
+    }
+
+    hideCard(cardPos: number) {
+        this.gameBoard.hideCard(cardPos);
+    }
+
     updateScore(scores: [string, number][]) {
         this.gameBoard.ui.updateScoreTexts(this.nickname, scores);
         console.log(`Received update scores command: ${scores}`);
+    }
+
+    showMessage(text: string) {
+        if (!this.gameBoard.ui) {
+            console.log("Unable to show message yet.");
+            return;
+        }
+        this.gameBoard.ui.updateInfoText(text);
     }
 }

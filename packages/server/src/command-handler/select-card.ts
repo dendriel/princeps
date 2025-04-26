@@ -38,8 +38,15 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             return;
         }
 
+        if (this.matchHandler.pairIsMatch()) {
+            this.commandDispatcher.broadcastRightGuessMsg();
+        }
+        else {
+            this.commandDispatcher.broadcastWrongGuessMsg();
+        }
+
         // TODO: reactivate sleep
-        // await this.sleep(2000);
+        await this.sleep(2000);
 
         // Two cards were open. Check if the player guessed the pair right.
         if (!this.matchHandler.pairIsMatch()) {
@@ -67,6 +74,7 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         if (!this.matchHandler.allCardsMatched()) {
             player.setInCombo();
             console.log(`Set player ${player.nickname} in combo`);
+            this.commandDispatcher.broadcastPlayerTurnMsg(player);
             return;
         }
 
@@ -79,6 +87,11 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             // TODO: handle the end of this match.
 
             console.log(`New round: ${this.matchHandler.currRound}`);
+            this.commandDispatcher.broadcastNewRoundMsg(this.matchHandler.currRound, this.matchHandler.totalRounds);
+            await this.sleep(2000);
+
+            this.commandDispatcher.broadcastShufflingMsg();
+            await this.sleep(2000);
 
             this.matchHandler.newRound();
             this.commandDispatcher.broadcastHideCards();
@@ -91,6 +104,8 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         // game over.
         console.log("game over");
+        // this.commandDispatcher.broadcastGameOver()
+        await this.sleep(2000);
     }
 
     private activateNextPlayerToPlay(currPlayer: Player) {
@@ -100,6 +115,8 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         const nextPlayer = this.playersHolder.getCurrentPlayerToPlay();
         this.commandDispatcher.activatePlayerTurn(nextPlayer);
+
+        this.commandDispatcher.broadcastPlayerTurnMsg(nextPlayer);
 
     }
 

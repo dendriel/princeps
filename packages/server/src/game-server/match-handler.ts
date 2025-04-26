@@ -60,12 +60,20 @@ export class MatchHandler {
         return this._currRound >= this._totalRounds;
     }
 
+    isMatchStarted(): boolean {
+        return this._currRound > 0;
+    }
+
     get matchSize(): number {
         return this._matchSize;
     }
 
     get currRound(): number {
         return this._currRound;
+    }
+
+    get totalRounds(): number {
+        return this._totalRounds;
     }
 
     setup(matchSize: number, rounds: number) {

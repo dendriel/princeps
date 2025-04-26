@@ -3,6 +3,7 @@ import {Player} from "../game-server/player.js";
 import {ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload, CardsInfoPayload} from "../../../shared/dist/princeps-shared.js";
 import {OpenCard} from "../game-server/match-handler.js";
 import {PlayersHolder} from "../game-server/player-holder.js";
+import {ShowMessagePayload} from "@rozsa/shared";
 
 
 export class CommandDispatcher {
@@ -53,5 +54,30 @@ export class CommandDispatcher {
             .map(p => payload.add([p.nickname, p.score]));
 
         this.networkServer.broadcast(ClientCommand.UPDATE_SCORE, payload);
+    }
+
+    broadcastMessage(text: string) {
+        const payload = new ShowMessagePayload(text);
+        this.networkServer.broadcast(ClientCommand.SHOW_MESSAGE, payload);
+    }
+
+    broadcastPlayerTurnMsg(player: Player) {
+        this.broadcastMessage(`${player.nickname}'s\n Turn`);
+    }
+
+    broadcastWrongGuessMsg() {
+        this.broadcastMessage("Wrong\nGuess");
+    }
+
+    broadcastRightGuessMsg() {
+        this.broadcastMessage("Right\nGuess!");
+    }
+
+    broadcastNewRoundMsg(round: number, maxRounds: number) {
+        this.broadcastMessage(`New Round\n${round}/${maxRounds}`);
+    }
+
+    broadcastShufflingMsg() {
+        this.broadcastMessage(`Shuffling\nCards`);
     }
 }

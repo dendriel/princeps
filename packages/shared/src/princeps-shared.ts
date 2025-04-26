@@ -7,6 +7,7 @@ import {CardInfoPayload} from "./commands-payload/card-info-payload.js";
 import {CardsInfoPayload} from "./commands-payload/cards-info-payload.js";
 import {UpdateNicknamePayload} from "./commands-payload/update-nickname-payload.js";
 import {UpdateScorePayload} from "./commands-payload/update-score-payload.js";
+import {ShowMessagePayload} from "./commands-payload/show-message-payload.js";
 import {ServerCommand} from "./commands/server-command.js";
 import {CommandHandler} from "./commands/command-handler.js";
 import {AbstractCommandHandler} from "./commands/abstract-command-handler.js";
@@ -23,6 +24,7 @@ export {
     CardsInfoPayload,
     UpdateNicknamePayload,
     UpdateScorePayload,
+    ShowMessagePayload,
     // Commands
     CommandHandler,
     AbstractCommandHandler,
