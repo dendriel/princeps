@@ -41,13 +41,15 @@ export class PrincepsServer implements GameServer {
     }
 
     private setupCommandHandlers() {
-        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler, this.playersHolder));
+        this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler, this.playersHolder, this.onGameFinished.bind(this)));
         this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
     start(matchSize: number, rounds: number) {
-
-        // TODO: validate match size and rounds.
+        if (matchSize !== 16) {
+            console.log(`Unsupported match size ${matchSize}`);
+            return;
+        }
 
         this.matchHandler.setup(matchSize, rounds);
         this.matchHandler.newRound();
@@ -115,8 +117,8 @@ export class PrincepsServer implements GameServer {
         await handler.execute(player, payload);
     }
 
-    onGameFinished() {
-        this.networkServer.terminate()
+    async onGameFinished() {
+        await this.networkServer.terminate()
             .then(() => console.log("The game-server has finished"))
     }
 

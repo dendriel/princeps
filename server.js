@@ -7,4 +7,4 @@ const server = new PrincepsServer();
 server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));
 server.addExpectedPlayer( new PrincepsConnectionInfo("1234"));
 // server.addExpectedPlayer( new PrincepsConnectionInfo("5555"));
-server.start(16, 2);
+server.start(32, 1);

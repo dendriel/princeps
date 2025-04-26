@@ -5,8 +5,17 @@ import {MatchHandler} from "../../services/match-handler.js";
 import {CommandDispatcher} from "../command-dispatcher.js";
 import {PlayersHolder} from "../../services/player-holder.js";
 
+interface OnMatchFinished {
+    (): void;
+}
+
 export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, ServerCommand> {
-    constructor(commandDispatcher: CommandDispatcher, matchHandler: MatchHandler, playersHolder: PlayersHolder) {
+    constructor(
+        commandDispatcher: CommandDispatcher,
+        matchHandler: MatchHandler,
+        playersHolder: PlayersHolder,
+        private onMatchFinished: OnMatchFinished
+    ) {
         super(ServerCommand.SELECT_CARD, true, commandDispatcher, matchHandler, playersHolder);
     }
 
@@ -110,6 +119,8 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         // TODO: halt server.
         await this.sleep(2000);
+
+        this.onMatchFinished();
     }
 
     private activateNextPlayerToPlay(currPlayer: Player) {
