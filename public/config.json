@@ -16,29 +16,6 @@
     "cardsTemplate": {
       "hidden":         { "key": "hidden", "name": "", "image": "card_back" },
       "open":           { "key": "open", "name": "", "image": "card_front" },
-      "forest":         { "key": "forest", "name": "Forest", "image": "forest" },
-      "horses":         { "key": "horses", "name": "Horses", "image": "horses" },
-      "farm":           { "key": "farm", "name": "Farm", "image": "farm" },
-      "lumbermill":     { "key": "lumbermill", "name": "Lumber mill", "image": "lumbermill" },
-      "archery_range":  { "key": "archery_range", "name": "Archery_range", "image": "archery_range" },
-      "barracks":       { "key": "barracks", "name": "Barracks", "image": "barracks" },
-      "castle":         { "key": "castle", "name": "Castle", "image": "castle" },
-      "city":           { "key": "city", "name": "City", "image": "city" },
-      "forester_lodge": { "key": "forester_lodge", "name": "Forester_lodge", "image": "forester_lodge" },
-      "mill":           { "key": "mill", "name": "Mill", "image": "mill" },
-      "stables":        { "key": "stables", "name": "Stables", "image": "stables" },
-      "watchtower":     { "key": "watchtower", "name": "Watchtower", "image": "watchtower" },
-      "archers":        { "key": "archers", "name": "Archers", "image": "archers" },
-      "catapult":       { "key": "catapult", "name": "Catapult", "image": "catapult" },
-      "explorer":       { "key": "explorer", "name": "Explorer", "image": "explorer" },
-      "horsemen":       { "key": "horsemen", "name": "Horsemen", "image": "horsemen" },
-      "javelineers":    { "key": "javelineers", "name": "Javelineers", "image": "javelineers" },
-      "knight":         { "key": "knight", "name": "Knight", "image": "knight" },
-      "manatarms":      { "key": "manatarms", "name": "Man-a-tarms", "image": "manatarms" },
-      "militia":        { "key": "militia", "name": "Militia", "image": "militia" },
-      "spearmen":       { "key": "spearmen", "name": "Spearmen", "image": "spearmen" },
-      "workers":        { "key": "workers", "name": "Workers", "image": "workers" },
-      "warparty":       { "key": "warparty", "name": "War-party", "image": "warparty" },
 
       "bag":            { "key": "bag", "name":  "Bag", "image": "bag"},
       "chalice":        { "key": "chalice", "name":  "Chalice", "image": "chalice"},
@@ -48,7 +25,27 @@
       "knight_mace":    { "key": "knight_mace", "name":  "Knight Mace", "image": "knight_mace"},
       "landscape_1":    { "key": "landscape_1", "name":  "Landscape 1", "image": "landscape_1"},
       "sword":          { "key": "sword", "name": "Sword", "image": "sword"},
-      "tower":          { "key": "tower", "name": "Tower", "image": "tower"}
+      "tower":          { "key": "tower", "name": "Tower", "image": "tower"},
+
+      "axe":                 { "key": "axe", "name": "Axe", "image":  "axe" },
+      "castle":              { "key": "castle", "name": "Castle", "image":  "castle" },
+      "crossbow":            { "key": "crossbow", "name": "Crossbow", "image":  "crossbow" },
+      "crusader_helmet":     { "key": "crusader_helmet", "name": "Crusader Helmet", "image":  "crusader_helmet" },
+      "knight_sword_shield": { "key": "knight_sword_shield", "name": "Knight Sword and Shield", "image":  "knight_sword_shield" },
+      "lancer":              { "key": "lancer", "name": "Lancer", "image":  "lancer" },
+      "landscape":           { "key": "landscape", "name": "Landscape", "image":  "landscape" },
+      "longsword":           { "key": "longsword", "name": "Longsword", "image":  "longsword" },
+      "shield":              { "key": "shield", "name": "Shield", "image":  "shield" },
+
+      "archer": { "key": "archer", "name": "Archer", "image": "archer" },
+      "cannon": { "key": "cannon", "name": "Cannon", "image": "cannon" },
+      "door":  { "key": "door", "name": "Door", "image": "door" },
+      "farm": { "key": "farm", "name": "Farm", "image": "farm" },
+      "hammer":  { "key": "hammer", "name": "Hammer", "image": "hammer" },
+      "spiked_mace": { "key": "spiked_mace", "name": "Spiked_mace", "image": "spiked_mace" },
+      "tent":  { "key": "tent", "name": "Tent", "image": "tent" },
+      "watchtower": { "key": "watchtower", "name": "Watchtower", "image": "watchtower" },
+      "tower_castle":  { "key": "tower_castle", "name": "Tower_castle", "image": "tower_castle" }
     }
   },
   "gameBoard": {
@@ -66,40 +63,17 @@
       "playerScoreText": {
         "text": "Player\n0 Pts",
         "offset": {"x": 16, "y": 16},
-        "style": {"font": "32px Courier", "fill": "#FFF", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "left"}
+        "style": {"font": "32px Courier", "fill": "#FFC", "stroke": "#660", "strokeThickness": 2, "align": "left"}
       },
       "infoText": {
         "text": "Player X\nTurn",
-        "offset": {"x": 16, "y": 500},
-        "style": {"font": "32px Courier", "fill": "#FFFFCC", "stroke": "#A0A0A0", "strokeThickness": 0, "align": "center"}
+        "offset": {"x": 0, "y": 500},
+        "style": {"font": "28px Courier", "fill": "#FFC", "stroke": "#660", "strokeThickness": 1, "align": "center"}
       }
     },
     "images": [
       ["card_front", "assets/card_background.png"],
       ["card_back", "assets/card-back.png"],
-      ["forest", "assets/forest.png"],
-      ["horses", "assets/horses.png"],
-      ["farm", "assets/farm.png"],
-      ["lumbermill", "assets/lumbermill.png"],
-      ["archery_range", "assets/archery_range.png"],
-      ["barracks", "assets/barracks.png"],
-      ["castle", "assets/castle.png"],
-      ["city", "assets/city.png"],
-      ["forester_lodge", "assets/forester_lodge.png"],
-      ["mill", "assets/mill.png"],
-      ["stables", "assets/stables.png"],
-      ["watchtower", "assets/watchtower.png"],
-      ["archers", "assets/archers.png"],
-      ["catapult", "assets/catapult.png"],
-      ["explorer", "assets/explorer.png"],
-      ["horsemen", "assets/horsemen.png"],
-      ["javelineers", "assets/javelineers.png"],
-      ["knight", "assets/knight.png"],
-      ["manatarms", "assets/manatarms.png"],
-      ["militia", "assets/militia.png"],
-      ["spearmen", "assets/spearmen.png"],
-      ["workers", "assets/workers.png"],
-      ["warparty", "assets/warparty.png"],
 
       ["bag", "assets/spritesheet_1@bag.png"],
       ["chalice", "assets/spritesheet_1@chalice.png"],
@@ -109,7 +83,27 @@
       ["knight_mace", "assets/spritesheet_1@knight_mace.png"],
       ["landscape_1", "assets/spritesheet_1@landscape_1.png"],
       ["sword", "assets/spritesheet_1@sword.png"],
-      ["tower", "assets/spritesheet_1@tower.png"]
+      ["tower", "assets/spritesheet_1@tower.png"],
+
+      ["axe", "assets/spritesheet_2@axe.png"],
+      ["castle", "assets/spritesheet_2@castle.png"],
+      ["crossbow", "assets/spritesheet_2@crossbow.png"],
+      ["crusader_helmet", "assets/spritesheet_2@crusader_helmet.png"],
+      ["knight_sword_shield", "assets/spritesheet_2@knight_sword_shield.png"],
+      ["lancer", "assets/spritesheet_2@lancer.png"],
+      ["landscape", "assets/spritesheet_2@landscape.png"],
+      ["longsword", "assets/spritesheet_2@longsword.png"],
+      ["shield", "assets/spritesheet_2@shield.png"],
+
+      ["archer", "assets/spritesheet_3@archer.png"],
+      ["cannon", "assets/spritesheet_3@cannon.png"],
+      ["door", "assets/spritesheet_3@door.png"],
+      ["farm", "assets/spritesheet_3@farm.png"],
+      ["hammer", "assets/spritesheet_3@hammer.png"],
+      ["spiked_mace", "assets/spritesheet_3@spiked_mace.png"],
+      ["tent", "assets/spritesheet_3@tent.png"],
+      ["watchtower", "assets/spritesheet_3@watchtower.png"],
+      ["tower_castle", "assets/spritesheet_3@tower_castle.png"]
     ]
   }
 }

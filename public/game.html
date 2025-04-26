@@ -7,9 +7,23 @@
 
 
   <style>
-    /*body { background-color: red; align-content: center}*/
-    body { background-image: url("/assets/background_game.png"); background-size: cover; background-repeat: no-repeat; background-position: center; height: 100vh;}
+    /*body { background-image: url("/assets/background_game.png"); background-size: cover; background-repeat: no-repeat; background-position: center; height: 100vh;}*/
+    body {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 100vh;
+    }
   </style>
+  <script>
+    window.addEventListener('load', () => {
+      const index = Math.floor(Math.random() * 5);
+      const bgName = `/assets/background_game_0${index}.png`
+      console.log(bgName)
+
+      document.body.style.backgroundImage = `url(${bgName})`;
+    });
+  </script>
 </head>
 <body>
 
