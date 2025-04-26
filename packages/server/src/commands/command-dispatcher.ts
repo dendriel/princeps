@@ -36,7 +36,7 @@ export class CommandDispatcher {
         this.networkServer.broadcast(ClientCommand.SHOW_CARD, cardInfoPayload);
     }
 
-    broadcastHideCards(cardsIndex: number[]) {
+    broadcastHideCards(cardsIndex: number[] = []) {
         const cardsInfoPayload = new CardsInfoPayload();
         cardsIndex.forEach((index: number) => {
             cardsInfoPayload.addCardInfo(new CardInfoPayload(index));

@@ -39,13 +39,13 @@ export class MatchHandler {
 
     private isPlayerGuessing: boolean;
 
-    private currRound: number = 0;
+    private _currRound: number = 0;
 
     private _matchSize: number = 0;
+    private _totalRounds: number = 0;
 
     constructor(
         private matchGenerator: MatchGenerator,
-        private maxRounds: number = 1
     ) {
         this.matchCards = [];
         this.guessedCards = [];
@@ -57,15 +57,20 @@ export class MatchHandler {
     }
 
     isMatchFinished(): boolean {
-        return this.currRound < this.maxRounds;
+        return this._currRound >= this._totalRounds;
     }
 
     get matchSize(): number {
         return this._matchSize;
     }
 
-    setup(matchSize: number) {
+    get currRound(): number {
+        return this._currRound;
+    }
+
+    setup(matchSize: number, rounds: number) {
         this._matchSize = matchSize;
+        this._totalRounds = rounds;
     }
 
     newRound() {
@@ -83,7 +88,7 @@ export class MatchHandler {
             this.matchCards.push(new Card(name, i));
         }
 
-        this.currRound++;
+        this._currRound++;
     }
 
     private clearMatchCards() {

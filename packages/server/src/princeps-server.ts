@@ -45,8 +45,8 @@ export class PrincepsServer implements GameServer {
         this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
-    start(matchSize: number) {
-        this.matchHandler.setup(matchSize);
+    start(matchSize: number, rounds: number) {
+        this.matchHandler.setup(matchSize, rounds);
         this.matchHandler.newRound();
         this.matchHandler.printMatchCards();
 

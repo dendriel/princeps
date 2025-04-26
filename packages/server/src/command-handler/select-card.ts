@@ -72,24 +72,25 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
         player.resetCombo();
 
-        if (this.matchHandler.isMatchFinished()) {
+        console.log(`isMatchFinished: ${this.matchHandler.isMatchFinished()}`);
+
+        if (!this.matchHandler.isMatchFinished()) {
+
             // TODO: handle the end of this match.
-            // game over.
-            console.log("game over");
+
+            console.log(`New round: ${this.matchHandler.currRound}`);
+
+            this.matchHandler.newRound();
+            this.commandDispatcher.broadcastHideCards();
+            this.activateNextPlayerToPlay(player);
             return;
         }
 
-        console.log("New round");
-
-        this.matchHandler.newRound();
-
-        // TODO: handle this cards hiding.
-        this.commandDispatcher.broadcastHideCards([]);
-
-        this.activateNextPlayerToPlay(player);
-
         // TODO: handle game end.
         // TODO: show the winner player.
+
+        // game over.
+        console.log("game over");
     }
 
     private activateNextPlayerToPlay(currPlayer: Player) {
