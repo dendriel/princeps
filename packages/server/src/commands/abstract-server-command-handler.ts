@@ -1,8 +1,8 @@
 import {ServerCommandHandler} from "./server-command-handler.js";
-import {Player} from "../game-server/player.js";
-import {MatchHandler} from "../game-server/match-handler.js";
+import {Player} from "../services/player.js";
+import {MatchHandler} from "../services/match-handler.js";
 import {CommandDispatcher} from "./command-dispatcher.js";
-import {PlayersHolder} from "../game-server/player-holder.js";
+import {PlayersHolder} from "../services/player-holder.js";
 
 export abstract class AbstractServerCommandHandler<P, T> implements ServerCommandHandler {
 

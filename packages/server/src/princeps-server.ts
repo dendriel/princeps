@@ -1,15 +1,15 @@
 import mogs, {ActiveConnection, GameServer, NetworkServer, ConnectionInfo} from "rozsa-mogs";
-import {Player} from "./game-server/player.js";
+import {Player} from "./services/player.js";
 import {PrincepsConnectionInfo} from "./princeps-connection-info.js";
 import {ServerCommand} from "../../shared/dist/princeps-shared.js";
-import {PlayersHolder} from "./game-server/player-holder.js";
+import {PlayersHolder} from "./services/player-holder.js";
 import {CommandDispatcher} from "./commands/command-dispatcher.js";
-import {SelectCard} from "./command-handler/select-card.js";
+import {SelectCard} from "./commands/handlers/select-card.js";
 import {ServerCommandHandler} from "./commands/server-command-handler.js";
-import {MatchGenerator} from "./game-server/match-generator.js";
-import {ConfigLoader, ServerConfig} from "./config-loader.js";
-import {MatchHandler} from "./game-server/match-handler.js";
-import {UpdateNickname} from "./command-handler/update-nickname.js";
+import {MatchGenerator} from "./services/match-generator.js";
+import {ConfigLoader, ServerConfig} from "./services/config-loader.js";
+import {MatchHandler} from "./services/match-handler.js";
+import {UpdateNickname} from "./commands/handlers/update-nickname.js";
 
 /**
  * Server provider for Princeps Game.
@@ -28,7 +28,7 @@ export class PrincepsServer implements GameServer {
 
     constructor() {
 
-        this.config = ConfigLoader.load('./resources/server-config.json');
+        this.config = ConfigLoader.load('server-config.json');
 
         this.networkServer = new mogs.NetworkServer(this);
         this.playersHolder = new PlayersHolder();
@@ -46,6 +46,9 @@ export class PrincepsServer implements GameServer {
     }
 
     start(matchSize: number, rounds: number) {
+
+        // TODO: validate match size and rounds.
+
         this.matchHandler.setup(matchSize, rounds);
         this.matchHandler.newRound();
         this.matchHandler.printMatchCards();

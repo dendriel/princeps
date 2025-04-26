@@ -1,4 +1,4 @@
-import {Player} from "../game-server/player.js";
+import {Player} from "../services/player.js";
 
 /**
  * Contract for handling commands received from the server.

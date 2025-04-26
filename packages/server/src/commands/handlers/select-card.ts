@@ -1,9 +1,9 @@
-import {ServerCommand, SelectCardPayload} from "../../../shared/dist/princeps-shared.js";
-import {AbstractServerCommandHandler} from "../commands/abstract-server-command-handler.js";
-import {Player} from "../game-server/player.js";
-import {MatchHandler} from "../game-server/match-handler.js";
-import {CommandDispatcher} from "../commands/command-dispatcher.js";
-import {PlayersHolder} from "../game-server/player-holder.js";
+import {ServerCommand, SelectCardPayload} from "../../../../shared/dist/princeps-shared.js";
+import {AbstractServerCommandHandler} from "../abstract-server-command-handler.js";
+import {Player} from "../../services/player.js";
+import {MatchHandler} from "../../services/match-handler.js";
+import {CommandDispatcher} from "../command-dispatcher.js";
+import {PlayersHolder} from "../../services/player-holder.js";
 
 export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, ServerCommand> {
     constructor(commandDispatcher: CommandDispatcher, matchHandler: MatchHandler, playersHolder: PlayersHolder) {
@@ -100,9 +100,6 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             return;
         }
 
-        // TODO: handle game end.
-        // TODO: show the winner player.
-
         // game over.
         console.log("game over");
 
@@ -124,7 +121,6 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         this.commandDispatcher.activatePlayerTurn(nextPlayer);
 
         this.commandDispatcher.broadcastPlayerTurnMsg(nextPlayer);
-
     }
 
     private buildGameOverMsg(winners: Player[]): string {
