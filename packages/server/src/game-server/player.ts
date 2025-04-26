@@ -4,11 +4,8 @@ import {ActiveConnection, ConnectionInfo} from "rozsa-mogs";
 export class Player {
 
     private _activeConn: ActiveConnection | undefined;
-
     private _score: number = 0;
-
     private _nickname: string = "";
-
     private _isCombo: boolean = false;
 
     constructor(private _connInfo: ConnectionInfo) {}

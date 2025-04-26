@@ -38,9 +38,10 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             return;
         }
 
-        await this.sleep(2000);
+        // TODO: reactivate sleep
+        // await this.sleep(2000);
 
-        // TODO: two cards were open. Check if the player guessed the pair right.
+        // Two cards were open. Check if the player guessed the pair right.
         if (!this.matchHandler.pairIsMatch()) {
             // Not a match. Close cards and skip player turn.
 
@@ -49,20 +50,19 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             this.commandDispatcher.broadcastHideCards(this.matchHandler.getGuessedCardsIndexes());
             this.matchHandler.clearGuessedCards(true);
 
-            this.commandDispatcher.deactivatePlayerTurn(player);
-
-            this.playersHolder.updateNextPlayerToPlay();
-
-            const nextPlayer = this.playersHolder.getCurrentPlayerToPlay();
-            this.commandDispatcher.activatePlayerTurn(nextPlayer);
+            this.activateNextPlayerToPlay(player);
 
             return;
         }
+
+        // Player guessed right.
 
         this.matchHandler.clearGuessedCards();
 
         player.addScore(2);
         this.commandDispatcher.broadcastUpdateScore();
+
+        this.matchHandler.printMatchCards();
 
         if (!this.matchHandler.allCardsMatched()) {
             player.setInCombo();
@@ -71,8 +71,35 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         }
 
         player.resetCombo();
+
+        if (this.matchHandler.isMatchFinished()) {
+            // TODO: handle the end of this match.
+            // game over.
+            console.log("game over");
+            return;
+        }
+
+        console.log("New round");
+
+        this.matchHandler.newRound();
+
+        // TODO: handle this cards hiding.
+        this.commandDispatcher.broadcastHideCards([]);
+
+        this.activateNextPlayerToPlay(player);
+
         // TODO: handle game end.
         // TODO: show the winner player.
+    }
+
+    private activateNextPlayerToPlay(currPlayer: Player) {
+        this.commandDispatcher.deactivatePlayerTurn(currPlayer);
+
+        this.playersHolder.updateNextPlayerToPlay();
+
+        const nextPlayer = this.playersHolder.getCurrentPlayerToPlay();
+        this.commandDispatcher.activatePlayerTurn(nextPlayer);
+
     }
 
     private sleep(ms: number): Promise<void> {

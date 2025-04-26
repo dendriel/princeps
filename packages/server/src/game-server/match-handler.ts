@@ -1,3 +1,5 @@
+import {MatchGenerator} from "./match-generator.js";
+
 class Card {
     constructor(
         private _name: string,
@@ -37,7 +39,14 @@ export class MatchHandler {
 
     private isPlayerGuessing: boolean;
 
-    constructor() {
+    private currRound: number = 0;
+
+    private _matchSize: number = 0;
+
+    constructor(
+        private matchGenerator: MatchGenerator,
+        private maxRounds: number = 1
+    ) {
         this.matchCards = [];
         this.guessedCards = [];
         this.isPlayerGuessing = false;
@@ -47,11 +56,39 @@ export class MatchHandler {
         return this.matchCards.length;
     }
 
-    setup(matchCards: string[]) {
-        for (let i = 0; i < matchCards.length; i++) {
-            const name = matchCards.at(i)!;
+    isMatchFinished(): boolean {
+        return this.currRound < this.maxRounds;
+    }
+
+    get matchSize(): number {
+        return this._matchSize;
+    }
+
+    setup(matchSize: number) {
+        this._matchSize = matchSize;
+    }
+
+    newRound() {
+        if (this._matchSize === 0) {
+            console.log("Match size not defined!");
+            return;
+        }
+
+        this.clearMatchCards();
+
+        const cards = this.matchGenerator.generate(this._matchSize);
+
+        for (let i = 0; i < cards.length; i++) {
+            const name = cards.at(i)!;
             this.matchCards.push(new Card(name, i));
         }
+
+        this.currRound++;
+    }
+
+    private clearMatchCards() {
+        this.clearGuessedCards();
+        this.matchCards.length = 0;
     }
 
     lockPlayerGuessing(): boolean {
@@ -97,7 +134,8 @@ export class MatchHandler {
      * All cards matched if there is no card still closed.
      */
     allCardsMatched(): boolean {
-        return !(this.matchCards.find(c => c.isOpen));
+        // console.log(`MATCH TEST: ${JSON.stringify(this.matchCards.find(c => !c.isOpen))}`);
+        return !(this.matchCards.find(c => !c.isOpen));
     }
 
     pairIsOpen(): boolean {
@@ -134,5 +172,17 @@ export class MatchHandler {
             this.guessedCards.forEach(card => card.isOpen = false);
         }
         this.guessedCards.length = 0;
+    }
+
+    // debug only
+    printMatchCards() {
+        console.log(`Match cards:`);
+        for (let i = 0; i < this.matchCards.length; i++) {
+            process.stdout.write(`${this.matchCards[i].name}(${this.matchCards[i].isOpen}), `);
+            if ((i+1) % 4 === 0) {
+                console.log('\n')
+            }
+        }
+        console.log('\n')
     }
 }

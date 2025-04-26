@@ -19,7 +19,6 @@ export class PrincepsServer implements GameServer {
     private readonly networkServer: NetworkServer;
     private readonly playersHolder: PlayersHolder;
     private readonly commandDispatcher: CommandDispatcher;
-    private readonly matchGenerator: MatchGenerator;
 
     private readonly matchHandler: MatchHandler;
 
@@ -34,8 +33,8 @@ export class PrincepsServer implements GameServer {
         this.networkServer = new mogs.NetworkServer(this);
         this.playersHolder = new PlayersHolder();
         this.commandDispatcher = new CommandDispatcher(this.networkServer, this.playersHolder);
-        this.matchGenerator = new MatchGenerator(this.config.cards);
-        this.matchHandler = new MatchHandler();
+        const matchGenerator = new MatchGenerator(this.config.cards);
+        this.matchHandler = new MatchHandler(matchGenerator);
         this.commandsHandler = new Map<ServerCommand, ServerCommandHandler>();
 
         this.setupCommandHandlers();
@@ -47,16 +46,9 @@ export class PrincepsServer implements GameServer {
     }
 
     start(matchSize: number) {
-        const matchCards = this.matchGenerator.generate(matchSize);
-        this.matchHandler.setup(matchCards);
-
-        console.log(`Match cards:`);
-        for (let i = 0; i < matchCards.length; i++) {
-            process.stdout.write(`${matchCards[i]}, `);
-            if (i % 4 === 0) {
-                console.log('\n')
-            }
-        }
+        this.matchHandler.setup(matchSize);
+        this.matchHandler.newRound();
+        this.matchHandler.printMatchCards();
 
         this.networkServer.listen();
     }

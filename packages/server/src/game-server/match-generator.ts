@@ -22,7 +22,8 @@ export class MatchGenerator {
         let match = [...selectedCards];
         match.push(...match);
 
-        match = this.shuffle(match);
+        // TODO: reactivate
+        // match = this.shuffle(match);
 
         return match;
     }
