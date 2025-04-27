@@ -17,8 +17,8 @@ export class LobbyPlayersHolder extends MatchmakingPlayersHolder {
             return undefined;
         }
 
+        // If this player didn't connect before, register it.
         if (!this.get(conn)) {
-            // If this player didn't connect before, register it.
             this.add(new Player(conn.info));
         }
 

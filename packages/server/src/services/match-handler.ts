@@ -42,7 +42,7 @@ export class MatchHandler {
     private _currRound: number = 0;
 
     private _matchSize: number = 0;
-    private _totalRounds: number = 0;
+    private _totalTurns: number = 0;
 
     constructor(
         private matchGenerator: MatchGenerator,
@@ -57,7 +57,7 @@ export class MatchHandler {
     }
 
     isMatchFinished(): boolean {
-        return this._currRound >= this._totalRounds;
+        return this._currRound >= this._totalTurns;
     }
 
     isMatchStarted(): boolean {
@@ -72,13 +72,13 @@ export class MatchHandler {
         return this._currRound;
     }
 
-    get totalRounds(): number {
-        return this._totalRounds;
+    get totalTurns(): number {
+        return this._totalTurns;
     }
 
-    setup(matchSize: number, rounds: number) {
+    setup(matchSize: number, turns: number) {
         this._matchSize = matchSize;
-        this._totalRounds = rounds;
+        this._totalTurns = turns;
     }
 
     newRound() {

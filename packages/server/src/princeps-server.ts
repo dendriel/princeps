@@ -29,6 +29,7 @@ export class PrincepsServer implements GameServer {
     private gameStarted: boolean = false;
 
     constructor(private lobbyMode: boolean = false, private playersCount: number = 2) {
+        this.assertPlayersCount();
 
         this.config = ConfigLoader.load('server-config.json');
 
@@ -42,28 +43,28 @@ export class PrincepsServer implements GameServer {
         this.setupCommandHandlers();
     }
 
+    private assertPlayersCount() {
+        if (this.playersCount < 2 || this.playersCount > 4) {
+            throw new Error(`Unsupported players count ${this.playersCount}`);
+        }
+    }
+
     private setupCommandHandlers() {
         this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler, this.playersHolder, this.onGameFinished.bind(this)));
         this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
-    start(port: number, players: number, lobbyCode: string, matchSize: number, rounds: number) {
-        if (matchSize !== 16) {
-            console.log(`Unsupported match size ${matchSize}`);
+    start(port: number, lobbyCode: string, turns: number, cards: number) {
+        if (cards !== 16) {
+            console.log(`Unsupported match size ${cards}`);
             return;
         }
-
-        if (players < 2 || players > 4) {
-            console.log(`Unsupported players count ${players}`);
-            return;
-        }
-
         if (lobbyCode === null || lobbyCode.length === 0) {
             console.log(`Invalid lobby code ${lobbyCode}`);
             return;
         }
 
-        this.matchHandler.setup(matchSize, rounds);
+        this.matchHandler.setup(cards, turns);
         this.matchHandler.newRound();
         this.matchHandler.printMatchCards();
 
@@ -86,7 +87,7 @@ export class PrincepsServer implements GameServer {
 
         console.log(`Player connected: ${JSON.stringify(player.debug)}`);
 
-        // Read the player to expected connections, so he can reload the match.
+        // Read the player to expected connections, so he can reload the match. (matchmaking mode)
         // In the other hand, it allows multiple connections with the same token.
         // this.networkServer.addExpectedConnection(new PrincepsConnectionInfo(player.connInfo.token()));
 

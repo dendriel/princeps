@@ -97,7 +97,7 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             // TODO: handle the end of this match.
 
             console.log(`New round: ${this.matchHandler.currRound}`);
-            this.commandDispatcher.broadcastNewRoundMsg(this.matchHandler.currRound, this.matchHandler.totalRounds);
+            this.commandDispatcher.broadcastNewRoundMsg(this.matchHandler.currRound, this.matchHandler.totalTurns);
             await this.sleep(2000);
 
             this.commandDispatcher.broadcastShufflingMsg();
