@@ -14,4 +14,5 @@ multiplayer lib over Socket.io) for Websocket communication.
 ## TODO
 
 - Add labels to the cards.
-- Add a message-log (or a chat) to improve the notifications experience.
+- Add a message-log (or a chat) to improve the notifications experience
+- As now rozsa-mogs supports sharing client info while connecting, move 'nickname' setting to connection

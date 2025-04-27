@@ -5,11 +5,11 @@ Handles match from Princeps Memory Game.
 Entry Point: `PrincepsServer`. Allows a match between 2-4 players and any number os rounds.
 
 ```js
-const server = new PrincepsServer();
+const server = new PrincepsServer(true, 2);
 
-server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));
-server.addExpectedPlayer( new PrincepsConnectionInfo("1234"));
-server.addExpectedPlayer( new PrincepsConnectionInfo("5555"));
+// server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));
+// server.addExpectedPlayer( new PrincepsConnectionInfo("1234"));
+// server.addExpectedPlayer( new PrincepsConnectionInfo("5555"));
 
 server.start(16, 2);
 ```

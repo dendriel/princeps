@@ -2,7 +2,7 @@ import mogs, {ActiveConnection, GameServer, NetworkServer, ConnectionInfo} from 
 import {Player} from "./services/player.js";
 import {PrincepsConnectionInfo} from "./princeps-connection-info.js";
 import {ServerCommand} from "../../shared/dist/princeps-shared.js";
-import {PlayersHolder} from "./services/player-holder.js";
+import {MatchmakingPlayersHolder} from "./services/matchmaking-players-holder.js";
 import {CommandDispatcher} from "./commands/command-dispatcher.js";
 import {SelectCard} from "./commands/handlers/select-card.js";
 import {ServerCommandHandler} from "./commands/server-command-handler.js";
@@ -10,6 +10,8 @@ import {MatchGenerator} from "./services/match-generator.js";
 import {ConfigLoader, ServerConfig} from "./services/config-loader.js";
 import {MatchHandler} from "./services/match-handler.js";
 import {UpdateNickname} from "./commands/handlers/update-nickname.js";
+import {PlayersHolder} from "./services/players-holder.js";
+import {LobbyPlayersHolder} from "./services/lobby-players-holder.js";
 
 /**
  * Server provider for Princeps Game.
@@ -26,12 +28,12 @@ export class PrincepsServer implements GameServer {
 
     private gameStarted: boolean = false;
 
-    constructor() {
+    constructor(private lobbyMode: boolean = false, private playersCount: number = 2) {
 
         this.config = ConfigLoader.load('server-config.json');
 
-        this.networkServer = new mogs.NetworkServer(this);
-        this.playersHolder = new PlayersHolder();
+        this.networkServer = new mogs.NetworkServer(this, {lobbyMode: lobbyMode, lobbyMaxPlayers: playersCount});
+        this.playersHolder = lobbyMode ? new LobbyPlayersHolder(playersCount) : new MatchmakingPlayersHolder();
         this.commandDispatcher = new CommandDispatcher(this.networkServer, this.playersHolder);
         const matchGenerator = new MatchGenerator(this.config.cards);
         this.matchHandler = new MatchHandler(matchGenerator);
@@ -45,9 +47,19 @@ export class PrincepsServer implements GameServer {
         this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
-    start(matchSize: number, rounds: number) {
+    start(port: number, players: number, lobbyCode: string, matchSize: number, rounds: number) {
         if (matchSize !== 16) {
             console.log(`Unsupported match size ${matchSize}`);
+            return;
+        }
+
+        if (players < 2 || players > 4) {
+            console.log(`Unsupported players count ${players}`);
+            return;
+        }
+
+        if (lobbyCode === null || lobbyCode.length === 0) {
+            console.log(`Invalid lobby code ${lobbyCode}`);
             return;
         }
 
@@ -55,28 +67,31 @@ export class PrincepsServer implements GameServer {
         this.matchHandler.newRound();
         this.matchHandler.printMatchCards();
 
-        this.networkServer.listen();
+        this.networkServer.listen(port);
     }
 
+    // TODO: matchmaking matches
     addExpectedPlayer(connInfo: ConnectionInfo) {
         this.networkServer.addExpectedConnection(connInfo);
-        this.playersHolder.add(new Player(connInfo))
+        this.playersHolder.add(new Player(connInfo));
     }
 
     onConnection(conn: ActiveConnection) {
         const player = this.playersHolder.addConnectionInfo(conn);
         if (!player) {
+            console.log(`Refusing player connection with token: ${conn.info.token()}`);
+            this.networkServer.disconnect(conn.info.token());
             return;
         }
 
-        console.log(`Player connected: ${JSON.stringify(player.connInfo)}`);
+        console.log(`Player connected: ${JSON.stringify(player.debug)}`);
 
         // Read the player to expected connections, so he can reload the match.
         // In the other hand, it allows multiple connections with the same token.
-        this.networkServer.addExpectedConnection(new PrincepsConnectionInfo(conn.info.token()));
+        // this.networkServer.addExpectedConnection(new PrincepsConnectionInfo(player.connInfo.token()));
 
         if (!this.gameStarted) {
-            if (this.playersHolder.allPlayersAlreadyConnected()) {
+            if (this.playersHolder.allPlayersOnline()) {
                 this.startGame();
             }
         }

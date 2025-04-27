@@ -31,7 +31,7 @@ export class Princeps {
         this.gameClient.setDispatcher(this.commandsDispatcher);
 
         const token = this.getToken();
-        this.networkClient.connect(token);
+        this.networkClient.connect({ connectionToken: token, connectionId: this.getPlayerId(), extraParams: this.getConnectionParams() });
 
         console.log("Game started!");
     }
@@ -42,6 +42,17 @@ export class Princeps {
 
     private getNickname(): string {
         return localStorage.getItem('princeps_nickname') ?? 'Anom';
+    }
+
+    private getPlayerId(): string {
+        return localStorage.getItem('princeps_id')!;
+    }
+
+    private getConnectionParams(): Map<string, string> {
+        const params = new Map<string, string>();
+        params.set('nickname', this.getNickname());
+        params.set('player_id', this.getPlayerId());
+        return params;
     }
 
     async loadConfig(): Promise<GameConfig> {

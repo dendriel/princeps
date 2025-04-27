@@ -11,7 +11,7 @@ export class Player {
     constructor(private _connInfo: ConnectionInfo) {}
 
     get isConnected(): boolean {
-        return this._activeConn !== undefined;
+        return this._activeConn !== undefined && this._activeConn.socket.connected;
     }
 
     get socket() {
@@ -75,6 +75,6 @@ export class Player {
     }
 
     get debug(): string {
-        return JSON.stringify(this._connInfo);
+        return`token: ${this._connInfo.token()}, nickname: ${this.nickname}, score: ${this.score}, inCombo: ${this.isCombo}`;
     }
 }

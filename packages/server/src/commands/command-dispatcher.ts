@@ -2,13 +2,12 @@ import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../services/player.js";
 import {ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload, CardsInfoPayload} from "../../../shared/dist/princeps-shared.js";
 import {OpenCard} from "../services/match-handler.js";
-import {PlayersHolder} from "../services/player-holder.js";
 import {FinishGamePayload, ShowMessagePayload} from "@rozsa/shared";
+import {PlayersHolder} from "../services/players-holder.js";
 
 
 export class CommandDispatcher {
     constructor(private networkServer: NetworkServer, private playersHolder: PlayersHolder) {}
-
 
     broadcastLoadGame(boardSize: number) {
         const loadGamePayload = new LoadGamePayload(boardSize);

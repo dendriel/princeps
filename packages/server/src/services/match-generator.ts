@@ -23,7 +23,7 @@ export class MatchGenerator {
         match.push(...match);
 
         // TODO: reactivate
-        match = this.shuffle(match);
+        // match = this.shuffle(match);
 
         return match;
     }

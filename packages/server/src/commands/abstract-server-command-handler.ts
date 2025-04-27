@@ -2,7 +2,7 @@ import {ServerCommandHandler} from "./server-command-handler.js";
 import {Player} from "../services/player.js";
 import {MatchHandler} from "../services/match-handler.js";
 import {CommandDispatcher} from "./command-dispatcher.js";
-import {PlayersHolder} from "../services/player-holder.js";
+import {PlayersHolder} from "../services/players-holder.js";
 
 export abstract class AbstractServerCommandHandler<P, T> implements ServerCommandHandler {
 
@@ -33,7 +33,7 @@ export abstract class AbstractServerCommandHandler<P, T> implements ServerComman
             console.log(`Failed to handle command ${this._type}. Error: ${JSON.stringify(error)}`);
         }
 
-        return Promise.resolve();;
+        return Promise.resolve();
     }
 
     abstract handleCommand(player: Player, payload: P): Promise<void>;

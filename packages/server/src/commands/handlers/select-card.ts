@@ -3,7 +3,7 @@ import {AbstractServerCommandHandler} from "../abstract-server-command-handler.j
 import {Player} from "../../services/player.js";
 import {MatchHandler} from "../../services/match-handler.js";
 import {CommandDispatcher} from "../command-dispatcher.js";
-import {PlayersHolder} from "../../services/player-holder.js";
+import {PlayersHolder} from "../../services/players-holder.js";
 
 interface OnMatchFinished {
     (): void;

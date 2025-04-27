@@ -1,7 +1,8 @@
 import {Player} from "./player.js";
 import {ActiveConnection} from "rozsa-mogs";
+import {PlayersHolder} from "./players-holder.js";
 
-export class PlayersHolder {
+export class MatchmakingPlayersHolder implements PlayersHolder {
 
     private readonly playersByToken: Map<String, Player>;
 
@@ -72,12 +73,18 @@ export class PlayersHolder {
     }
 
     addConnectionInfo(activeConnection: ActiveConnection): Player | undefined {
+        if (!activeConnection.info) {
+            console.log(`No connection info available for connection: ${JSON.stringify(activeConnection)}`);
+            return;
+        }
+
         const player = this.playersByToken.get(activeConnection.info.token());
         if (!player) {
             console.log(`Player with token ${activeConnection.info.token()} was not found!`);
             return undefined;
         }
 
+        player.nickname = activeConnection.params.get('nickname')!;
         player.activeConn = activeConnection;
         return player;
     }
@@ -101,7 +108,17 @@ export class PlayersHolder {
             .length;
     }
 
-    allPlayersAlreadyConnected(): boolean {
-        return this.connectedPlayersCount() == this.totalPlayers;
+    /**
+     * Checks against 'expected players'
+     */
+    allPlayersOnline(): boolean {
+        return this.connectedPlayersCount() === this.totalPlayers;
+    }
+
+    /**
+     * Checks against 'expected players'
+     */
+    allPlayersJoined(): boolean {
+        return this.players.length === this.totalPlayers;
     }
 }

@@ -2,8 +2,8 @@ import {ServerCommand, UpdateNicknamePayload} from "../../../../shared/dist/prin
 import {AbstractServerCommandHandler} from "../abstract-server-command-handler.js";
 import {CommandDispatcher} from "../command-dispatcher.js";
 import {MatchHandler} from "../../services/match-handler.js";
-import {PlayersHolder} from "../../services/player-holder.js";
 import {Player} from "../../services/player.js";
+import {PlayersHolder} from "../../services/players-holder.js";
 
 
 export class UpdateNickname extends AbstractServerCommandHandler<UpdateNicknamePayload, ServerCommand> {

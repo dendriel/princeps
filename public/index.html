@@ -11,9 +11,10 @@
         body { background-image: url("/assets/background.png"); background-size: cover; background-repeat: no-repeat; }
     </style>
     <script>
-        function setPlayerToken(token, nickname){
+        function setPlayerToken(token, nickname, id){
             localStorage.setItem("princeps_token", token);
             localStorage.setItem("princeps_nickname", nickname);
+            localStorage.setItem("princeps_id", id);
             self.location = "/game.html";
         }
     </script>
@@ -23,10 +24,10 @@
         <div class="d-flex flex-row">
             <div class="d-flex flex-column">
                 <h1>Princeps</h1>
-                <button type="button" class="btn btn-primary button-margin" onclick="setPlayerToken('ABCD', 'Dendriel')">Player 1</button>
-                <button type="button" class="btn btn-danger button-margin" onclick="setPlayerToken('1234', 'Player2')">Player 2</button>
-                <button type="button" class="btn btn-success button-margin" onclick="setPlayerToken('5555', 'Player3')">Player 3</button>
-                <button type="button" class="btn btn-info button-margin" onclick="setPlayerToken('f43ea67ac46c4ad2b06dbe7397331681', 'Player 4')">Player 4</button>
+                <button type="button" class="btn btn-primary button-margin" onclick="setPlayerToken('cbb71d83', 'Dendriel', '123')">Player 1</button>
+                <button type="button" class="btn btn-danger button-margin" onclick="setPlayerToken('cbb71d83', 'Player2', '456')">Player 2</button>
+                <button type="button" class="btn btn-success button-margin" onclick="setPlayerToken('cbb71d83', 'Player3', '789')">Player 3</button>
+                <button type="button" class="btn btn-info button-margin" onclick="setPlayerToken('cbb71d83', 'Player 4', '0AB')">Player 4</button>
             </div>
         </div>
     </div>
