@@ -7,30 +7,147 @@
     <title>Princeps</title>
     <style>
         .button-margin { margin: 5px; }
-        h1 { font-size: 96px; margin-top: 2em; margin-bottom: 1em; color: #FFC; -webkit-text-stroke: 1px #660; font-family: sans-serif}
+        h1 { font-size: 96px; margin-top: 0em; margin-bottom: 0em; color: #FFC; -webkit-text-stroke: 1px #660; font-family: sans-serif}
         body { background-image: url("/assets/background.png"); background-size: cover; background-repeat: no-repeat; }
+        .nickname-box { max-width: 200px; width: 100%; }
+        .translucid {
+            background-color: rgba(255, 255, 204, 0.3); /* Cor azul com 50% de opacidade */
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        label { color: #404040; font-family: sans-serif }
+        h5 { color: #404040; font-family: sans-serif }
     </style>
     <script>
-        function setPlayerToken(token, nickname, id){
+        window.onload = function() {
+            const nickname = localStorage.getItem("princeps_nickname");
+            if (nickname) {
+                document.getElementById('nickname').value = nickname;
+            }
+        }
+
+        function enterGame(token, nickname, port){
             localStorage.setItem("princeps_token", token);
             localStorage.setItem("princeps_nickname", nickname);
-            localStorage.setItem("princeps_id", id);
+            localStorage.setItem("princeps_port", port);
+
+            if (!localStorage.getItem('princeps_id')) {
+                localStorage.setItem('princeps_id', crypto.randomUUID());
+            }
+
             self.location = "/game.html";
+        }
+
+        async function newGame() {
+            const nickname = document.getElementById('nickname').value;
+            if (!nickname || nickname.length < 3 || nickname.length > 5) {
+                window.alert("Please, set a nickname with at least 3 characters.");
+                return;
+            }
+
+            const players = document.getElementById('players').value;
+            const turns = document.getElementById('turns').value;
+            const cards = document.getElementById('cards').value;
+
+            const newGameBtn = document.getElementById('new-game-btn');
+            newGameBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost/lobby', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({"players": players, "turns": turns, "cards": cards})
+                });
+
+                if (response.ok) {
+                    // If the request was successful, handle the response
+                    const {token, port} = await response.json();
+                    enterGame(token, nickname, port)
+                } else {
+                    console.error("Error starting game:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            } finally {
+                newGameBtn.disabled = false;
+            }
         }
     </script>
 </head>
     <body>
-    <div class="d-flex justify-content-center">
-        <div class="d-flex flex-row">
-            <div class="d-flex flex-column">
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="row w-100">
+            <div class="col-12 text-center">
                 <h1>Princeps</h1>
-                <button type="button" class="btn btn-primary button-margin" onclick="setPlayerToken('cbb71d83', 'Dendriel', '123')">Player 1</button>
-                <button type="button" class="btn btn-danger button-margin" onclick="setPlayerToken('cbb71d83', 'Player2', '456')">Player 2</button>
-                <button type="button" class="btn btn-success button-margin" onclick="setPlayerToken('cbb71d83', 'Player3', '789')">Player 3</button>
-                <button type="button" class="btn btn-info button-margin" onclick="setPlayerToken('cbb71d83', 'Player 4', '0AB')">Player 4</button>
+            </div>
+            <div class="col-12 text-left mb-4">
+                <label for="nickname" class="form-label">Nickname</label>
+                <input type="text" class="form-control nickname-box" placeholder="Enter your nickname" id="nickname" maxlength="5">
+            </div>
+
+            <div class="col-md-6">
+                <!-- Left Side Form -->
+                <div class="card p-3 translucid">
+                    <h5 class="card-title">New Game</h5>
+                    <div id="game-form">
+                        <div class="mb-3">
+                            <label for="players" class="form-label">Players</label>
+                            <select class="form-select" id="players" required>
+                                <option value="2">2 Players</option>
+                                <option value="3">3 Players</option>
+                                <option value="4">4 Players</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="turns" class="form-label">Turns</label>
+                            <select class="form-select" id="turns" required>
+                                <option value="1">1 Turn</option>
+                                <option value="2">2 Turns</option>
+                                <option value="3">3 Turns</option>
+                                <option value="5">5 Turns</option>
+                                <option value="10">10 Turns</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cards" class="form-label">Cards</label>
+                            <select class="form-select" id="cards" required>
+                                <option value="16">16 Cards</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="newGame()" id="new-game-btn">Start Game</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <!-- Right Side Join -->
+                <div class="card p-3 translucid">
+                    <h5 class="card-title">Join Game</h5>
+                    <div id="join-form">
+                        <div class="mb-3">
+                            <label for="code" class="form-label">Game Code</label>
+                            <input type="text" class="form-control" id="code" placeholder="Enter Game Code">
+                        </div>
+                        <button class="btn btn-primary" onclick="enterGame('cbb71d83', 'Dendriel', '123')">Join Game</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+<!--    <div class="d-flex justify-content-center">-->
+<!--        <div class="d-flex flex-row">-->
+<!--            <div class="d-flex flex-column">-->
+<!--                <h1>Princeps</h1>-->
+<!--                <button type="button" class="btn btn-primary button-margin" onclick="setGameInfo('cbb71d83', 'Dendriel', '123')">Player 1</button>-->
+<!--                <button type="button" class="btn btn-danger button-margin" onclick="setGameInfo('cbb71d83', 'Player2', '456')">Player 2</button>-->
+<!--                <button type="button" class="btn btn-success button-margin" onclick="setGameInfo('cbb71d83', 'Player3', '789')">Player 3</button>-->
+<!--                <button type="button" class="btn btn-info button-margin" onclick="setGameInfo('cbb71d83', 'Player 4', '0AB')">Player 4</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
 </body>
 </html>
