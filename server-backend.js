@@ -50,7 +50,7 @@ app.post('/lobby', (req, res) => {
         return;
     }
 
-    const lobbyToken = randomUUID();
+    const lobbyToken = randomUUID().split('-')[4];
     const port = minServerPort + Math.floor(Math.random() * (maxServerPort - minServerPort));
 
     // TODO: for now, just launch the server and expect it to start OK.
