@@ -43,8 +43,9 @@
 
 <script type="module">
   import { Princeps } from '/dist/princeps.js';
+  const port = +localStorage.getItem('princeps_port');
   const game = new Princeps();
-  game.start();
+  game.start(port);
 </script>
 
 </body>

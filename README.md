@@ -13,6 +13,13 @@ multiplayer lib over Socket.io) for Websocket communication.
 
 ## TODO
 
+NEXT:
+- Update game.html to connect to server based on config provided by index
+- Update the game (lobby) to show the lobby token
+- Make the join lobby flow work
+- Bring the solution up in AWS
+
+
 - Add labels to the cards.
 - Add a message-log (or a chat) to improve the notifications experience
 - As now rozsa-mogs supports sharing client info while connecting, move 'nickname' setting to connection

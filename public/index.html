@@ -11,7 +11,7 @@
         body { background-image: url("/assets/background.png"); background-size: cover; background-repeat: no-repeat; }
         .nickname-box { max-width: 200px; width: 100%; }
         .translucid {
-            background-color: rgba(255, 255, 204, 0.3); /* Cor azul com 50% de opacidade */
+            background-color: rgba(255, 255, 204, 0.4); /* Cor azul com 50% de opacidade */
             padding: 20px;
             border-radius: 10px;
             color: white;
@@ -32,20 +32,29 @@
             localStorage.setItem("princeps_nickname", nickname);
             localStorage.setItem("princeps_port", port);
 
-            if (!localStorage.getItem('princeps_id')) {
+            if (!localStorage.getItem('princeps_id') || localStorage.getItem('princeps_id') === 'null') {
                 localStorage.setItem('princeps_id', crypto.randomUUID());
             }
 
             self.location = "/game.html";
         }
 
-        async function newGame() {
+        function isInvalidParams() {
             const nickname = document.getElementById('nickname').value;
             if (!nickname || nickname.length < 3 || nickname.length > 5) {
                 window.alert("Please, set a nickname with at least 3 characters.");
+                return true;
+            }
+
+            return false;
+        }
+
+        async function newGame() {
+            if (isInvalidParams()) {
                 return;
             }
 
+            const nickname = document.getElementById('nickname').value;
             const players = document.getElementById('players').value;
             const turns = document.getElementById('turns').value;
             const cards = document.getElementById('cards').value;
@@ -63,11 +72,10 @@
                 });
 
                 if (response.ok) {
-                    // If the request was successful, handle the response
                     const {token, port} = await response.json();
                     enterGame(token, nickname, port)
                 } else {
-                    console.error("Error starting game:", response.statusText);
+                    window.alert("Error starting game. Please, try again in a few minutes.");
                 }
             } catch (error) {
                 console.error("Network error:", error);
@@ -75,20 +83,57 @@
                 newGameBtn.disabled = false;
             }
         }
+
+        async function joinGame() {
+            if (isInvalidParams()) {
+                return;
+            }
+
+            const lobbyCode = document.getElementById('code').value;
+            if (!lobbyCode || lobbyCode.length < 5) {
+                window.alert("Please, set a valid lobby code.");
+                return true;
+            }
+
+            const joinGameBtn = document.getElementById('join-game-btn');
+            joinGameBtn.disabled = true;
+
+            try {
+                const response = await fetch(`http://localhost/lobby/${lobbyCode}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const {token, port} = await response.json();
+                    const nickname = document.getElementById('nickname').value;
+                    enterGame(token, nickname, port)
+                } else {
+                    window.alert("Game not found. You can create a new game or try again.");
+                }
+            } catch (error) {
+                console.error("Network error:", error);
+            } finally {
+                joinGameBtn.disabled = false;
+            }
+
+        }
     </script>
 </head>
     <body>
-    <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="row w-100">
-            <div class="col-12 text-center">
+    <div class="container-fluid d-flex align-items-center" style="height: 80vh;">
+        <div class="row w-100 justify-content-center">
+            <div class="col-12 text-center mb-5">
                 <h1>Princeps</h1>
             </div>
-            <div class="col-12 text-left mb-4">
+            <div class="col-10 text-left mb-4">
                 <label for="nickname" class="form-label">Nickname</label>
                 <input type="text" class="form-control nickname-box" placeholder="Enter your nickname" id="nickname" maxlength="5">
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <!-- Left Side Form -->
                 <div class="card p-3 translucid">
                     <h5 class="card-title">New Game</h5>
@@ -122,7 +167,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 ">
+            <div class="col-md-5">
                 <!-- Right Side Join -->
                 <div class="card p-3 translucid">
                     <h5 class="card-title">Join Game</h5>
@@ -131,7 +176,7 @@
                             <label for="code" class="form-label">Game Code</label>
                             <input type="text" class="form-control" id="code" placeholder="Enter Game Code">
                         </div>
-                        <button class="btn btn-primary" onclick="enterGame('cbb71d83', 'Dendriel', '123')">Join Game</button>
+                        <button class="btn btn-primary" onclick="joinGame()" id="join-game-btn">Join Game</button>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,10 @@ const port = 80;
 const minServerPort = 50000;
 const maxServerPort = 51000;
 
+/**
+ * Store lobbies info. [lobbyCode]info
+ */
+let lobbies = {};
 let matchCount = 0;
 
 // TODO: testing purpose only
@@ -53,6 +57,14 @@ app.post('/lobby', (req, res) => {
     const child = spawn('node', ['game-server.js', port, lobbyToken, players, turns, cards], { stdio: 'inherit' });
 
     matchCount++;
+    // TODO: no worries in syncing the lobby/game-server with backend for now.
+    lobbies[lobbyToken] = {
+        token: lobbyToken,
+        port: port,
+        players: players,
+        turns: turns,
+        cards: cards
+    };
 
     child.on('close', (code) => {
         matchCount--;
@@ -61,7 +73,26 @@ app.post('/lobby', (req, res) => {
 
     const resBody = { token: lobbyToken, port: port };
 
-    console.log(`New match started! Active matches: ${matchCount}. Current Match: ${resBody}`)
+    console.log(`New match started with token: ${lobbyToken}! Active matches: ${matchCount}. Current Match: ${resBody}`)
+
+    res.json(resBody);
+});
+
+app.get('/lobby/:code', (req, res) => {
+
+    const lobbyToken = req.params.code;
+    const lobby = lobbies[lobbyToken];
+    if (!lobby) {
+        const msg = `Lobby ${lobbyToken} was not found.`;
+        console.log(msg);
+        res.status(404)
+            .send(msg);
+        return;
+    }
+
+    const resBody = { token: lobby.token, port: lobby.port };
+
+    console.log(`New player joined match with token: ${lobbyToken}! Active matches: ${matchCount}. Current Match: ${JSON.stringify(resBody)}`)
 
     res.json(resBody);
 });
