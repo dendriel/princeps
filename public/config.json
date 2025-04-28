@@ -54,8 +54,8 @@
     "openCardKey": "open",
     "card": {
       "size": { "w": 128, "h": 160 },
-      "betweenOffset": { "w": 96, "h": 64 },
-      "borderOffset": { "w": 190, "h": 32 }
+      "betweenOffset": { "w": 48, "h": 32 },
+      "borderOffset": { "w": 230, "h": 32 }
     },
     "ui": {
       "scoreboards": 4,
