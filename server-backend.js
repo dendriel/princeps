@@ -6,6 +6,7 @@ const app = express();
 app.use(express.json())
 
 const port = 8000;
+const gameServerScript = 'packages/server/game-server.cjs';
 
 const minServerPort = 50000;
 const maxServerPort = 51000;
@@ -54,7 +55,7 @@ app.post('/lobby', (req, res) => {
     const port = minServerPort + Math.floor(Math.random() * (maxServerPort - minServerPort));
 
     // TODO: for now, just launch the server and expect it to start OK.
-    const child = spawn('node', ['game-server.js', port, lobbyToken, players, turns, cards], { stdio: 'inherit' });
+    const child = spawn('node', [gameServerScript, port, lobbyToken, players, turns, cards], { stdio: 'inherit' });
 
     matchCount++;
     // TODO: no worries in syncing the lobby/game-server with backend for now.

@@ -11,7 +11,7 @@
     "_clear_incremental": "rimraf ./tsconfig.tsbuildinfo",
     "_clear_public": "rimraf ../../public/shared",
     "_tsc": "tsc",
-    "_copy": "cpx ./dist/** ../../public/shared/dist",
+    "_copy": "cpx \"./dist/**\" ../../public/shared/dist",
     "build": "run-s clear _tsc _copy"
   },
   "author": "Vitor Rozsa",

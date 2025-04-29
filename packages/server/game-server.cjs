@@ -1,5 +1,5 @@
-import {PrincepsServer} from 'princeps-server/dist/princeps-server.js'
-import {PrincepsConnectionInfo} from "princeps-server/dist/princeps-connection-info.js";
+const princeps = require('princeps-server/dist/princeps-server.js');
+//import {PrincepsConnectionInfo} from "princeps-server/dist/princeps-connection-info.js";
 
 /**
  * node game-server.js {server-port} {lobby-token} {players-count} {turns} {cards-count}
@@ -18,7 +18,7 @@ let cards = process.argv.length >= 7 ? +process.argv[6] : 16;
 
 console.log(`Princeps Game Server is starting with port=${port}, token=${token}, players=${players}, turns=${turns}, cards=${cards}`);
 
-const gameServer = new PrincepsServer(true, players);
+const gameServer = new princeps.PrincepsServer(true, players);
 
 // TODO: create connection/player info
 // server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));

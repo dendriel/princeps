@@ -6,7 +6,7 @@
   "scripts": {
     "clear": "run-s _clear",
     "_clear": "rimraf ../../public/dist",
-    "_copy": "cpx ../../node_modules/rozsa-mogs-client/** ../../public/dist/rozsa-mogs-client",
+    "_copy": "cpx \"../../node_modules/rozsa-mogs-client/**\" ../../public/dist/rozsa-mogs-client",
     "_tsc": "tsc",
     "build": "run-s _clear _tsc _copy"
   },
