@@ -21,3 +21,55 @@ NEXT:
 - As now rozsa-mogs supports sharing client info while connecting, move 'nickname' setting to connection
 - Add timeout so game-server can shutdown automatically if the match is not started or it is abandoned
 - Update doc images
+
+
+## EC2 Setup
+
+> Server Backend
+```shell
+sudo yum update -y
+
+sudo yum install -y nodejs
+
+node server-backend.js &
+```
+
+> Nginx
+```shell
+# Configure Access
+sudo apt install nginx -y
+
+sudo mkdir /etc/nginx/sites-available
+sudo mkdir /etc/nginx/sites-enabled
+
+sudo vi /etc/nginx/sites-enabled/princeps-express # add server config (cfg bellow)
+sudo ln sites-avaiable/princeps-express sites-enabled/ 
+sudo vi /etc/nginx/nginx.conf # make nginx aware of the config (cfg bellow)
+
+sudo nginx -t # check the config
+sudo systemctl reload nginx # reload the service
+
+# Enable HTTPS
+
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d princeps.vrozsa.com
+```
+
+> `princeps-express` config:
+```
+server {
+listen 80;
+server_name princeps.vrozsa.com;
+
+    location /lobby {
+        proxy_pass http://localhost:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+Also add `include /etc/nginx/sites-enabled/*;` to `/etc/nginx/nginx.conf`.

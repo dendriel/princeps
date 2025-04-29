@@ -47,8 +47,10 @@
 <script type="module">
   import { Princeps } from '/dist/princeps.js';
   const port = +localStorage.getItem('princeps_port');
+
+  const address = 'princeps.vrozsa.com'; /* 'localhost' */
   const game = new Princeps();
-  game.start(port);
+  game.start(address, port);
 </script>
 
 </body>

@@ -20,6 +20,8 @@
         h5 { color: #404040; font-family: sans-serif }
     </style>
     <script>
+        // TODO: uncomment locally
+        // const targetUrl = "http://localhost"
         window.onload = function() {
             const nickname = localStorage.getItem("princeps_nickname");
             if (nickname) {
@@ -63,7 +65,7 @@
             newGameBtn.disabled = true;
 
             try {
-                const response = await fetch('http://localhost/lobby', {
+                const response = await fetch(`${targetUrl}/lobby`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -99,7 +101,7 @@
             joinGameBtn.disabled = true;
 
             try {
-                const response = await fetch(`http://localhost/lobby/${lobbyCode}`, {
+                const response = await fetch(`${targetUrl}/lobby/${lobbyCode}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

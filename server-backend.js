@@ -5,7 +5,7 @@ const { randomUUID } = require('crypto');
 const app = express();
 app.use(express.json())
 
-const port = 80;
+const port = 8000;
 
 const minServerPort = 50000;
 const maxServerPort = 51000;
@@ -97,6 +97,18 @@ app.get('/lobby/:code', (req, res) => {
     res.json(resBody);
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log('Client listening on http://localhost:' + port);
+});
+
+server.on('error', (err) => {
+    console.error('Server failed to start:', err);
+});
+
+server.on('uncaughtException', err => {
+    console.error('Uncaught Exception:', err);
+});
+
+server.on('unhandledRejection', err => {
+    console.error('Unhandled Rejection:', err);
 });
