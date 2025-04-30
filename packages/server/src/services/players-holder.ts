@@ -3,6 +3,7 @@ import {ActiveConnection} from "rozsa-mogs";
 
 /**
  * Handle player's information and state.
+ * Helps to control the number of expected players in the match, player's turns and score.
  */
 export interface PlayersHolder {
     add(player: Player): void;

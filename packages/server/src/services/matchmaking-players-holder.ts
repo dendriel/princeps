@@ -102,10 +102,11 @@ export class MatchmakingPlayersHolder implements PlayersHolder {
     }
 
     connectedPlayersCount(): number {
-        return this.playersByToken.values()
+        const count = [...this.playersByToken.values()] // spread is required to work on js
             .filter((player, _) => player.isConnected)
-            .toArray()
             .length;
+        console.log(`Connected players count: ${count}`);
+        return count;
     }
 
     /**

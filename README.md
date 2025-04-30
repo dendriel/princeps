@@ -11,10 +11,21 @@ multiplayer lib over Socket.io) for Websocket communication.
 
 ![gameplay](docs/gameplay.png "Gameplay")
 
+
+## Features
+
+- Multiplayer Online Game
+- Websocket network communication with authoritative server
+- Lobby and Matchmaking support
+  - *Matchmaking mode needs to be reactivated in the code and needs an extra service to create the matches
+- Allows players to reconnect to the match
+
 ## TODO
 
 NEXT:
 - Bring the solution up in AWS
+- NEXT: update rozsa mogs to allow HTTPs
+- update player-holder to not use filter.
 
 - Add labels to the cards.
 - Add a message-log (or a chat) to improve the notifications experience

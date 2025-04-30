@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json())
 
 const port = 8000;
-const gameServerScript = 'packages/server/game-server.cjs';
+const gameServerScript = 'packages/server/game-server.js';
 
 const minServerPort = 50000;
 const maxServerPort = 51000;
@@ -93,7 +93,7 @@ app.get('/lobby/:code', (req, res) => {
 
     const resBody = { token: lobby.token, port: lobby.port };
 
-    console.log(`New player joined match with token: ${lobbyToken}! Active matches: ${matchCount}. Current Match: ${JSON.stringify(resBody)}`)
+    console.log(`New player joined match with token: ${lobby.token} at port: ${lobby.port}! Active matches: ${matchCount}.`)
 
     res.json(resBody);
 });
