@@ -1,6 +1,5 @@
 import mogs, {ActiveConnection, GameServer, NetworkServer, ConnectionInfo} from "rozsa-mogs";
 import {Player} from "./services/player.js";
-import {PrincepsConnectionInfo} from "./princeps-connection-info.js";
 import {ServerCommand} from "../../shared/dist/princeps-shared.js";
 import {MatchmakingPlayersHolder} from "./services/matchmaking-players-holder.js";
 import {CommandDispatcher} from "./commands/command-dispatcher.js";
@@ -28,12 +27,23 @@ export class PrincepsServer implements GameServer {
 
     private gameStarted: boolean = false;
 
-    constructor(private lobbyMode: boolean = false, private playersCount: number = 2) {
+    constructor(
+        private lobbyMode: boolean = false,
+        private playersCount: number = 2,
+        sslKeyPath?: string,
+        sslCertPath?: string
+    ) {
         this.assertPlayersCount();
 
         this.config = ConfigLoader.load('server-config.json');
 
-        this.networkServer = new mogs.NetworkServer(this, {lobbyMode: lobbyMode, lobbyMaxPlayers: playersCount});
+        let sslCfg = undefined;
+        if (sslKeyPath && sslCertPath) {
+            sslCfg =  { keyPath: sslKeyPath, certPath: sslCertPath};
+        }
+
+        this.networkServer = new mogs.NetworkServer(this, {lobbyMode: lobbyMode, lobbyMaxPlayers: playersCount, ssl: sslCfg });
+
         this.playersHolder = lobbyMode ? new LobbyPlayersHolder(playersCount) : new MatchmakingPlayersHolder();
         this.commandDispatcher = new CommandDispatcher(this.networkServer, this.playersHolder);
         const matchGenerator = new MatchGenerator(this.config.cards);

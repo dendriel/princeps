@@ -17,11 +17,9 @@ let cards = process.argv.length >= 7 ? +process.argv[6] : 16;
 
 console.log(`Princeps Game Server is starting with port=${port}, token=${token}, players=${players}, turns=${turns}, cards=${cards}`);
 
-const gameServer = new PrincepsServer(true, players);
+const sslKeyPath = process.env.PRINCEPS_SSL_KEY;
+const sslCertPath = process.env.PRINCEPS_SSL_CERT;
 
-// TODO: create connection/player info
-// server.addExpectedPlayer( new PrincepsConnectionInfo("ABCD"));
-// server.addExpectedPlayer( new PrincepsConnectionInfo("1234"));
-// server.addExpectedPlayer( new PrincepsConnectionInfo("5555"));
+const gameServer = new PrincepsServer(true, players, sslKeyPath, sslCertPath);
 
 gameServer.start(port, token, turns, cards);

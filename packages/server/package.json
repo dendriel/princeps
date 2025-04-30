@@ -13,6 +13,6 @@
   "author": "Vitor Rozsa",
   "license": "MIT",
   "dependencies": {
-    "rozsa-mogs": "^0.0.15"
+    "rozsa-mogs": "^0.0.16"
   }
 }
