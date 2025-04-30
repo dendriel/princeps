@@ -36,7 +36,7 @@ NEXT:
 
 ## EC2 Setup
 
-> Server Backend
+### Server Backend
 ```shell
 sudo yum update -y
 
@@ -45,7 +45,7 @@ sudo yum install -y nodejs
 node server-backend.js &
 ```
 
-> Nginx
+### Nginx
 ```shell
 # Configure Access
 sudo apt install nginx -y
@@ -66,7 +66,7 @@ sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d princeps.vrozsa.com
 ```
 
-> `princeps-express` config:
+### `princeps-express` config at Nginx
 ```
 server {
 listen 80;
@@ -84,3 +84,46 @@ server_name princeps.vrozsa.com;
 ```
 
 Also add `include /etc/nginx/sites-enabled/*;` to `/etc/nginx/nginx.conf`.
+
+### Set the frontend and backend as services to auto-restart
+
+`/etc/systemd/system/princeps-backend.service`
+```
+[Unit]
+Description=Princeps Backend
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /home/ec2-user/princeps/server-backend.js
+WorkingDirectory=/home/ec2-user/princeps
+Restart=always
+User=root
+
+Environment=PRINCEPS_SSL_KEY=
+Environment=PRINCEPS_SSL_CERT=
+
+StandardOutput=append:/home/ec2-user/backend.log
+StandardError=append:/home/ec2-user/backend.log
+
+[Install]
+WantedBy=multi-user.target
+```
+
+`/etc/systemd/system/princeps-frontend.service`
+```
+[Unit]
+Description=Princeps Frontend
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node /home/ec2-user/princeps/client.js
+WorkingDirectory=/home/ec2-user/princeps
+Restart=always
+User=root
+
+StandardOutput=append:/home/ec2-user/frontend.log
+StandardError=append:/home/ec2-user/frontend.log
+
+[Install]
+WantedBy=multi-user.target
+```
