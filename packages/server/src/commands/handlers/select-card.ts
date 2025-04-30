@@ -55,8 +55,7 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
             this.commandDispatcher.broadcastWrongGuessMsg();
         }
 
-        // TODO: reactivate sleep
-        // await this.sleep(2000);
+        await this.sleep(2000);
 
         // Two cards were open. Check if the player guessed the pair right.
         if (!this.matchHandler.pairIsMatch()) {

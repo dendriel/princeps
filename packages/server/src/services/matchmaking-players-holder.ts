@@ -34,7 +34,7 @@ export class MatchmakingPlayersHolder implements PlayersHolder {
 
     private getByIndex(index: number): Player {
         // todo: always creating a new array. We can create it in a wrapUp phase or something like that.
-        return this.playersByToken.values().toArray()[index];
+        return [...this.playersByToken.values()][index];
     }
 
     getCurrentPlayerToPlay(): Player {
