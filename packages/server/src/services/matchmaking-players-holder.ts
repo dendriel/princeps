@@ -50,7 +50,7 @@ export class MatchmakingPlayersHolder implements PlayersHolder {
      * Find the players with most points. If more than one player is returned, it is draw.
      */
     getPlayerWithMostPoints(): Player[] {
-        const sorted = this.players.sort(p => p.score);
+        const sorted = this.players.sort((a, b) => b.score - a.score);
 
         const winners : Player[] = [];
         const first = sorted[0];
