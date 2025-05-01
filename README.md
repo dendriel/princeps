@@ -21,14 +21,13 @@ multiplayer lib over Socket.io) for Websocket communication.
   - *Matchmaking mode needs to be reactivated in the code and needs an extra service to create the matches
 - Allows players to reconnect to the match
 - Configuration-based content
+- Game server auto-shutdown (when maximum time or no connected players)
 
 ## TODO
 
 NEXT:
 
 - Add a message-log (or a chat) to improve the notifications experience
-- As now rozsa-mogs supports sharing client info while connecting, move 'nickname' setting to connection
-- Add timeout so game-server can shutdown automatically if the match is not started or it is abandoned
 - Update doc images
 
 

@@ -33,4 +33,6 @@ export interface PlayersHolder {
      * All expected players have already connected/registered (even if they may be no connected right now)?
      */
     allPlayersJoined(): boolean;
+
+    anyPlayersOnline(): boolean;
 }

@@ -87,6 +87,10 @@ export class PrincepsServer implements GameServer {
         this.playersHolder.add(new Player(connInfo));
     }
 
+    hasConnectedPlayers(): boolean {
+        return this.playersHolder.anyPlayersOnline();
+    }
+
     onConnection(conn: ActiveConnection) {
         const player = this.playersHolder.addConnectionInfo(conn);
         if (!player) {

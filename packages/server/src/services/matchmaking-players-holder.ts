@@ -122,4 +122,8 @@ export class MatchmakingPlayersHolder implements PlayersHolder {
     allPlayersJoined(): boolean {
         return this.players.length === this.totalPlayers;
     }
+
+    anyPlayersOnline(): boolean {
+        return this.connectedPlayersCount() > 0;
+    }
 }
