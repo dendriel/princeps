@@ -37,41 +37,48 @@ NEXT:
 ## EC2 Setup
 
 ### Server Backend
+
 ```shell
 sudo yum update -y
-
+sudo yum install git -y
 sudo yum install -y nodejs
 
-node server-backend.js &
+git clone https://github.com/dendriel/princeps.git
+
+cd princeps
+npm i
+npm run build
 ```
 
 ### Nginx
+
 ```shell
 # Configure Access
-sudo apt install nginx -y
+sudo yum install nginx -y
 
 sudo mkdir /etc/nginx/sites-available
 sudo mkdir /etc/nginx/sites-enabled
 
-sudo vi /etc/nginx/sites-enabled/princeps-express # add server config (cfg bellow)
-sudo ln sites-avaiable/princeps-express sites-enabled/ 
+sudo vi /etc/nginx/sites-available/princeps-express # add server config (cfg bellow)
+sudo ln /etc/nginx/sites-available/princeps-express /etc/nginx/sites-enabled/
 sudo vi /etc/nginx/nginx.conf # make nginx aware of the config (cfg bellow)
 
 sudo nginx -t # check the config
-sudo systemctl reload nginx # reload the service
+sudo systemctl start nginx # start the service (or reload if already active)
 
-# Enable HTTPS
+# Configure HTTPS
 
-sudo apt install certbot python3-certbot-nginx -y
+sudo yum install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d princeps.vrozsa.com
 ```
 
-### `princeps-express` config at Nginx
+#### `princeps-express` base server config for Nginx
 ```
 server {
 listen 80;
 server_name princeps.vrozsa.com;
 
+    # Web Backend config
     location /lobby {
         proxy_pass http://localhost:8000;
         proxy_http_version 1.1;
@@ -80,14 +87,30 @@ server_name princeps.vrozsa.com;
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
     }
+    
+    # Frontend config (client)
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
 }
 ```
+*Certbot will update this config latter.
 
-Also add `include /etc/nginx/sites-enabled/*;` to `/etc/nginx/nginx.conf`.
+Also, if not present, add `include /etc/nginx/sites-enabled/*;` to `/etc/nginx/nginx.conf` inside the `http` block.
 
-### Set the frontend and backend as services to auto-restart
+## Frontend and Backend as services
 
-`/etc/systemd/system/princeps-backend.service`
+Set the frontend and backend as services to auto-restart.
+
+> Note: the certificate private-key and chain file path will be available into `/etc/nginx/nginx.conf` after setting up
+> the certbot.
+
+Create a file at `/etc/systemd/system/princeps-backend.service` and past the config:
 ```
 [Unit]
 Description=Princeps Backend
@@ -99,8 +122,8 @@ WorkingDirectory=/home/ec2-user/princeps
 Restart=always
 User=root
 
-Environment=PRINCEPS_SSL_KEY=
-Environment=PRINCEPS_SSL_CERT=
+Environment=PRINCEPS_SSL_KEY={TODO: add the certificate-key path here}
+Environment=PRINCEPS_SSL_CERT={TODO: add the certificate path here}
 
 StandardOutput=append:/home/ec2-user/backend.log
 StandardError=append:/home/ec2-user/backend.log
@@ -109,7 +132,7 @@ StandardError=append:/home/ec2-user/backend.log
 WantedBy=multi-user.target
 ```
 
-`/etc/systemd/system/princeps-frontend.service`
+Create a file at `/etc/systemd/system/princeps-frontend.service` and past the config:
 ```
 [Unit]
 Description=Princeps Frontend
@@ -126,4 +149,11 @@ StandardError=append:/home/ec2-user/frontend.log
 
 [Install]
 WantedBy=multi-user.target
+```
+
+Start both services:
+
+```
+sudo systemctl start princeps-backend
+sudo systemctl start princeps-frontend
 ```

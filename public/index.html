@@ -45,7 +45,7 @@
 
         function isInvalidParams() {
             const nickname = document.getElementById('nickname').value;
-            if (!nickname || nickname.length < 3 || nickname.length > 5) {
+            if (!nickname || nickname.length < 3) {
                 window.alert("Please, set a nickname with at least 3 characters.");
                 return true;
             }
