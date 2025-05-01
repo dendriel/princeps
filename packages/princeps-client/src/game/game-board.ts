@@ -161,8 +161,9 @@ export class GameBoard extends Phaser.Scene {
             .setOrigin(0, 0); // make the corner be the top-left instead of the center (0.5, 0.5)
         // this._scene.uiCam.ignore(objGo);
 
+        const label = this.createCardLabel(windowPos);
         const openDisplaySize = Size.of(this.cardWidth(), this.cardHeight());
-        const card = new Card(boardPos, this.size(),false, backgroundCard, openDisplaySize, windowPos, phaserGo);
+        const card = new Card(boardPos, this.size(), label,false, backgroundCard, openDisplaySize, windowPos, phaserGo);
         card.addLeftPointerUpListener(this.onCardLeftClicked.bind(this));
         this.cards.set(key, card);
 
@@ -184,6 +185,18 @@ export class GameBoard extends Phaser.Scene {
 
     private onCardLeftClicked(context: PointerEventContext) {
         this.cardClickedListener.forEach(listener => listener(context));
+    }
+
+    private createCardLabel(windowPos: Position) : Text {
+        const label = this.addText(
+            windowPos.x + this.configBoard.card.labelText.offset.x,
+            windowPos.y + this.configBoard.card.labelText.offset.y,
+            this.configBoard.card.labelText.text,
+            this.configBoard.card.labelText.style
+        );
+        label.setOrigin(0.5, 0.5); // allows to center align correctly.
+        label.setVisible(false);
+        return label;
     }
 
     addOnSceneReadyListener(listener: any) {

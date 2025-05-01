@@ -19,33 +19,33 @@
 
       "bag":            { "key": "bag", "name":  "Bag", "image": "bag"},
       "chalice":        { "key": "chalice", "name":  "Chalice", "image": "chalice"},
-      "flag_crown":     { "key": "flag_crown", "name":  "Flag Crown", "image": "flag_crown"},
-      "glove":          { "key": "glove", "name":  "Glove", "image": "glove"},
-      "kite_shield":    { "key": "kite_shield", "name":  "Kite Shield", "image": "kite_shield"},
-      "knight_mace":    { "key": "knight_mace", "name":  "Knight Mace", "image": "knight_mace"},
-      "landscape_1":    { "key": "landscape_1", "name":  "Landscape 1", "image": "landscape_1"},
+      "flag_crown":     { "key": "flag_crown", "name":  "Crown Flag", "image": "flag_crown"},
+      "glove":          { "key": "glove", "name":  "Gauntlet", "image": "glove"},
+      "kite_shield":    { "key": "kite_shield", "name":  "Kite\nShield", "image": "kite_shield"},
+      "knight_mace":    { "key": "knight_mace", "name":  "Mace\nKnight", "image": "knight_mace"},
+      "landscape_1":    { "key": "landscape_1", "name":  "Plains", "image": "landscape_1"},
       "sword":          { "key": "sword", "name": "Sword", "image": "sword"},
       "tower":          { "key": "tower", "name": "Tower", "image": "tower"},
 
       "axe":                 { "key": "axe", "name": "Axe", "image":  "axe" },
       "castle":              { "key": "castle", "name": "Castle", "image":  "castle" },
       "crossbow":            { "key": "crossbow", "name": "Crossbow", "image":  "crossbow" },
-      "crusader_helmet":     { "key": "crusader_helmet", "name": "Crusader Helmet", "image":  "crusader_helmet" },
-      "knight_sword_shield": { "key": "knight_sword_shield", "name": "Knight Sword and Shield", "image":  "knight_sword_shield" },
+      "crusader_helmet":     { "key": "crusader_helmet", "name": "Crusader\nHelmet", "image":  "crusader_helmet" },
+      "knight_sword_shield": { "key": "knight_sword_shield", "name": "Noble\nKnight", "image":  "knight_sword_shield" },
       "lancer":              { "key": "lancer", "name": "Lancer", "image":  "lancer" },
-      "landscape":           { "key": "landscape", "name": "Landscape", "image":  "landscape" },
+      "landscape":           { "key": "landscape", "name": "Mountains", "image":  "landscape" },
       "longsword":           { "key": "longsword", "name": "Longsword", "image":  "longsword" },
       "shield":              { "key": "shield", "name": "Shield", "image":  "shield" },
 
-      "archer": { "key": "archer", "name": "Archer", "image": "archer" },
-      "cannon": { "key": "cannon", "name": "Cannon", "image": "cannon" },
-      "door":  { "key": "door", "name": "Door", "image": "door" },
-      "farm": { "key": "farm", "name": "Farm", "image": "farm" },
-      "hammer":  { "key": "hammer", "name": "Hammer", "image": "hammer" },
-      "spiked_mace": { "key": "spiked_mace", "name": "Spiked_mace", "image": "spiked_mace" },
-      "tent":  { "key": "tent", "name": "Tent", "image": "tent" },
-      "watchtower": { "key": "watchtower", "name": "Watchtower", "image": "watchtower" },
-      "tower_castle":  { "key": "tower_castle", "name": "Tower_castle", "image": "tower_castle" }
+      "archer":       { "key": "archer", "name": "Archer", "image": "archer" },
+      "cannon":       { "key": "cannon", "name": "Cannon", "image": "cannon" },
+      "door":         { "key": "door", "name": "Door", "image": "door" },
+      "farm":         { "key": "farm", "name": "Farm", "image": "farm" },
+      "hammer":       { "key": "hammer", "name": "Hammer", "image": "hammer" },
+      "spiked_mace":  { "key": "spiked_mace", "name": "Spiked\nMace", "image": "spiked_mace" },
+      "tent":         { "key": "tent", "name": "Tent", "image": "tent" },
+      "watchtower":   { "key": "watchtower", "name": "Watchtower", "image": "watchtower" },
+      "tower_castle": { "key": "tower_castle", "name": "Towered\nCastle", "image": "tower_castle" }
     }
   },
   "gameBoard": {
@@ -55,7 +55,12 @@
     "card": {
       "size": { "w": 128, "h": 160 },
       "betweenOffset": { "w": 48, "h": 32 },
-      "borderOffset": { "w": 230, "h": 32 }
+      "borderOffset": { "w": 230, "h": 32 },
+      "labelText": {
+        "text": "Card Name",
+        "offset": {"x": 64, "y": 140},
+        "style": {"font": "20px Courier", "fill": "#808080", "stroke": "#202020", "strokeThickness": 1, "align": "center"}
+      }
     },
     "ui": {
       "scoreboards": 4,

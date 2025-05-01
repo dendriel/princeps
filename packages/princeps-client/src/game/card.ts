@@ -1,6 +1,7 @@
 import {GameObject} from "./game-object.js";
 import {Position, Size} from "../../../shared/dist/princeps-shared.js"
 import {CardConfig} from "./game-config.js";
+import Text = Phaser.GameObjects.Text;
 
 
 export class Card extends GameObject {
@@ -10,6 +11,7 @@ export class Card extends GameObject {
     constructor(
         private _boardPos: Position,
         private boardSize: Size,
+        private label: Text,
         private _isVisible: boolean,
         private backgroundGo: GameObject,
         private displaySize: Size,
@@ -46,6 +48,9 @@ export class Card extends GameObject {
         this.phaserGo.setTexture(cardConfig.image);
         this.phaserGo.setDisplaySize(this.displaySize.w, this.displaySize.w);
         this._isVisible = true;
+
+        this.label.setText(cardConfig.name);
+        this.label.setVisible(true);
     }
 
     hide(cardConfig: CardConfig) {
@@ -53,5 +58,6 @@ export class Card extends GameObject {
         this.phaserGo.setTexture(cardConfig.image);
         this.phaserGo.setDisplaySize(this.displaySize.w, this.displaySize.h);
         this._isVisible = false;
+        this.label.setVisible(false);
     }
 }

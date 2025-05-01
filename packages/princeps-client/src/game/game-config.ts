@@ -12,18 +12,19 @@ export class GameControllerConfig {
     ) {}
 }
 
-export class CardDimensions {
+export class CardProperties {
     constructor(
         public size: Size,
         public betweenOffset: Size,
-        public borderOffset: Size
+        public borderOffset: Size,
+        public labelText: GameText
     ) {}
 }
 
 export class GameBoardConfig {
     constructor(
         public size: Size,
-        public card: CardDimensions,
+        public card: CardProperties,
         public hiddenCardKey: string,
         public openCardKey: string,
         public images: [string, string][],
