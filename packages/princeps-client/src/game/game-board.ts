@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
 import {Card} from "./card.js";
 import {GameObject, PointerEventContext, PointerEventListener} from "./game-object.js";
-import {CardConfig, GameBoardConfig, GameTextStyle} from "./game-config.js";
+import {CardConfig, CardProperties, GameBoardConfig, GameTextStyle} from "./game-config.js";
 import {Position, Size} from "../../../shared/dist/princeps-shared.js"
 import Text = Phaser.GameObjects.Text;
 import {GameUi} from "./game-ui.js";
@@ -16,6 +16,8 @@ export class GameBoard extends Phaser.Scene {
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
+    private readonly cardProperties: CardProperties;
+
     private _ui : GameUi | undefined;
 
     constructor(
@@ -28,6 +30,9 @@ export class GameBoard extends Phaser.Scene {
 
         this.gos = [];
         this.cards = new Map<String, Card>();
+
+        //@ts-ignore
+        this.cardProperties = this.configBoard.cardsProperties[boardSize.toString()];
     }
 
     get ui(): GameUi {
@@ -35,11 +40,11 @@ export class GameBoard extends Phaser.Scene {
     }
 
     private width() {
-        return this.boardSize / 4;
+        return this.cardProperties.dimension.w;
     }
 
     private height() {
-        return this.boardSize / 4;
+        return this.cardProperties.dimension.h;
     }
 
     private size(): Size {
@@ -47,11 +52,11 @@ export class GameBoard extends Phaser.Scene {
     }
 
     private cardWidth() {
-        return this.configBoard.card.size.w;
+        return this.cardProperties.size.w;
     }
 
     private cardHeight() {
-        return this.configBoard.card.size.h;
+        return this.cardProperties.size.h;
     }
 
     private hiddenCardTemplate() : CardConfig {
@@ -139,8 +144,8 @@ export class GameBoard extends Phaser.Scene {
     private layCards() {
         for (let row = 0; row < this.height(); row++) {
             for (let col = 0; col < this.width(); col++) {
-                const posY = row * this.cardHeight() + row * this.configBoard.card.betweenOffset.h + this.configBoard.card.borderOffset.h;
-                const posX = col * this.cardWidth() + col * this.configBoard.card.betweenOffset.w + this.configBoard.card.borderOffset.w;
+                const posY = row * this.cardHeight() + row * this.cardProperties.betweenOffset.h + this.cardProperties.borderOffset.h;
+                const posX = col * this.cardWidth() + col * this.cardProperties.betweenOffset.w + this.cardProperties.borderOffset.w;
 
                 const key = GameBoard.getCardKey(row, col);
 
@@ -189,10 +194,10 @@ export class GameBoard extends Phaser.Scene {
 
     private createCardLabel(windowPos: Position) : Text {
         const label = this.addText(
-            windowPos.x + this.configBoard.card.labelText.offset.x,
-            windowPos.y + this.configBoard.card.labelText.offset.y,
-            this.configBoard.card.labelText.text,
-            this.configBoard.card.labelText.style
+            windowPos.x + this.cardProperties.labelText.offset.x,
+            windowPos.y + this.cardProperties.labelText.offset.y,
+            this.cardProperties.labelText.text,
+            this.cardProperties.labelText.style
         );
         label.setOrigin(0.5, 0.5); // allows to center align correctly.
         label.setVisible(false);

@@ -29,6 +29,7 @@ multiplayer lib over Socket.io) for Websocket communication.
 
 NEXT:
 
+- Allow laying more cards
 - Add a message-log (or a chat) to improve the notifications experience
 - Update doc images
 

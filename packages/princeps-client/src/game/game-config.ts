@@ -14,6 +14,8 @@ export class GameControllerConfig {
 
 export class CardProperties {
     constructor(
+        // Count of cols and rows in the board.
+        public dimension: Size,
         public size: Size,
         public betweenOffset: Size,
         public borderOffset: Size,
@@ -24,7 +26,7 @@ export class CardProperties {
 export class GameBoardConfig {
     constructor(
         public size: Size,
-        public card: CardProperties,
+        public cardsProperties: Map<string, CardProperties>,
         public hiddenCardKey: string,
         public openCardKey: string,
         public images: [string, string][],

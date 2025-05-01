@@ -190,9 +190,12 @@ export class MatchHandler {
     // debug only
     printMatchCards() {
         console.log(`Match cards:`);
+
+        let rowLen = this.matchCards.length >= 24 ? 6 : 4;
+
         for (let i = 0; i < this.matchCards.length; i++) {
             process.stdout.write(`${this.matchCards[i].name}(${this.matchCards[i].isOpen}), `);
-            if ((i+1) % 4 === 0) {
+            if ((i+1) % rowLen === 0) {
                 console.log('\n')
             }
         }

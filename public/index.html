@@ -133,7 +133,7 @@
             </div>
             <div class="col-10 text-left mb-4">
                 <label for="nickname" class="form-label">Nickname</label>
-                <input type="text" class="form-control nickname-box" placeholder="Enter your nickname" id="nickname" maxlength="5">
+                <input type="text" class="form-control nickname-box" placeholder="Enter your nickname" id="nickname" maxlength="8">
             </div>
 
             <div class="col-md-5">
@@ -165,6 +165,8 @@
                             <label for="cards" class="form-label">Cards</label>
                             <select class="form-select" id="cards" required>
                                 <option value="16">16 Cards</option>
+                                <option value="24">24 Cards</option>
+                                <option value="40">40 Cards</option>
                             </select>
                         </div>
                         <button class="btn btn-primary" onclick="newGame()" id="new-game-btn">Start Match</button>

@@ -66,7 +66,7 @@ export class PrincepsServer implements GameServer {
     }
 
     start(port: number, turns: number, cards: number) {
-        if (cards !== 16) {
+        if (cards !== 16 && cards !== 24 && cards !== 42) {
             console.log(`Unsupported match size ${cards}`);
             return;
         }

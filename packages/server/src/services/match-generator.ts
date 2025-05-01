@@ -13,7 +13,7 @@ export class MatchGenerator {
             throw new Error(`There is not enough unique cards to create a match of ${size} cards.`)
         }
 
-        const selectedCards : Set<string> = new Set<string>();
+        const selectedCards = new Set<string>();
         do {
             const randomCard = this.pickRandomCard();
             selectedCards.add(randomCard);

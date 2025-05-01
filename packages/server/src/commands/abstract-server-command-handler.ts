@@ -29,8 +29,8 @@ export abstract class AbstractServerCommandHandler<P, T> implements ServerComman
             console.log(`Handling ${this._type} command for player ${player.debug} with payload: ${JSON.stringify(typedPayload)}`);
 
             await this.handleCommand(player, typedPayload);
-        } catch (error) {
-            console.log(`Failed to handle command ${this._type}. Error: ${JSON.stringify(error)}`);
+        } catch (error: unknown) {
+            console.error(`Failed to handle command ${this._type}.`, error);
         }
 
         return Promise.resolve();

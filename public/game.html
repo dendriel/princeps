@@ -4,8 +4,6 @@
 <!--  <script type="module" src="https://cdn.jsdelivr.net/npm/phaser@3.87.0/dist/phaser-arcade-physics.min.js"></script>-->
 
   <title>Princeps</title>
-
-
   <style>
     /*body { background-image: url("/assets/background_game.png"); background-size: cover; background-repeat: no-repeat; background-position: center; height: 100vh;}*/
     body {
@@ -14,7 +12,6 @@
       background-position: center;
       height: 100vh;
     }
-
     .lobbyLabel { font-size: 24px; color: #FFC; -webkit-text-stroke: 1px #660; font-family: sans-serif}
   </style>
   <script>
@@ -46,10 +43,10 @@
 </script>
 <script type="module">
   import { Princeps } from '/dist/princeps.js';
-  // const port = +localStorage.getItem('princeps_port');
-  // const address = 'princeps.vrozsa.com';
-  const address = 'localhost';
-  const port = 8090;
+  const port = +localStorage.getItem('princeps_port');
+  const address = 'princeps.vrozsa.com';
+  // const address = 'localhost';
+  // const port = 8090;
 
   const game = new Princeps();
   game.start(address, port);

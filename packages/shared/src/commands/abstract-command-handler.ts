@@ -15,8 +15,8 @@ export abstract class AbstractCommandHandler<P, T> implements CommandHandler {
             console.log(`Handling ${this._type} command with payload: ${JSON.stringify(typedPayload)}`);
 
             this.handleCommand(typedPayload);
-        } catch (error) {
-            console.log(`Failed to handle command ${this._type}. Error: ${JSON.stringify(error)}`);
+        } catch (error: unknown) {
+            console.error(`Failed to handle command ${this._type}.`, error);
         }
     }
 

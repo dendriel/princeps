@@ -1,9 +1,9 @@
 {
   "phaser": {
     "width": 1200,
-    "height": 900,
+    "height": 800,
     "mode": "FIT",
-    "autoCenter": "CENTER_BOTH",
+    "autoCenter": "CENTER_HORIZONTALLY",
     "transparent": true,
     "physics": {
       "default": "arcade",
@@ -19,7 +19,7 @@
 
       "bag":            { "key": "bag", "name":  "Bag", "image": "bag"},
       "chalice":        { "key": "chalice", "name":  "Chalice", "image": "chalice"},
-      "flag_crown":     { "key": "flag_crown", "name":  "Crown Flag", "image": "flag_crown"},
+      "flag_crown":     { "key": "flag_crown", "name":  "Flag", "image": "flag_crown"},
       "glove":          { "key": "glove", "name":  "Gauntlet", "image": "glove"},
       "kite_shield":    { "key": "kite_shield", "name":  "Kite\nShield", "image": "kite_shield"},
       "knight_mace":    { "key": "knight_mace", "name":  "Mace\nKnight", "image": "knight_mace"},
@@ -28,7 +28,7 @@
       "tower":          { "key": "tower", "name": "Tower", "image": "tower"},
 
       "axe":                 { "key": "axe", "name": "Axe", "image":  "axe" },
-      "castle":              { "key": "castle", "name": "Castle", "image":  "castle" },
+      "castle":              { "key": "castle", "name": "Fortified\nCastle", "image":  "castle" },
       "crossbow":            { "key": "crossbow", "name": "Crossbow", "image":  "crossbow" },
       "crusader_helmet":     { "key": "crusader_helmet", "name": "Crusader\nHelmet", "image":  "crusader_helmet" },
       "knight_sword_shield": { "key": "knight_sword_shield", "name": "Noble\nKnight", "image":  "knight_sword_shield" },
@@ -45,21 +45,46 @@
       "spiked_mace":  { "key": "spiked_mace", "name": "Spiked\nMace", "image": "spiked_mace" },
       "tent":         { "key": "tent", "name": "Tent", "image": "tent" },
       "watchtower":   { "key": "watchtower", "name": "Watchtower", "image": "watchtower" },
-      "tower_castle": { "key": "tower_castle", "name": "Towered\nCastle", "image": "tower_castle" }
+      "tower_castle": { "key": "tower_castle", "name": "Castle", "image": "tower_castle" }
     }
   },
   "gameBoard": {
     "size": { "w": 4, "h": 4 },
     "hiddenCardKey": "hidden",
     "openCardKey": "open",
-    "card": {
-      "size": { "w": 128, "h": 160 },
-      "betweenOffset": { "w": 48, "h": 32 },
-      "borderOffset": { "w": 230, "h": 32 },
-      "labelText": {
-        "text": "Card Name",
-        "offset": {"x": 64, "y": 140},
-        "style": {"font": "20px Courier", "fill": "#808080", "stroke": "#202020", "strokeThickness": 1, "align": "center"}
+    "cardsProperties": {
+      "16": {
+        "dimension": { "w": 4, "h": 4},
+        "size": { "w": 128, "h": 160 },
+        "betweenOffset": { "w": 96, "h": 40 },
+        "borderOffset": { "w": 230, "h": 16 },
+        "labelText": {
+          "text": "Card Name",
+          "offset": {"x": 64, "y": 140},
+          "style": {"font": "20px Courier", "fill": "#808080", "stroke": "#202020", "strokeThickness": 1, "align": "center"}
+        }
+      },
+      "24": {
+        "dimension": { "w": 6, "h": 4},
+        "size": { "w": 128, "h": 160 },
+        "betweenOffset": { "w": 24, "h": 24 },
+        "borderOffset": { "w": 230, "h": 32 },
+        "labelText": {
+          "text": "Card Name",
+          "offset": {"x": 64, "y": 140},
+          "style": {"font": "20px Courier", "fill": "#808080", "stroke": "#202020", "strokeThickness": 1, "align": "center"}
+        }
+      },
+      "42": {
+        "dimension": { "w": 7, "h": 6},
+        "size": { "w": 96, "h": 120 },
+        "betweenOffset": { "w": 20, "h": 10 },
+        "borderOffset": { "w": 230, "h": 16 },
+        "labelText": {
+          "text": "Card Name",
+          "offset": {"x": 48, "y": 106},
+          "style": {"font": "16px Courier", "fill": "#000", "align": "center"}
+        }
       }
     },
     "ui": {
