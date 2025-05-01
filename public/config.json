@@ -63,8 +63,8 @@
       }
     },
     "ui": {
-      "scoreboards": 4,
-      "offsetBetweenScores": {"x": 0, "y": 96},
+      "scoreboards": 6,
+      "offsetBetweenScores": {"x": 0, "y": 80},
       "playerScoreText": {
         "text": "Player\n0 Pts",
         "offset": {"x": 16, "y": 16},
@@ -72,7 +72,7 @@
       },
       "infoText": {
         "text": "Player X\nTurn",
-        "offset": {"x": 0, "y": 500},
+        "offset": {"x": 0, "y": 580},
         "style": {"font": "28px Courier", "fill": "#FFC", "stroke": "#660", "strokeThickness": 1, "align": "center"}
       }
     },

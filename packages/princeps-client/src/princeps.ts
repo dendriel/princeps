@@ -45,14 +45,18 @@ export class Princeps {
         return localStorage.getItem('princeps_nickname') ?? 'Anom';
     }
 
-    private getPlayerId(): string {
-        return localStorage.getItem('princeps_id')!;
+    private getPlayerId(): string | undefined {
+        return localStorage.getItem('princeps_id') ?? undefined;
     }
 
     private getConnectionParams(): Map<string, string> {
         const params = new Map<string, string>();
         params.set('nickname', this.getNickname());
-        params.set('player_id', this.getPlayerId());
+
+        if (this.getPlayerId()) {
+            params.set('player_id', this.getPlayerId()!);
+        }
+
         return params;
     }
 

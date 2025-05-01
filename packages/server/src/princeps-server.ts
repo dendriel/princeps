@@ -30,6 +30,7 @@ export class PrincepsServer implements GameServer {
     constructor(
         private lobbyMode: boolean = false,
         private playersCount: number = 2,
+        private lobbyCode?: string,
         sslKeyPath?: string,
         sslCertPath?: string
     ) {
@@ -42,7 +43,7 @@ export class PrincepsServer implements GameServer {
             sslCfg =  { keyPath: sslKeyPath, certPath: sslCertPath};
         }
 
-        this.networkServer = new mogs.NetworkServer(this, {lobbyMode: lobbyMode, lobbyMaxPlayers: playersCount, ssl: sslCfg });
+        this.networkServer = new mogs.NetworkServer(this, {lobbyMode: lobbyMode, lobbyCode: lobbyCode, lobbyMaxPlayers: playersCount, ssl: sslCfg });
 
         this.playersHolder = lobbyMode ? new LobbyPlayersHolder(playersCount) : new MatchmakingPlayersHolder();
         this.commandDispatcher = new CommandDispatcher(this.networkServer, this.playersHolder);
@@ -54,7 +55,7 @@ export class PrincepsServer implements GameServer {
     }
 
     private assertPlayersCount() {
-        if (this.playersCount < 2 || this.playersCount > 4) {
+        if (this.playersCount < 2 || this.playersCount > 6) {
             throw new Error(`Unsupported players count ${this.playersCount}`);
         }
     }
@@ -64,13 +65,9 @@ export class PrincepsServer implements GameServer {
         this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
-    start(port: number, lobbyCode: string, turns: number, cards: number) {
+    start(port: number, turns: number, cards: number) {
         if (cards !== 16) {
             console.log(`Unsupported match size ${cards}`);
-            return;
-        }
-        if (lobbyCode === null || lobbyCode.length === 0) {
-            console.log(`Invalid lobby code ${lobbyCode}`);
             return;
         }
 
@@ -149,7 +146,10 @@ export class PrincepsServer implements GameServer {
 
     async onGameFinished() {
         await this.networkServer.terminate()
-            .then(() => console.log("The game-server has finished"))
+            .then(() => {
+                console.log("The game-server has finished")
+                process.exit(0);
+            });
     }
 
     private startGame() {

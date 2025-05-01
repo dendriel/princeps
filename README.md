@@ -23,6 +23,8 @@ multiplayer lib over Socket.io) for Websocket communication.
 - Configuration-based content
 - Game server auto-shutdown (when maximum time or no connected players)
 
+*Not very well-supported in mobile browsers.
+
 ## TODO
 
 NEXT:
