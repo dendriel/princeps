@@ -2,9 +2,8 @@
   "phaser": {
     "width": 1200,
     "height": 800,
-    "mode": "FIT",
     "autoCenter": "CENTER_HORIZONTALLY",
-    "transparent": true,
+    "transparent": false,
     "physics": {
       "default": "arcade",
       "arcade": {

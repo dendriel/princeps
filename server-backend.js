@@ -39,7 +39,7 @@ app.post('/lobby', (req, res) => {
 
     const { players, turns, cards } = req.body;
 
-    if (players < 2 || players > 4) {
+    if (players < 2 || players > 6) {
         res.status(400)
             .send('Invalid players count! Min:2, Max:4', );
         return;
@@ -50,6 +50,8 @@ app.post('/lobby', (req, res) => {
             .send('Invalid turns count! Min:1, Max:10', );
         return;
     }
+
+    // TODO: validate cards count
 
     const lobbyToken = randomUUID().split('-')[4];
     const port = minServerPort + Math.floor(Math.random() * (maxServerPort - minServerPort));
