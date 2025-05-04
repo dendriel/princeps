@@ -3,7 +3,7 @@
     "width": 1200,
     "height": 800,
     "autoCenter": "CENTER_HORIZONTALLY",
-    "transparent": false,
+    "transparent": true,
     "physics": {
       "default": "arcade",
       "arcade": {
