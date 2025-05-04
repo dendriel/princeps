@@ -177,3 +177,16 @@ The Game Servers listens to port range `50000-51000`, so the EC2 security group 
 
 The Game Server also use HTTPS, but this is configured via env vars `PRINCEPS_SSL_KEY` and `PRINCEPS_SSL_KEY` in the
 princeps-backend service.
+
+
+# Releasing new versions
+
+It is as easy as pulling the new code, building the app and restarting the services:
+
+```shell
+cd princeps
+git pull
+npm run build
+sudo systemctl restart princeps-backend
+sudo systemctl restart princeps-frontend
+```
