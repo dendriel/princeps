@@ -19,9 +19,8 @@ let matchCount = 0;
 
 // TODO: testing purpose only
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allows all origins
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allow common methods
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow specific headers
+    res.setHeader('Access-Control-Allow-Origin', 'https://princeps.vrozsa.com');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     next();
 });
 
