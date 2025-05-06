@@ -22,6 +22,7 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 - Allows players to reconnect to the match
 - Configuration-based content
 - Game server auto-shutdown (when maximum time or no connected players)
+- Chat (wip) / Chat history
 
 *Not very well-supported in mobile browsers.
 
