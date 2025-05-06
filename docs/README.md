@@ -38,10 +38,10 @@ An oversimplified representation of the infrastructure:
   - For a production game, we could track the new matches a player is creating and limit then (best if blocking by IP).
 - Instead of providing the client resources via CDN, for simplicity, I've chosen to provide it directly from the
 game-server instance
-- To be able to keep the service running 24/7, I'm using economical (~~cheap~~ :p) amazon spot-instances which may be
+- To be able to keep the service running 24/7, ~~I'm using economical (~~cheap~~ :p) amazon spot-instances which may be
 interrupted at any moment and may disrupt the player matches. I've set the interruption behavior to 'hibernate', which
-should restore the instance state when a new spot is assigned. With a bit of luck, the game may be restored in a few
-minutes =] (idk)
+should restore the instance state when a new spot is assigned. With a bit of luck, the game may be restored in a few 
+minutes =] (idk)~~ I'm using a standard EC2 instance (spot instances were being interrupted to many times a day).
 
 
 # Infrastructure Setup
