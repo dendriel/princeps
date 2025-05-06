@@ -40,7 +40,35 @@ export class GameBoardUi {
         public scoreboards: number,
         public offsetBetweenScores: Position,
         public playerScoreText: GameText,
-        public infoText: GameText
+        public chatManager: ChatManagerConfig
+    ) {}
+}
+
+export class ChatManagerConfig {
+    constructor(
+        public scrollFactor: number,
+        public startingScroll: number,
+        public maxLineChars: number,
+        public textArea: TextAreaConfig
+    ) {
+    }
+}
+
+export class TextAreaConfig {
+    constructor(
+        public offset: Position,
+        public size: Size,
+        public bg: ColorConfig,
+        public textOffset: Position,
+        public textStyle: GameTextStyle
+    ) {
+    }
+}
+
+export class ColorConfig {
+    constructor(
+        public alpha: number,
+        public fill: string
     ) {}
 }
 

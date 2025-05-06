@@ -66,22 +66,22 @@ export class CommandDispatcher {
     }
 
     broadcastPlayerTurnMsg(player: Player) {
-        this.broadcastMessage(`${player.nickname}'s\n Turn`);
+        this.broadcastMessage(`${player.nickname}'s Turn`);
     }
 
     broadcastWrongGuessMsg() {
-        this.broadcastMessage("Wrong\nGuess");
+        this.broadcastMessage("Wrong Guess");
     }
 
     broadcastRightGuessMsg() {
-        this.broadcastMessage("Right\nGuess!");
+        this.broadcastMessage("Right Guess!");
     }
 
     broadcastNewRoundMsg(round: number, maxRounds: number) {
-        this.broadcastMessage(`New Round\n${round}/${maxRounds}`);
+        this.broadcastMessage(`New Round ${round}/${maxRounds}`);
     }
 
     broadcastShufflingMsg() {
-        this.broadcastMessage(`Shuffling\nCards`);
+        this.broadcastMessage(`Shuffling Cards`);
     }
 }

@@ -94,10 +94,17 @@
         "offset": {"x": 16, "y": 16},
         "style": {"font": "32px Courier", "fill": "#FFC", "stroke": "#660", "strokeThickness": 2, "align": "left"}
       },
-      "infoText": {
-        "text": "Player X\nTurn",
-        "offset": {"x": 0, "y": 580},
-        "style": {"font": "28px Courier", "fill": "#FFC", "stroke": "#660", "strokeThickness": 1, "align": "center"}
+      "chatManager": {
+        "scrollFactor": 18,
+        "startingScroll": 738,
+        "maxLineChars": 32,
+        "textArea": {
+          "offset": {"x": 4, "y": 500},
+          "size": {"w": 210 ,"h": 240},
+          "bg": { "alpha": 0.4, "fill": "#ffc" },
+          "textOffset": {"x": 4, "y": 0},
+          "textStyle": {"font": "16px Courier", "lineSpacing": 0, "fill": "#fff", "align": "left"}
+        }
       }
     },
     "images": [

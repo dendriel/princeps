@@ -116,11 +116,11 @@ export class GameController extends Phaser.Game {
             console.log("Unable to show message yet.");
             return;
         }
-        this.gameBoard.ui.updateInfoText(text);
+        this.gameBoard.ui.appendChatText(text);
     }
 
     async finishGame(gameOverMsg: string) {
-        this.gameBoard.ui.updateInfoText(gameOverMsg);
+        this.gameBoard.ui.appendChatText(gameOverMsg);
 
         await this.sleep(10000);
 

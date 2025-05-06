@@ -3,6 +3,7 @@ import {GameBoardUi, GameText} from "./game-config.js";
 import * as Phaser from "phaser";
 import {GameBoard} from "./game-board.js";
 import {Position} from "../../../shared/dist/princeps-shared.js"
+import {ChatManager} from "../components/ChatManager.js";
 
 class PlayerScore {
     constructor(private nickname: string, private score: number, private text: Phaser.GameObjects.Text) {}
@@ -24,9 +25,11 @@ export class GameUi {
 
     private scoreTexts: PlayerScore[] = [];
 
-    private infoText: Phaser.GameObjects.Text | undefined;
+    private chatManager: ChatManager;
 
-    constructor(private board: GameBoard, private uiConfig: GameBoardUi) {}
+    constructor(private board: GameBoard, private uiConfig: GameBoardUi) {
+        this.chatManager = new ChatManager(this.uiConfig.chatManager);
+    }
 
     updateScoreTexts(playerNickname: string, scores: [string, number][]) {
         const playerScore = scores.find(s => s[0] === playerNickname);
@@ -52,27 +55,17 @@ export class GameUi {
         this.scoreTexts[index].updateScore(nickname, score);
     }
 
-    updateInfoText(text: string) {
-        this.infoText?.setVisible(true);
-        this.infoText?.setText(text);
-    }
-
-    clearInfoText() {
-        this.infoText?.setVisible(false);
-        this.infoText?.setText("");
+    appendChatText(text: string) {
+        this.chatManager?.appendText(text);
     }
 
     setup() {
         this.uiAboveLayer = this.board.newLayer();
         this.uiAboveLayer.setDepth(950);
 
-        this.createInfoText();
-
         this.createPlayerScores();
-    }
 
-    createInfoText() {
-        this.infoText = this.createScreenText(this.uiConfig.infoText);
+        this.chatManager.setup(this.board);
     }
 
     createPlayerScores() {

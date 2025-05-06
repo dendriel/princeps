@@ -27,8 +27,7 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 
 ## TODO
 
-- Add a message-log (or a chat) to improve the notifications experience
-- Allows to display players entering the lobby
+- Allows displaying players entering the lobby
 - Add sounds
 
 ## NTH

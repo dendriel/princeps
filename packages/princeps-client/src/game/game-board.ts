@@ -214,7 +214,7 @@ export class GameBoard extends Phaser.Scene {
     }
 
     //
-    // UI relay methods bellow:
+    // UI relay methods bellow: TODO: remove relay methods and use it directly
     //
 
     newLayer() : Layer {
