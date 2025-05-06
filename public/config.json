@@ -95,7 +95,7 @@
         "style": {"font": "32px Courier", "fill": "#FFC", "stroke": "#660", "strokeThickness": 2, "align": "left"}
       },
       "chatManager": {
-        "scrollFactor": 18,
+        "scrollFactor": 15,
         "startingScroll": 738,
         "maxLineChars": 32,
         "textArea": {

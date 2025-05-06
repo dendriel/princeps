@@ -26,8 +26,9 @@ export class GameController extends Phaser.Game {
     private boardReadyListeners: BoardReadListener[] = [];
 
     private openCards: CardsInfoPayload = new CardsInfoPayload();
-
     private isPlayerTurn: boolean;
+
+    private chatHistory: string[] = [];
 
     constructor(config: GameConfig, private readonly nickname: string) {
         super(config.phaser);
@@ -44,9 +45,12 @@ export class GameController extends Phaser.Game {
      * Draw the game-board and start the game.
      * @param boardSize Game board size to use.
      * @param openCards Already open-cards (when loading an in-progress match).
+     * @param chatHistory Chat history if available.
      */
-    startGame(boardSize: number, openCards: CardsInfoPayload) {
+    startGame(boardSize: number, openCards: CardsInfoPayload, chatHistory: string[]) {
+        // These two can be used only when phaser is already set.
         this.openCards = openCards;
+        this.chatHistory = chatHistory;
 
         this._gameBoard = new GameBoard(
             this.gameConfig.gameBoard,

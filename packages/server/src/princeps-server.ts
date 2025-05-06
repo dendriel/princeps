@@ -161,8 +161,12 @@ export class PrincepsServer implements GameServer {
 
         this.commandDispatcher.broadcastLoadGame(this.matchHandler.boardSize);
 
-        const currPlayerTurn = this.playersHolder.getCurrentPlayerToPlay();
-        this.commandDispatcher.activatePlayerTurn(currPlayerTurn);
+        const currPlayer = this.playersHolder.getCurrentPlayerToPlay();
+        this.commandDispatcher.activatePlayerTurn(currPlayer);
+
+        //  TODO: enable it when we start loading the game-board at client-connection. Otherwise the message
+        // can't be displayed
+        // this.commandDispatcher.broadcastPlayerTurnMsg(currPlayer);
     }
 
     private loadGameState(player: Player) {

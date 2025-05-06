@@ -59,6 +59,10 @@ export class GameUi {
         this.chatManager?.appendText(text);
     }
 
+    loadChatHistory(history: string[]) {
+        history.forEach(msg => this.appendChatText(msg));
+    }
+
     setup() {
         this.uiAboveLayer = this.board.newLayer();
         this.uiAboveLayer.setDepth(950);

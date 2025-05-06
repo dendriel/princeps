@@ -27,11 +27,19 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 
 ## TODO
 
-- Allows displaying players entering the lobby
+- Allow displaying players entering the lobby
+  - This requires to change the phaser loading step to the moment the players enter the lobby
+  - It will allow us to show message while in the lobby
+- Allow players to send messages in the chat
 - Add sounds
 
 ## NTH
 
-- Add an browser icon
+- Add a browser icon
 - Scale the game automatically accordingly with the screen size
 - Configure a logging agent to push logs to Cloud
+
+## Known Issues
+
+- Text chat can start having an odd offset as more messages are added.
+  - Chrome and Edge are fine, but Firefox reproduces this issue

@@ -10,6 +10,6 @@ export class LoadGame extends AbstractCommandHandler<LoadGamePayload, ClientComm
     }
 
     handleCommand(payload: LoadGamePayload) {
-        this.gameCtrl.startGame(payload.boardSize, payload.openCards);
+        this.gameCtrl.startGame(payload.boardSize, payload.openCards, payload.chatHistory);
     }
 }

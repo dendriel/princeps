@@ -1,13 +1,21 @@
 import {NetworkServer} from "rozsa-mogs";
 import {Player} from "../services/player.js";
-import {ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload, CardsInfoPayload} from "../../../shared/dist/princeps-shared.js";
+import {
+    ClientCommand, LoadGamePayload, CardInfoPayload, UpdateScorePayload, CardsInfoPayload, FinishGamePayload,
+    ShowMessagePayload} from "../../../shared/dist/princeps-shared.js";
 import {OpenCard} from "../services/match-handler.js";
-import {FinishGamePayload, ShowMessagePayload} from "@rozsa/shared";
 import {PlayersHolder} from "../services/players-holder.js";
 
 
 export class CommandDispatcher {
-    constructor(private networkServer: NetworkServer, private playersHolder: PlayersHolder) {}
+    // Not the ideal place to do this, but a convenient one for now :-p
+    // Would be better to create a server-side ChatManager to keep this history. It would be a better place to even
+    // track individual player chat history (if we did send individual chat messages to players).
+    private readonly chatHistory: string[];
+
+    constructor(private networkServer: NetworkServer, private playersHolder: PlayersHolder) {
+        this.chatHistory = [];
+    }
 
     broadcastLoadGame(boardSize: number) {
         const loadGamePayload = new LoadGamePayload(boardSize);
@@ -19,7 +27,7 @@ export class CommandDispatcher {
         const cardsInfoPayload = new CardsInfoPayload();
         openCards.forEach(c => cardsInfoPayload.addCardInfo(new CardInfoPayload(c.pos, c.name)));
 
-        const loadGameStatePayload = new LoadGamePayload(boardSize, cardsInfoPayload);
+        const loadGameStatePayload = new LoadGamePayload(boardSize, cardsInfoPayload, this.chatHistory);
         this.networkServer.send(player.token, ClientCommand.LOAD_GAME, loadGameStatePayload);
     }
 
@@ -61,6 +69,7 @@ export class CommandDispatcher {
     }
 
     broadcastMessage(text: string) {
+        this.chatHistory.push(text);
         const payload = new ShowMessagePayload(text);
         this.networkServer.broadcast(ClientCommand.SHOW_MESSAGE, payload);
     }
