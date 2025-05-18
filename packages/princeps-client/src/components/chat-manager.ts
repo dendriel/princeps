@@ -32,7 +32,7 @@ export class ChatManager {
         let newLines = this.getLinesFromText(text)
         this.content = this.content.concat(newLines);
         this.text.setText(this.content);
-        this.text.y = (this.config.startingScroll - this.linesOffset);
+        this.text.y = this.config.startingScroll;
     }
 
     private getLinesFromText(text: string): string[] {
@@ -59,18 +59,14 @@ export class ChatManager {
         return lines;
     }
 
-    private get linesOffset() {
-        return this.content.length * this.scrollFactor;
-    }
-
     private get scrollMax() {
         let hiddenLines = Math.max(0, this.totalLines - this.maxLines);
         let hiddenLinesOffset = (hiddenLines * this.scrollFactor);
-        return this.config.startingScroll - this.linesOffset + hiddenLinesOffset
+        return this.config.startingScroll + hiddenLinesOffset
     }
 
     private get scrollMin() {
-        return this.config.startingScroll - this.linesOffset //- this.scrollFactor
+        return this.config.startingScroll //- this.scrollFactor
     }
 
     private get totalLines() {
@@ -91,7 +87,8 @@ export class ChatManager {
 
         let mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
 
-        this._text = scene.add.text(textArea.offset.x + textArea.textOffset.x, textArea.offset.y + textArea.textOffset.y, this.content, textArea.textStyle).setOrigin(0);
+        this._text = scene.add.text(textArea.offset.x + textArea.textOffset.x, textArea.offset.y + textArea.textOffset.y, this.content, textArea.textStyle)
+            .setOrigin(0, 1);
 
         // The mask limits the text visibile in the screen.
         this.text.setMask(mask);

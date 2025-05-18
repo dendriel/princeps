@@ -3,7 +3,7 @@ import {GameBoardUi, GameText} from "./game-config.js";
 import * as Phaser from "phaser";
 import {GameBoard} from "./game-board.js";
 import {Position} from "../../../shared/dist/princeps-shared.js"
-import {ChatManager} from "../components/ChatManager.js";
+import {ChatManager} from "../components/chat-manager.js";
 
 class PlayerScore {
     constructor(private nickname: string, private score: number, private text: Phaser.GameObjects.Text) {}
