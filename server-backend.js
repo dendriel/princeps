@@ -19,6 +19,8 @@ let matchCount = 0;
 
 // TODO: testing purpose only
 app.use((req, res, next) => {
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.setHeader('Access-Control-Allow-Origin', 'https://princeps.vrozsa.com');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     next();
@@ -52,7 +54,7 @@ app.post('/lobby', (req, res) => {
 
     // TODO: validate cards count
 
-    const lobbyToken = randomUUID().split('-')[4];
+    const lobbyToken = randomUUID().split('-')[1];
     const port = minServerPort + Math.floor(Math.random() * (maxServerPort - minServerPort));
 
     // TODO: for now, just launch the server and expect it to start OK.
