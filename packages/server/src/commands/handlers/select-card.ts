@@ -32,7 +32,6 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
         }
     }
 
-    // TODO: move game-logic to match-handler
     private async selectCard(player: Player, payload: SelectCardPayload): Promise<void> {
         const oppenedCard = this.matchHandler.openCard(payload.boardPos);
         if (!oppenedCard) {
@@ -135,12 +134,12 @@ export class SelectCard extends AbstractServerCommandHandler<SelectCardPayload, 
 
     private buildGameOverMsg(winners: Player[]): string {
         if (winners.length > 1) {
-            return "The Match\nended in\na Draw =|";
+            return "The Match ended in a Draw =|";
         }
 
         const winner = winners[0];
 
-        return `${winner.nickname}\nWon the Match\nWith ${winner.score} Pts`;
+        return `${winner.nickname} Won the Match With ${winner.score} Pts`;
     }
 
     private sleep(ms: number): Promise<void> {

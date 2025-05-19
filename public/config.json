@@ -101,9 +101,16 @@
         "textArea": {
           "offset": {"x": 4, "y": 500},
           "size": {"w": 210 ,"h": 240},
-          "bg": { "alpha": 0.4, "fill": "#ffc" },
+          "bg": { "alpha": 0.4, "fill": "#000000" },
           "textOffset": {"x": 4, "y": 0},
           "textStyle": {"font": "16px Courier", "lineSpacing": 0, "fill": "#fff", "align": "left"}
+        },
+        "textInput": {
+          "offset": {"x": 4, "y": 746},
+          "size": {"w": 204 ,"h": 24},
+          "bg": {"fill": "rgba(0, 0, 0, 0.4)" },
+          "textStyle": {"font": "16px Courier", "lineSpacing": 0, "fill": "#fff", "align": "left"},
+          "maxLength": 21
         }
       }
     },

@@ -52,12 +52,15 @@ export class PrincepsGameClient implements GameClient {
 
     private setupControllerListeners() {
         this.gameCtrl.addCardClickedListener(this.onCardClicked.bind(this));
+        this.gameCtrl.addTextChatSubmitListener(this.onChatSubmit.bind(this));
     }
 
     private onCardClicked(card: Card) {
-        // TODO: check if the card is already open.
-
         this.commandsDispatcher?.selectCard(card);
+    }
+
+    private onChatSubmit(text: string) {
+        this.commandsDispatcher?.sendChatMessage(text);
     }
 
     onCommand(cmd: string, payload: any) {

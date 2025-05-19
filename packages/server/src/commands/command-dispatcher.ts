@@ -93,4 +93,9 @@ export class CommandDispatcher {
     broadcastShufflingMsg() {
         this.broadcastMessage(`Shuffling Cards`);
     }
+
+    broadcastPlayerChatMessage(message: string, playerNickname: string) {
+        const formatted = `<${playerNickname}>\n${message}`;
+        this.broadcastMessage(formatted);
+    }
 }

@@ -4,6 +4,8 @@ import * as Phaser from "phaser";
 import {GameBoard} from "./game-board.js";
 import {Position} from "../../../shared/dist/princeps-shared.js"
 import {ChatManager} from "../components/chat-manager.js";
+import {ComponentsFactory} from "../components/components-factory.js";
+import {SubmitEventListener} from "../components/text-input.js";
 
 class PlayerScore {
     constructor(private nickname: string, private score: number, private text: Phaser.GameObjects.Text) {}
@@ -27,8 +29,8 @@ export class GameUi {
 
     private chatManager: ChatManager;
 
-    constructor(private board: GameBoard, private uiConfig: GameBoardUi) {
-        this.chatManager = new ChatManager(this.uiConfig.chatManager);
+    constructor(private board: GameBoard, private uiConfig: GameBoardUi, private componentsFactory: ComponentsFactory) {
+        this.chatManager = componentsFactory.createChatManager(this.uiConfig.chatManager);
     }
 
     updateScoreTexts(playerNickname: string, scores: [string, number][]) {
@@ -57,6 +59,14 @@ export class GameUi {
 
     appendChatText(text: string) {
         this.chatManager?.appendText(text);
+    }
+
+    public addTextChatSubmitListener(listener: SubmitEventListener) {
+        this.chatManager?.addSubmitListener(listener);
+    }
+
+    public removeTextChatSubmitListener(listener: SubmitEventListener) {
+        this.chatManager?.removeSubmitListener(listener);
     }
 
     loadChatHistory(history: string[]) {

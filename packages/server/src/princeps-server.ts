@@ -11,6 +11,7 @@ import {MatchHandler} from "./services/match-handler.js";
 import {UpdateNickname} from "./commands/handlers/update-nickname.js";
 import {PlayersHolder} from "./services/players-holder.js";
 import {LobbyPlayersHolder} from "./services/lobby-players-holder.js";
+import {SendChatMessage} from "./commands/handlers/send-chat-message.js";
 
 /**
  * Server provider for Princeps Game.
@@ -63,6 +64,7 @@ export class PrincepsServer implements GameServer {
     private setupCommandHandlers() {
         this.commandsHandler.set(ServerCommand.SELECT_CARD, new SelectCard(this.commandDispatcher, this.matchHandler, this.playersHolder, this.onGameFinished.bind(this)));
         this.commandsHandler.set(ServerCommand.UPDATE_NICKNAME, new UpdateNickname(this.commandDispatcher, this.matchHandler, this.playersHolder));
+        this.commandsHandler.set(ServerCommand.SEND_CHAT_MESSAGE, new SendChatMessage(this.commandDispatcher, this.matchHandler, this.playersHolder));
     }
 
     start(port: number, turns: number, cards: number) {

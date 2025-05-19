@@ -1,5 +1,7 @@
 import {ChatManagerConfig} from "../game/game-config.js";
 import * as Phaser from "phaser";
+import {SubmitEventListener, TextInput} from "./text-input.js";
+import {ComponentsFactory} from "./components-factory.js";
 
 export interface PointerEventListener {
     (): void;
@@ -8,12 +10,14 @@ export interface PointerEventListener {
 export class ChatManager {
     _text: Phaser.GameObjects.Text | undefined;
 
+    _textInput: TextInput | undefined;
+
     pointerOverListeners : PointerEventListener[];
     pointerOutListeners : PointerEventListener[];
 
     content: string[];
 
-    constructor(private config: ChatManagerConfig) {
+    constructor(private config: ChatManagerConfig, private componentsFactory: ComponentsFactory) {
         this.content = [];
 
         this.pointerOverListeners = [];
@@ -82,7 +86,8 @@ export class ChatManager {
         const textArea = this.config.textArea;
 
         let graphics = scene.add.graphics({x:0, y:0});
-        graphics.fillStyle(+textArea.bg.fill, textArea.bg.alpha);
+        const fillHex = parseInt(textArea.bg.fill.substring(1), 16);
+        graphics.fillStyle(fillHex, textArea.bg.alpha);
         graphics.fillRect(textArea.offset.x, textArea.offset.y, textArea.size.w, textArea.size.h);
 
         let mask = new Phaser.Display.Masks.GeometryMask(scene, graphics);
@@ -101,6 +106,8 @@ export class ChatManager {
         zone.on("wheel",  this.scrollText.bind(this));// (pointer, gameObjects, deltaX, deltaY, deltaZ) => this.scrollText(pointer, gameObjects, deltaX));
         zone.on("pointerover", () => this.onPointerOver());
         zone.on("pointerout", () => this.onPointerOut());
+
+        this._textInput = this.componentsFactory.createTextInput(this.config.textInput, "chatInput");
     }
 
     private scrollText(pointer: Phaser.Input.Pointer, gos: Phaser.GameObjects.GameObject[], deltaX: number) {
@@ -125,5 +132,13 @@ export class ChatManager {
 
     private onPointerOut() {
         this.pointerOutListeners.forEach(listener => listener());
+    }
+
+    public addSubmitListener(listener: SubmitEventListener) {
+        this._textInput?.addSubmitListener(listener);
+    }
+
+    public removeSubmitListener(listener: SubmitEventListener) {
+        this._textInput?.removeSubmitListener(listener);
     }
 }

@@ -13,6 +13,7 @@
       height: 100vh;
     }
     .lobbyLabel { font-size: 24px; color: #FFC; -webkit-text-stroke: 1px #660; font-family: sans-serif}
+    .inputStyle { background: transparent; border: none; }
   </style>
   <script>
     window.addEventListener('load', () => {
@@ -51,6 +52,8 @@
   const game = new Princeps();
   game.start(address, port);
 </script>
+
+<input type="text" id="chatInput" class="inputStyle" disabled/>
 
 </body>
 </html>

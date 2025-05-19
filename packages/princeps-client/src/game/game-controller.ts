@@ -4,6 +4,8 @@ import {PointerEventContext} from "./game-object.js";
 import GameConfig, {GameControllerConfig} from "./game-config.js";
 import {Card} from "./card.js";
 import {CardsInfoPayload} from "../../../shared/dist/princeps-shared.js"
+import {ComponentsFactory} from "../components/components-factory.js";
+import {SubmitEventListener} from "../components/text-input.js";
 
 interface CardClickedListener {
     (card: Card): void;
@@ -24,6 +26,7 @@ export class GameController extends Phaser.Game {
 
     private cardClickedListeners: CardClickedListener[] = [];
     private boardReadyListeners: BoardReadListener[] = [];
+    private textChatSubmitEventListeners: SubmitEventListener[] = [];
 
     private openCards: CardsInfoPayload = new CardsInfoPayload();
     private isPlayerTurn: boolean;
@@ -52,11 +55,14 @@ export class GameController extends Phaser.Game {
         this.openCards = openCards;
         this.chatHistory = chatHistory;
 
+        const componentsFactory = new ComponentsFactory(this.getCanvasPos.bind(this));
+
         this._gameBoard = new GameBoard(
             this.gameConfig.gameBoard,
             boardSize,
             GameController.mainSceneKey,
-            this.configCtrl.cardsTemplate
+            this.configCtrl.cardsTemplate,
+            componentsFactory
         );
         this.gameBoard.addOnSceneReadyListener(this.onGameBoardReady.bind(this));
 
@@ -64,16 +70,25 @@ export class GameController extends Phaser.Game {
         this.scene.start(GameController.mainSceneKey);
     }
 
+    private getCanvasPos(): [number, number] {
+        return [this.canvas.getBoundingClientRect().x, this.canvas.getBoundingClientRect().y];
+    }
+
     private onGameBoardReady() {
         this.openCards.cardsInfo.forEach(card => this.gameBoard.showCard(card.pos, card.name));
 
         this.gameBoard.addCardClickedListener(this.onCardClicked.bind(this));
+        this.gameBoard.addTextChatSubmitListener(this.onTextChatSubmit.bind(this));
 
         this.boardReadyListeners.forEach(l => l());
     }
 
     addCardClickedListener(listener: CardClickedListener) {
         this.cardClickedListeners.push(listener);
+    }
+
+    addTextChatSubmitListener(listener: SubmitEventListener) {
+        this.textChatSubmitEventListeners.push(listener);
     }
 
     addBoardReadyListener(listener: BoardReadListener) {
@@ -88,6 +103,10 @@ export class GameController extends Phaser.Game {
 
         const card = context.target as Card;
         this.cardClickedListeners.forEach(listener => listener(card));
+    }
+
+    private onTextChatSubmit(text: string) {
+        this.textChatSubmitEventListeners.forEach(listener => listener(text));
     }
 
     activateController() {

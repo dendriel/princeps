@@ -6,6 +6,8 @@ import {Position, Size} from "../../../shared/dist/princeps-shared.js"
 import Text = Phaser.GameObjects.Text;
 import {GameUi} from "./game-ui.js";
 import Layer = Phaser.GameObjects.Layer;
+import {ComponentsFactory} from "../components/components-factory.js";
+import {SubmitEventListener} from "../components/text-input.js";
 
 export class GameBoard extends Phaser.Scene {
 
@@ -13,6 +15,8 @@ export class GameBoard extends Phaser.Scene {
     private cards: Map<String, Card>;
 
     private cardClickedListener: PointerEventListener[] = [];
+
+    private textChatSubmitEventListener: SubmitEventListener[] = [];
 
     private onSceneReadyListeners: any[] = []; // TODO: add type layer.
 
@@ -24,7 +28,8 @@ export class GameBoard extends Phaser.Scene {
         private configBoard: GameBoardConfig,
         private boardSize: number,
         private key: string,
-        private cardsTemplates: Map<String, CardConfig>
+        private cardsTemplates: Map<String, CardConfig>,
+        private componentsFactory: ComponentsFactory
     ) {
         super({ key: key, active: false, visible: true });
 
@@ -76,6 +81,14 @@ export class GameBoard extends Phaser.Scene {
         this.cardClickedListener.push(listener);
     }
 
+    addTextChatSubmitListener(listener: SubmitEventListener) {
+        this.textChatSubmitEventListener.push(listener);
+    }
+
+    private onTextChatSubmit(text: string) {
+        this.textChatSubmitEventListener.forEach(listener => listener(text));
+    }
+
     preload() {
         this.configBoard.images.forEach((elem: [string, string]) => {
             this.load.image(elem[0], elem[1]);
@@ -87,8 +100,10 @@ export class GameBoard extends Phaser.Scene {
     create() {
         this.layCards();
 
-        this._ui = new GameUi(this, this.configBoard.ui);
+        this._ui = new GameUi(this, this.configBoard.ui, this.componentsFactory);
         this._ui.setup();
+
+        this._ui.addTextChatSubmitListener(this.onTextChatSubmit.bind(this));
 
         this.onSceneReady();
     }

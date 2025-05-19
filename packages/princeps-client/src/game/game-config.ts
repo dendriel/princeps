@@ -49,9 +49,19 @@ export class ChatManagerConfig {
         public scrollFactor: number,
         public startingScroll: number,
         public maxLineChars: number,
-        public textArea: TextAreaConfig
-    ) {
-    }
+        public textArea: TextAreaConfig,
+        public textInput: TextInputConfig
+    ) {}
+}
+
+export class TextInputConfig {
+    constructor(
+        public offset: Position,
+        public size: Size,
+        public bg: ColorConfig,
+        public textStyle: GameTextStyle,
+        public maxLength: number
+    ) {}
 }
 
 export class TextAreaConfig {
