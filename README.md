@@ -16,6 +16,7 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 
 - Multiplayer Online Game
 - Websocket network communication with authoritative server (client-server arch)
+  - Use a lib I've made for creating multiplayer games Rozsa MOGS (using socket.io underneath)
 - Lobby and Matchmaking support
   - Lobby sharing via code
   - *Matchmaking mode needs to be reactivated in the code and needs an extra service to create the matches
@@ -39,8 +40,3 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 - Add a browser icon
 - Scale the game automatically accordingly with the screen size
 - Configure a logging agent to push logs to Cloud
-
-## Known Issues
-
-- Text chat can start having an odd offset as more messages are added.
-  - Chrome and Edge are fine, but Firefox reproduces this issue
