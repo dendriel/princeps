@@ -109,8 +109,6 @@ export class TextInput implements ResizableComponent {
     }
 
     onResize(baseSize: Size, displaySize: Size, ratio: Size): void {
-        console.log(`Resizing text input: ${this.inputId} to ratio: ${ratio.w}, ${ratio.h}`);
-
         this.input.style.width = (this.config.size.w * ratio.w) + "px"
         this.input.style.height = (this.config.size.h * ratio.h) + "px";
 
