@@ -190,3 +190,9 @@ npm run build
 sudo systemctl restart princeps-backend
 sudo systemctl restart princeps-frontend
 ```
+
+or use the deploy script available in the root folder:
+```shell
+chmod +x deploy.sh
+./deploy.sh
+```

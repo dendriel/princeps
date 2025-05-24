@@ -54,6 +54,9 @@ export class TextInput implements ResizableComponent {
         window.addEventListener('fullscreenchange', this.updatePositionTimer.bind(this));
         // window.addEventListener('scroll', this.updatePositionTimer.bind(this));
         this.updatePosition();
+
+        // Add a timeout to ensure the input is appended even if no resize event is triggered.
+        setTimeout(this.appendInput.bind(this), 1000);
     }
 
     public addSubmitListener(listener: SubmitEventListener) {

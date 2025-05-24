@@ -5,6 +5,8 @@ The Princeps project is an online Web Memory Game to be played up to 4 players.
 The game client and server are written using `Typescript` language, `Phaser` for game engine and `Rozsa MOGS` (a
 multiplayer lib over Socket.io) for Websocket communication. Also, the game is hosted on AWS.
 
+> If you want to now more about the game project and hosting solution, check the [docs](docs/README.md) folder.
+
 # Game screenshots
 
 ![loby](docs/lobby.png "Lobby")
