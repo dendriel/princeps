@@ -24,8 +24,8 @@ export class ComponentsFactory {
         });
     }
 
-    public createTextInput(config: TextInputConfig, inputId: string): TextInput {
-        return this.storeResizable(new TextInput(config, inputId, this.canvasPositionGetter));
+    public createTextInput(config: TextInputConfig): TextInput {
+        return this.storeResizable(new TextInput(config, this.canvasPositionGetter));
     }
 
     private storeResizable<T extends ResizableComponent>(comp: T): T {

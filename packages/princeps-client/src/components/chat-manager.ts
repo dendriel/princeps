@@ -107,7 +107,7 @@ export class ChatManager {
         zone.on("pointerover", () => this.onPointerOver());
         zone.on("pointerout", () => this.onPointerOut());
 
-        this._textInput = this.componentsFactory.createTextInput(this.config.textInput, "chatInput");
+        this._textInput = this.componentsFactory.createTextInput(this.config.textInput);
     }
 
     private scrollText(pointer: Phaser.Input.Pointer, gos: Phaser.GameObjects.GameObject[], deltaX: number) {

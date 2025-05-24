@@ -24,7 +24,9 @@ export class TextInput implements ResizableComponent {
 
     private readonly fontSize: number;
 
-    constructor(private config: TextInputConfig, private inputId: string, private canvasPositionGetter: PositionGetter) {
+    private inputAppended: boolean = false;
+
+    constructor(private config: TextInputConfig, private canvasPositionGetter: PositionGetter) {
 
         this.fontSize = +this.config.textStyle.font.substring(0, 2);
 
@@ -32,13 +34,8 @@ export class TextInput implements ResizableComponent {
     }
 
     private setup() {
-        const inputElem = document.getElementById(this.inputId) as HTMLInputElement;
-        if (!inputElem) {
-            console.log(`${this.inputId} is not available in the current page.`);
-            return;
-        }
-
-        this._input = inputElem;
+        this._input = document.createElement("input") as HTMLInputElement;
+        this._input.type = "text";
         this._input.style.position = "absolute";
         this._input.style.width = this.config.size.w + "px"
         this._input.style.height = this.config.size.h + "px";
@@ -121,6 +118,23 @@ export class TextInput implements ResizableComponent {
 
         this.sizeRatio = ratio;
 
+        this.appendInput();
+
         this.updatePosition();
+    }
+
+    /**
+     * Lazily appends the input element to the body, so it will be visible only when we already now the final position
+     * of the element on the screen.
+     * *Otherwise, it would appear in the wrong place and the player would see it moving to the correct position.
+     * @private
+     */
+    private appendInput() {
+        if (this.inputAppended) {
+            return;
+        }
+
+        this.inputAppended = true;
+        document.body.appendChild(this.input);
     }
 }
