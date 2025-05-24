@@ -29,14 +29,11 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 - Chat / Chat history
   - Created InputText component to allow text input because phaser doesn't provide one out of the box
 
-*Not very well-supported in mobile browsers.
-
 ## TODO
 
 - Allow displaying players entering the lobby
   - This requires to change the phaser loading step to the moment the players enter the lobby
   - It will allow us to show message while in the lobby
-- Allow players to send messages in the chat
 - Add sounds
 
 ## NTH
