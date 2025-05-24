@@ -105,10 +105,32 @@ export class GameBoard extends Phaser.Scene {
 
         this._ui.addTextChatSubmitListener(this.onTextChatSubmit.bind(this));
 
+
+        this.scale.on('resize', this.resize, this);
+
         this.onSceneReady();
     }
 
     update() {}
+
+    resize(game: Phaser.Structs.Size,
+           base: Phaser.Structs.Size,
+           display: Phaser.Structs.Size) {
+
+        // console.log(`GAME: Resizing game board to width: ${game.width}, height: ${game.height}`);
+        // console.log(`BASE: Resizing game board to width: ${base.width}, height: ${base.height}`);
+        // console.log(`DISPLAY: Resizing game board to width: ${display.width}, height: ${display.height}`);
+
+        const baseSize = Size.of(base.width, base.height);
+        const displaySize = Size.of(display.width, display.height);
+        const ratioW = 1 - (base.width - display.width) / base.width;
+        const ratioH = 1 - (base.height - display.height) / base.height;
+        const ratio = Size.of(ratioW, ratioH);
+
+        console.log(`RATIO: ${ratioW}, ${ratioH}`);
+
+        this.componentsFactory.onSceneResize(baseSize, displaySize, ratio);
+    }
 
     showCard(pos: number, key: string) {
         const targetCard = this.getCardByIndexPos(pos);

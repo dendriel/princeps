@@ -3,6 +3,7 @@ import GameConfig from "./game/game-config.js";
 import mogs, { NetworkClient } from "rozsa-mogs-client";
 import {PrincepsGameClient} from "./game-client/princeps-game-client.js";
 import {CommandDispatcher} from "./game-client/commands/command-dispatcher.js";
+import * as Phaser from "phaser";
 
 export class Princeps {
 
@@ -21,6 +22,8 @@ export class Princeps {
         const config: GameConfig = await this.loadConfig();
 
         const nickname = this.getNickname();
+
+        // config.phaser!.scale!.mode = Phaser.Scale.RESIZE;
         this.gameCtrl = new GameController(config, nickname);
         this.gameCtrl.addBoardReadyListener(this.onGameBoardReady.bind(this));
 

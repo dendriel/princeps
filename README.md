@@ -21,6 +21,7 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
   - Lobby sharing via code
   - *Matchmaking mode needs to be reactivated in the code and needs an extra service to create the matches
 - Allows players to reconnect to the match
+- Resizable game canvas
 - Configuration-based content
 - Game server auto-shutdown (when maximum time or no connected players)
 - Chat / Chat history
@@ -38,6 +39,4 @@ multiplayer lib over Socket.io) for Websocket communication. Also, the game is h
 
 ## NTH
 
-- Add a browser icon
-- Scale the game automatically accordingly with the screen size
 - Configure a logging agent to push logs to Cloud

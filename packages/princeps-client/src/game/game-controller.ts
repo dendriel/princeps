@@ -68,10 +68,19 @@ export class GameController extends Phaser.Game {
 
         this.scene.add(GameController.mainSceneKey, this.gameBoard);
         this.scene.start(GameController.mainSceneKey);
+
+        // Disable the label so the Phaser canvas can resize and fit the screen correctly.
+        const lobbyCodeElem = document.getElementById('code') as HTMLDivElement;
+        lobbyCodeElem.style.display = 'none';
     }
 
-    private getCanvasPos(): [number, number] {
-        return [this.canvas.getBoundingClientRect().x, this.canvas.getBoundingClientRect().y];
+    private getCanvasPos(): [number, number, number, number] {
+        return [
+            this.canvas.getBoundingClientRect().x,
+            this.canvas.getBoundingClientRect().y,
+            this.canvas.getBoundingClientRect().width,
+            this.canvas.getBoundingClientRect().height
+        ];
     }
 
     private onGameBoardReady() {

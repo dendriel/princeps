@@ -11,6 +11,8 @@ const gameServerScript = 'packages/server/game-server.js';
 const minServerPort = 50000;
 const maxServerPort = 51000;
 
+const localEnv = process.env.ENV === 'local';
+
 /**
  * Store lobbies info. [lobbyCode]info
  */
@@ -19,10 +21,14 @@ let matchCount = 0;
 
 // TODO: testing purpose only
 app.use((req, res, next) => {
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Origin', 'https://princeps.vrozsa.com');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+    if (localEnv) {
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    } else {
+        res.setHeader('Access-Control-Allow-Origin', 'https://princeps.vrozsa.com');
+    }
     next();
 });
 
@@ -55,7 +61,11 @@ app.post('/lobby', (req, res) => {
     // TODO: validate cards count
 
     const lobbyToken = randomUUID().split('-')[1];
-    const port = minServerPort + Math.floor(Math.random() * (maxServerPort - minServerPort));
+
+    let port = minServerPort + Math.floor(Math.random() * (maxServerPort - minServerPort));
+    if (localEnv) {
+        port = 8090 + Math.floor(Math.random() * (9999 - 8090));
+    }
 
     // TODO: for now, just launch the server and expect it to start OK.
     const child = spawn('node', [gameServerScript, port, lobbyToken, players, turns, cards], { stdio: 'inherit' });

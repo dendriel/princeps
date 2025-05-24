@@ -1,8 +1,11 @@
 {
   "phaser": {
-    "width": 1200,
-    "height": 800,
-    "autoCenter": "CENTER_HORIZONTALLY",
+    "scale": {
+      "width": 1200,
+      "height": 800,
+      "autoCenter": "CENTER_HORIZONTALLY",
+      "mode": 3
+    },
     "transparent": true,
     "physics": {
       "default": "arcade",
@@ -107,7 +110,7 @@
         },
         "textInput": {
           "offset": {"x": 4, "y": 746},
-          "size": {"w": 204 ,"h": 24},
+          "size": {"w": 206 ,"h": 24},
           "bg": {"fill": "rgba(0, 0, 0, 0.4)" },
           "textStyle": {"font": "16px Courier", "lineSpacing": 0, "fill": "#fff", "align": "left"},
           "maxLength": 21
